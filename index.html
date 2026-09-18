@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Your Start Page</title>
+		<link rel="manifest" href="manifest.json">
+
+		<!-- Preload fonts + CSS -->
+		<link rel="preload" href="css/fontawesome/webfonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
+		<link rel="preload" href="css/fontawesome/webfonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin>
+		<link rel="preload" href="css/styles.css" as="style">
+
+		<!-- Critical CSS (FOUC / first paint) -->
+		<style>
+	  /* First-paint tokens only; full :root lives in css/styles.css */
+	  :root{--app-font-body:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;--app-font-display:"Inter",system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;--active-cat-bg:#aa0000;--color-surface-chrome:#09090b;--color-text-primary:#e4e4e7;}
+	  /* Critical document reset (FOUC-safe; inlined intentionally) */
+	  *,*::before,*::after{box-sizing:border-box}
+	  html{height:100%;line-height:1.5;-webkit-text-size-adjust:100%}
+	  a{color:inherit;text-decoration:inherit}
+	  h2,h3,p{margin:0}
+	  button,input,textarea{font-family:inherit;font-size:100%;font-weight:inherit;line-height:inherit;color:inherit;margin:0;padding:0}
+	  button{text-transform:none;cursor:pointer}
+	  button,[type=button],[type=reset],[type=submit]{background-color:transparent;background-image:none}
+	  textarea{resize:vertical}
+	  ol,ul{list-style:none;margin:0;padding:0}
+	  body{margin:0;height:100%;overflow:hidden;display:flex;flex-direction:column;background-color:var(--color-surface-chrome);color:var(--color-text-primary);font-family:var(--app-font-body)}
+	  #page-title,#greeting,#date,#clock{font-family:var(--app-font-display);font-weight:600}
+	  #header-logo{background-color:var(--active-cat-color,var(--active-cat-bg))!important}
+	  #daily-quote,#page-title,#greeting,#date,#clock,.menu-text-label{color:var(--color-text-primary)!important}
+	  #daily-quote{font-style:italic;line-height:1.2;font-size:.875rem}
+	  /* Critical header icons (rocket + chrome) before async FA subset */
+	  @font-face{font-family:"Font Awesome 7 Free";font-style:normal;font-weight:900;font-display:swap;src:url(css/fontawesome/webfonts/fa-solid-900.woff2) format("woff2")}
+	  .fa-solid{font-family:"Font Awesome 7 Free";font-weight:900;display:inline-block;font-style:normal;line-height:1;-webkit-font-smoothing:antialiased}
+	  .fa-solid:before{content:var(--fa)}
+	  .fa-rocket{--fa:"\f135"}.fa-search{--fa:"\f002"}.fa-cog{--fa:"\f013"}.fa-download{--fa:"\f019"}.fa-chevron-down{--fa:"\f078"}
+		</style>
+
+		<!-- Main CSS (blocking; avoid FOUC) -->
+		<link rel="stylesheet" href="css/styles.css">
+
+		<!-- FA subset async (~1.8KB vs full) -->
+		<link rel="preload" href="css/fontawesome-subset.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+		<noscript><link rel="stylesheet" href="css/fontawesome-subset.min.css"></noscript>
+	</head>
+
+	<body>
+
+		<header class="app-header">
+			<div class="app-header__inner">
+				<div class="header-quote">
+					<div id="daily-quote"
+						class="header-quote__text"
+						title="">
+					</div>
+				</div>
+
+				<div class="app-header__bar">
+					<div class="app-header__brand">
+						<div id="header-logo">
+							<i class="fa-solid fa-rocket"></i>
+						</div>
+						<span id="page-title">Start</span>
+					</div>
+
+					<div class="header-datetime">
+						<div id="greeting"></div>
+						<div class="header-datetime__meta">
+							<div id="date"></div>
+							<div id="clock"></div>
+						</div>
+					</div>
+
+					<div class="app-header__actions">
+						<button onclick="openSearchModal()"
+							class="header-action-btn"
+							title="Search (/)">
+							<i class="fa-solid fa-search"></i>
+							<span class="menu-text-label is-hidden">Search</span>
+						</button>
+
+						<button onclick="openSettingsModal()"
+							class="header-action-btn"
+							title="Settings">
+							<i class="fa-solid fa-cog"></i>
+							<span class="menu-text-label is-hidden">Settings</span>
+						</button>
+						<div class="backup-dropdown">
+							<button class="header-action-btn backup-dropdown__trigger"
+								title="Backup your links and settings">
+								<i class="fa-solid fa-download"></i>
+								<span class="menu-text-label is-hidden">Backup</span>
+								<i class="fa-solid fa-chevron-down"></i>
+							</button>
+
+							<div class="backup-dropdown__menu">
+								<div class="backup-dropdown__bridge">
+									<div class="backup-dropdown__panel">
+										<button onclick="exportLinks()" class="backup-dropdown__item">
+											<i class="backup-dropdown__icon fa-solid fa-download"></i>
+											<span>Export to *.json file</span>
+										</button>
+										<button onclick="importLinks()" class="backup-dropdown__item">
+											<i class="backup-dropdown__icon fa-solid fa-upload"></i>
+											<span>Import from *.json file</span>
+										</button>
+									</div>
+								</div>
+							</div>
+						</div>
+						<button onclick="openSyncModal()"
+							class="header-action-btn"
+							title="Sync with GitHub Gist">
+							<i class="fa-brands fa-github"></i>
+							<span class="menu-text-label is-hidden">GitHub Sync</span>
+						</button>
+					</div>
+				</div>
+			</div>
+		</header>
+
+		<div class="app-shell">
+			<div class="app-shell__columns">
+				<div id="categories-column" class="categories-column">
+					<div class="categories-column__sticky">
+						<div class="section-header categories-column__title">CATEGORIES</div>
+						<div class="app-search--sidebar">
+							<div class="app-search">
+								<input
+									id="category-search"
+									type="text"
+									placeholder="Search categories..."
+									class="search-input"
+									>
+								<i class="app-search__icon fa-solid fa-search"></i>
+								<button onclick="clearCategorySearch()"
+									class="app-search__clear">
+									<i class="fa-solid fa-times"></i>
+								</button>
+							</div>
+						</div>
+						<div id="categories-sidebar" class="categories-sidebar custom-scroll"></div>
+
+						<!-- Shown when first category scrolls out of view -->
+						<div id="clear-filter-link-container" class="categories-clear is-hidden">
+							<button id="clear-filter-link" class="categories-clear__btn">
+								<i class="fa-solid fa-times"></i>
+								<span>clear filter</span>
+							</button>
+						</div>
+					</div>
+				</div>
+
+				<div class="app-main">
+
+					<!-- Toolbar stays put; cards scroll below -->
+					<div id="links-header" class="links-header">
+						<div class="links-header__main">
+							<h2 class="links-heading">Your Links <span id="filter-indicator"></span></h2>
+							<div class="section-header links-kicker">
+								QUICK ACCESS
+								<span id="drag-reorder-text">(drag to reorder)</span>
+							</div>
+
+							<div id="list-controls" class="list-controls">
+
+								<div class="list-controls__group">
+									<span class="list-controls__label">Show by:</span>
+									<div class="list-toggle-group">
+										<button id="sort-default" class="list-toggle is-active">Default</button>
+										<button id="sort-tally" class="list-toggle">Tally</button>
+										<button id="sort-abc" class="list-toggle">ABC</button>
+										<button id="sort-date" class="list-toggle">Date Added</button>
+									</div>
+									<span id="sort-note" class="is-hidden">Unable to sort when viewing by "Date Added"</span>
+								</div>
+
+								<div class="list-controls__group">
+									<span class="list-controls__label">View:</span>
+									<div class="list-toggle-group">
+										<button id="view-full" class="list-toggle is-active">Full</button>
+										<button id="view-compact" class="list-toggle">Compact</button>
+									</div>
+								</div>
+							</div>
+
+							<!-- ABC jump links (visible sections) -->
+							<nav id="abc-section-nav"
+								class="abc-section-nav is-hidden"
+								aria-label="Jump to ABC section"></nav>
+
+							<div id="link-search-wrap">
+								<div class="app-search">
+									<input
+										id="link-search-input"
+										type="text"
+										placeholder="Search your links by name, URL, or description..."
+										class="search-input"
+										>
+									<i class="app-search__icon fa-solid fa-search"></i>
+									<button onclick="clearLinkSearch()"
+										class="app-search__clear">
+										<i class="fa-solid fa-times"></i>
+									</button>
+								</div>
+							</div>
+						</div>
+
+						<button id="add-link-btn" class="add-link-btn">
+							<i class="fa-solid fa-plus"></i>
+							<span>Add Link</span>
+						</button>
+					</div>
+
+					<!-- Scrolls under the fixed toolbar -->
+					<div id="links-scroll" class="links-scroll custom-scroll">
+						<div id="links-grid" class="links-grid"></div>
+
+						<!-- Privacy note: links column only -->
+						<div id="privacy-note" class="privacy-note">
+							Links, descriptions and categories are saved privately in your browser
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		<div id="floating-actions" class="floating-goto">
+			<button id="go-to-top"
+				class="floating-goto__btn floating-goto__btn--top is-hidden"
+				title="Go-to Top">
+				<i class="fa-solid fa-arrow-up"></i>
+			</button>
+
+			<button id="go-to-bottom"
+				class="floating-goto__btn floating-goto__btn--bottom is-hidden"
+				title="Go-to Bottom">
+				<i class="fa-solid fa-arrow-down"></i>
+			</button>
+
+		</div>
+
+		<!-- Settings -->
+		<div id="settings-modal"
+			class="ui-modal settings-modal"
+			role="dialog" aria-modal="true" aria-labelledby="settings-modal-title">
+			<div onclick="event.stopImmediatePropagation()"
+				class="ui-modal__panel ui-modal__panel--lg ui-modal__panel--padded modal">
+				<div class="ui-modal__header ui-modal__header--plain">
+					<h3 id="settings-modal-title" class="ui-modal__title"><i class="ui-modal__title-icon fa-solid fa-gear"></i>Settings</h3>
+					<button type="button" onclick="closeSettingsModal()" class="ui-modal__close" aria-label="Close">
+						<i class="fa-solid fa-times"></i>
+					</button>
+				</div>
+				<div class="settings-modal__intro-wrap">
+					<p class="settings-modal__intro">General settings and preferences.</p>
+				</div>
+				<div class="settings-modal__field">
+					<label class="settings-modal__label">Your Name</label>
+					<input type="text" id="theme-author-name"
+						class="settings-modal__input"
+						placeholder="Enter your name">
+				</div>
+
+				<div class="settings-modal__field">
+					<label class="settings-modal__check-row">
+						<input type="checkbox" id="hide-categories-checkbox" checked
+							class="settings-modal__checkbox">
+						<span class="settings-modal__check-label">Hide Categories</span>
+					</label>
+				</div>
+
+				<div class="settings-modal__field">
+					<label class="settings-modal__label">Font Size</label>
+					<div class="settings-modal__font-row">
+						<button onclick="changeFontScale(-5)"
+							class="settings-modal__font-btn">-</button>
+						<div id="font-scale-value"
+							class="settings-modal__font-value">
+							100%
+						</div>
+						<button onclick="changeFontScale(5)"
+							class="settings-modal__font-btn">+</button>
+						<button onclick="resetFontScale()"
+							class="settings-modal__font-reset">Reset</button>
+					</div>
+					<p class="settings-modal__font-hint">Affects all text on the page</p>
+				</div>
+
+				<div class="settings-modal__action-wrap">
+					<button onclick="openColorThemeModal()"
+						class="settings-modal__action">
+						<i class="settings-modal__action-icon fa-solid fa-palette"></i>
+						Edit Color Theme
+					</button>
+				</div>
+
+				<div class="settings-modal__action-wrap">
+					<button onclick="openAttributionModal()"
+						class="settings-modal__action">
+						<i class="settings-modal__action-icon fa-solid fa-info-circle"></i>
+						Attributions
+					</button>
+				</div>
+
+				<div class="settings-modal__hints">
+					<p class="settings-modal__hint">
+						• Press <span class="settings-modal__key key-hint">/</span> to open Google Search •
+					</p>
+					<p class="settings-modal__hint">
+						• Press <span class="settings-modal__key key-hint">+</span> to add a new link •
+					</p>
+					<p class="settings-modal__hint">
+						• Press <span class="settings-modal__key key-hint">*</span> to focus link search •
+					</p>
+					<p class="settings-modal__hint">
+						• Press <span class="settings-modal__key key-hint">-</span> to clear filters •
+					</p>
+				</div>
+
+				<div class="settings-modal__footer">
+					<button onclick="closeSettingsModal()"
+						class="settings-modal__footer-close ui-modal__btn ui-modal__btn--block">
+						Close
+					</button>
+				</div>
+			</div>
+		</div>
+
+		<!-- Search -->
+		<div id="search-modal"
+			class="ui-modal ui-modal--top ui-modal--topmost search-modal"
+			onclick="closeSearchModal()"
+			role="dialog" aria-modal="true" aria-labelledby="search-modal-title">
+			<div onclick="event.stopImmediatePropagation()"
+				class="ui-modal__panel ui-modal__panel--lg ui-modal__panel--padded ui-modal__panel--draggable search-modal__panel modal">
+
+				<div class="ui-modal__header ui-modal__header--plain">
+					<h3 id="search-modal-title" class="ui-modal__title ui-modal__title--row">
+						<i class="fa-solid fa-search"></i>
+						<span>Google Search</span>
+					</h3>
+					<button type="button" onclick="closeSearchModal()" class="ui-modal__close" aria-label="Close">
+						<i class="fa-solid fa-times"></i>
+					</button>
+				</div>
+
+				<form id="search-modal-form" class="search-modal__form">
+					<div>
+						<div id="search-modal-icon-wrapper" class="search-modal__icon">
+							<i class="fa-solid fa-search"></i>
+						</div>
+						<input
+							id="search-modal-input"
+							type="text"
+							placeholder="Search Google or type a URL..."
+							class="search-modal__input search-input"
+							autocomplete="off"
+							>
+					</div>
+				</form>
+
+			</div>
+		</div>
+
+		<!-- Color theme; fields from COLOR_FIELDS -->
+		<div id="color-theme-modal"
+			class="ui-modal color-theme-modal"
+			role="dialog" aria-modal="true" aria-labelledby="color-theme-modal-title">
+			<div onclick="event.stopImmediatePropagation()"
+				class="ui-modal__panel ui-modal__panel--lg color-theme-modal__panel modal">
+				<div class="ui-modal__header ui-modal__header--plain">
+					<h3 id="color-theme-modal-title" class="ui-modal__title"><i class="ui-modal__title-icon fa-solid fa-palette"></i>Color Theme Editor</h3>
+					<button type="button" onclick="closeColorThemeModal()" class="ui-modal__close" aria-label="Close">
+						<i class="fa-solid fa-times"></i>
+					</button>
+				</div>
+
+				<div class="color-theme-modal__grid">
+
+					<div class="color-theme-modal__actions">
+						<div class="color-theme-modal__modes">
+							<button type="button" onclick="applyColorMode('light')"
+								class="color-mode-btn color-theme-modal__mode"
+								title="Apply Light Mode color scheme">
+								Light Mode
+							</button>
+							<button type="button" onclick="applyColorMode('dark')"
+								class="color-mode-btn color-theme-modal__mode"
+								title="Apply Dark Mode color scheme (defaults)">
+								Dark Mode
+							</button>
+						</div>
+						<button type="button" onclick="closeColorThemeModal()"
+							class="color-theme-modal__cancel">
+							Cancel/Close
+						</button>
+						<button type="button" onclick="applyAndSaveColors()"
+							class="color-theme-modal__save">
+							Save Colors
+						</button>
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+		<!-- Attribution -->
+		<div id="attribution-modal"
+			class="ui-modal ui-modal--topmost attribution-modal"
+			role="dialog" aria-modal="true" aria-labelledby="attribution-modal-title">
+			<div onclick="event.stopImmediatePropagation()"
+				class="ui-modal__panel ui-modal__panel--xl modal">
+
+				<div class="ui-modal__header">
+					<h3 id="attribution-modal-title" class="ui-modal__title ui-modal__title--row">
+						<i class="fa-solid fa-info-circle"></i>
+						<span>Attributions</span>
+					</h3>
+					<button type="button" onclick="closeAttributionModal()" class="ui-modal__close" aria-label="Close">
+						<i class="fa-solid fa-times"></i>
+					</button>
+				</div>
+
+				<div class="attribution-modal__body">
+
+					<div class="attribution-modal__section">
+						<div class="attribution-modal__section-head">
+							<i class="attribution-modal__icon attribution-modal__icon--success fa-solid fa-user"></i>
+							<span class="attribution-modal__name">Alan V. Terezian</span>
+						</div>
+						<p class="attribution-modal__text">
+							Created, designed, and developed by <span class="attribution-modal__emphasis">Alan V. Terezian</span>, 2026.
+							This Start Page is a personal project built with care for daily productivity and customization.
+						</p>
+					</div>
+
+					<div class="attribution-modal__section">
+						<div class="attribution-modal__section-head">
+							<i class="attribution-modal__icon attribution-modal__icon--violet fa-solid fa-robot"></i>
+							<span class="attribution-modal__name">SpaceXAI</span>
+						</div>
+						<p class="attribution-modal__text">
+							With gratitude to
+							<span class="attribution-modal__emphasis">SpaceXAI</span>
+							for building exceptional products such as
+							<a href="https://x.ai" target="_blank" class="ui-modal__link attribution-modal__link">Grok</a>
+							and
+							<a href="https://cursor.com" target="_blank" class="ui-modal__link attribution-modal__link">Cursor</a>,
+							which played a meaningful role in the design, development, and refinement of this website.
+						</p>
+					</div>
+
+					<div class="attribution-modal__section">
+						<div class="attribution-modal__section-head">
+							<i class="attribution-modal__icon attribution-modal__icon--github fa-brands fa-github"></i>
+							<span class="attribution-modal__name">GitHub Gists</span>
+						</div>
+						<p class="attribution-modal__text">
+							Cross-device synchronization is powered by
+							<a href="https://docs.github.com/en/rest/gists" target="_blank" class="ui-modal__link attribution-modal__link">GitHub Gists</a>.
+							Thank you to GitHub for providing this simple and reliable service for storing and syncing your Start Page data.
+						</p>
+					</div>
+
+					<div class="attribution-modal__section">
+						<div class="attribution-modal__section-head">
+							<i class="attribution-modal__icon attribution-modal__icon--orange fa-brands fa-font-awesome"></i>
+							<span class="attribution-modal__name">Font Awesome</span>
+						</div>
+						<p class="attribution-modal__text">
+							Icons provided by
+							<a href="https://fontawesome.com" target="_blank" class="ui-modal__link attribution-modal__link">Font Awesome</a>
+							(Free version). Used under the
+							<a href="https://fontawesome.com/license/free" target="_blank" class="ui-modal__link attribution-modal__link">CC BY 4.0</a> license for icons,
+							<a href="https://scripts.sil.org/OFL" target="_blank" class="ui-modal__link attribution-modal__link">SIL OFL 1.1</a> for fonts, and MIT License for code.
+						</p>
+					</div>
+
+				</div>
+
+				<div class="attribution-modal__footer ui-modal__footer">
+					<button onclick="closeAttributionModal()"
+						class="attribution-modal__footer-close ui-modal__btn ui-modal__btn--block ui-modal__btn--bordered">
+						Close
+					</button>
+				</div>
+			</div>
+		</div>
+
+		<!-- Add/Edit -->
+		<div id="modal"
+			class="ui-modal add-edit-modal">
+			<div onclick="event.stopImmediatePropagation()"
+				class="ui-modal__panel add-edit-modal__panel modal">
+
+				<div class="ui-modal__header">
+					<h3 id="modal-title" class="ui-modal__title">Add New Link</h3>
+					<button type="button" onclick="closeModal()" class="ui-modal__close" aria-label="Close">
+						<i class="fa-solid fa-times"></i>
+					</button>
+				</div>
+
+				<form id="modal-form" class="add-edit-modal__form">
+					<div class="add-edit-modal__field">
+						<label class="add-edit-modal__label">NAME</label>
+						<input type="text" id="link-name" required
+							class="add-edit-modal__input"
+							placeholder="e.g. Work Dashboard">
+					</div>
+
+					<div class="add-edit-modal__field">
+						<label class="add-edit-modal__label">URL</label>
+						<input type="text" id="link-url" required
+							class="add-edit-modal__input"
+							placeholder="example.com or https://example.com">
+					</div>
+
+					<div class="add-edit-modal__field">
+						<label class="add-edit-modal__label">
+							DESCRIPTION <span class="add-edit-modal__optional">(optional)</span>
+						</label>
+						<textarea id="link-description" rows="3"
+							class="add-edit-modal__input add-edit-modal__textarea"
+							placeholder="Quick access to my reports"></textarea>
+					</div>
+
+					<div class="add-edit-modal__field">
+						<label class="add-edit-modal__label">
+							CATEGORIES <span class="add-edit-modal__optional">(optional)</span>
+						</label>
+						<div class="add-edit-modal__cat-row">
+							<input type="text" id="category-input"
+								class="add-edit-modal__input"
+								placeholder="e.g. Work, Finance">
+							<button type="button" onclick="addCategoryToModal()"
+								class="add-edit-modal__cat-add">
+								Add
+							</button>
+						</div>
+						<div id="modal-categories-list" class="add-edit-modal__chips"></div>
+					</div>
+
+
+					<div class="add-edit-modal__split">
+						<div class="add-edit-modal__split-left">
+							<!-- Add-only; hidden in edit (move buttons instead) -->
+							<div id="position-options" class="add-edit-modal__position">
+								<span class="add-edit-modal__position-label">Position</span>
+								<label class="add-edit-modal__radio-row">
+									<input type="radio" name="add-position" value="top" id="position-top" class="add-edit-modal__radio">
+									<span>Add to Top</span>
+								</label>
+								<label class="add-edit-modal__radio-row">
+									<input type="radio" name="add-position" value="bottom" id="position-bottom" class="add-edit-modal__radio" checked>
+									<span>Add to Bottom</span>
+								</label>
+							</div>
+
+							<div class="add-edit-modal__favorite">
+								<label class="add-edit-modal__favorite-label">
+									<input type="checkbox" id="link-is-favorite" class="add-edit-modal__checkbox">
+									<span>
+										<i class="add-edit-modal__heart fa-solid fa-heart"></i>
+										<span>Add to favorites</span>
+									</span>
+								</label>
+							</div>
+						</div>
+
+						<div class="add-edit-modal__split-right">
+							<div class="add-edit-modal__emoji">
+								<label class="add-edit-modal__label">ICON (emoji)</label>
+
+								<div class="add-edit-modal__emoji-row">
+									<div class="add-edit-modal__emoji-wrap">
+										<input type="text" id="link-emoji" maxlength="2"
+											class="add-edit-modal__emoji-input"
+											placeholder="🔗">
+
+										<span class="add-edit-modal__emoji-hint">
+											Type any emoji or click the arrow
+										</span>
+
+										<div id="emoji-picker-popover"
+											class="emoji-picker">
+											<div class="emoji-picker__column">
+												<div class="emoji-picker__header">
+													<div class="emoji-picker__title">
+														<i class="emoji-picker__title-icon fa-regular fa-face-smile"></i>Quick Pick Emojis
+													</div>
+
+													<div class="emoji-picker__search-wrap">
+														<i class="emoji-picker__search-icon fa-solid fa-search"></i>
+														<input type="text" id="emoji-search-input"
+															class="emoji-picker__search"
+															placeholder="search">
+													</div>
+												</div>
+
+												<div id="emoji-grid" class="emoji-picker__grid custom-scroll">
+												</div>
+
+												<div class="emoji-picker__footer">
+													<button type="button" id="emoji-picker-cancel"
+														class="emoji-picker__cancel">
+														Cancel
+													</button>
+												</div>
+											</div>
+										</div>
+									</div>
+
+									<button type="button" id="emoji-dropdown-btn"
+										class="add-edit-modal__emoji-btn"
+										title="Choose emoji">
+										<i class="fa-solid fa-chevron-down"></i>
+									</button>
+								</div>
+							</div>
+
+							<div class="add-edit-modal__tally">
+								<label for="link-tally" class="add-edit-modal__label">TALLY</label>
+								<input type="text" id="link-tally"
+									class="add-edit-modal__input add-edit-modal__tally-input"
+									value="0" title="Number of times this link has been opened" aria-label="Link open tally">
+							</div>
+						</div>
+					</div>
+
+					<div class="add-edit-modal__accent">
+						<label class="add-edit-modal__label">
+							ACCENT COLOR <span class="add-edit-modal__optional">(optional)</span>
+						</label>
+						<div id="accent-color-picker" class="add-edit-modal__accent-grid"></div>
+						<p class="add-edit-modal__accent-hint">Smart blend with your link card background</p>
+					</div>
+
+					<!-- Edit-only; hidden for derived sorts -->
+					<div id="move-buttons" class="add-edit-modal__move is-hidden">
+						<div class="add-edit-modal__move-row">
+							<button type="button" onclick="moveLinkToTop()"
+								class="add-edit-modal__move-btn">
+								↑ Move to Top
+							</button>
+							<button type="button" onclick="moveLinkToBottom()"
+								class="add-edit-modal__move-btn">
+								↓ Move to Bottom
+							</button>
+						</div>
+					</div>
+
+					<!-- Edit warning when sort is Date Added -->
+					<div id="edit-date-warning" class="add-edit-modal__warning is-hidden">
+						Unable to sort when viewing by "Date Added"
+					</div>
+
+					<div class="add-edit-modal__footer">
+						<button type="button" onclick="closeModal()"
+							class="add-edit-modal__cancel">
+							Close / Cancel
+						</button>
+						<button type="button" onclick="saveCurrentLink()"
+							class="add-edit-modal__save">
+							Save Link
+						</button>
+					</div>
+				</form>
+			</div>
+		</div>
+
+		<!-- GitHub Sync -->
+		<div id="sync-modal"
+			class="ui-modal sync-modal"
+			role="dialog" aria-modal="true" aria-labelledby="sync-modal-title">
+			<div onclick="event.stopImmediatePropagation()"
+				class="ui-modal__panel ui-modal__panel--md modal">
+
+				<div class="ui-modal__header">
+					<h3 id="sync-modal-title" class="ui-modal__title ui-modal__title--row">
+						<i class="fa-brands fa-github ui-modal__title-icon--lg"></i>
+						<span>GitHub Gist Sync</span>
+					</h3>
+					<button type="button" onclick="closeSyncModal()" class="ui-modal__close" aria-label="Close">
+						<i class="fa-solid fa-times"></i>
+					</button>
+				</div>
+
+				<div class="sync-modal__status">
+					<i class="sync-modal__clock fa-solid fa-clock"></i>
+					<span id="last-sync-text">Never synced with GitHub</span>
+				</div>
+
+				<div class="sync-modal__actions">
+					<button onclick="exportToGitHub()"
+						class="sync-modal__action">
+						<div class="sync-modal__icon sync-modal__icon--export">
+							<i class="fa-solid fa-upload"></i>
+						</div>
+						<div class="sync-modal__action-body">
+							<div class="sync-modal__action-title">Export to GitHub</div>
+							<div class="sync-modal__action-desc">Upload your current links, colors &amp; settings to a GitHub Gist</div>
+						</div>
+					</button>
+
+					<button onclick="importFromGitHub()"
+						class="sync-modal__action">
+						<div class="sync-modal__icon sync-modal__icon--import">
+							<i class="fa-solid fa-download"></i>
+						</div>
+						<div class="sync-modal__action-body">
+							<div class="sync-modal__action-title">Import from GitHub</div>
+							<div class="sync-modal__action-desc">Download and replace your links from a GitHub Gist</div>
+						</div>
+					</button>
+
+					<button onclick="showSyncInstructions()"
+						class="sync-modal__action">
+						<div class="sync-modal__icon sync-modal__icon--help">
+							<i class="fa-solid fa-question-circle"></i>
+						</div>
+						<div class="sync-modal__action-body">
+							<div class="sync-modal__action-title">Sync Instructions</div>
+							<div class="sync-modal__action-desc">How to set up GitHub Gist sync (with links)</div>
+						</div>
+					</button>
+
+					<button onclick="openGitHubCredentialsModal()"
+						class="sync-modal__action">
+						<div class="sync-modal__icon sync-modal__icon--credentials">
+							<i class="fa-solid fa-key"></i>
+						</div>
+						<div class="sync-modal__action-body">
+							<div class="sync-modal__action-title">GitHub Credentials</div>
+							<div id="github-credentials-status" class="sync-modal__action-desc">Not configured</div>
+						</div>
+					</button>
+				</div>
+
+				<div id="sync-disclaimer" class="sync-modal__disclaimer">
+					Your GitHub token is used only to communicate with GitHub. It is stored in your browser (localStorage), included in your JSON exports, and saved inside the Gist on GitHub.
+				</div>
+			</div>
+		</div>
+
+		<!-- GitHub credentials -->
+		<div id="github-credentials-modal"
+			class="ui-modal ui-modal--topmost github-credentials-modal"
+			role="dialog" aria-modal="true" aria-labelledby="github-credentials-modal-title">
+			<div onclick="event.stopImmediatePropagation()"
+				class="ui-modal__panel ui-modal__panel--md modal">
+
+				<div class="github-credentials-modal__header">
+					<div class="github-credentials-modal__header-row">
+						<h3 id="github-credentials-modal-title" class="ui-modal__title ui-modal__title--row"><span class="ui-modal__title-icon--lg" aria-hidden="true">⚿</span><span>GitHub Credentials</span></h3>
+						<button type="button" onclick="closeGitHubCredentialsModal()" class="ui-modal__close" aria-label="Close">
+							<i class="fa-solid fa-times"></i>
+						</button>
+					</div>
+					<p class="github-credentials-modal__subtitle">Used to create and update your Gist</p>
+					<p class="github-credentials-modal__warning">⚠️ Never share your Personal Access Token with anyone. It grants access to your GitHub account.</p>
+				</div>
+
+				<div class="github-credentials-modal__body">
+					<div class="github-credentials-modal__field">
+						<label class="github-credentials-modal__label">GITHUB USERNAME</label>
+						<input type="text" id="github-username"
+							class="github-credentials-modal__input"
+							placeholder="yourusername">
+					</div>
+
+					<div class="github-credentials-modal__field">
+						<label class="github-credentials-modal__label">PERSONAL ACCESS TOKEN (classic)</label>
+
+						<div class="github-credentials-modal__token-wrap">
+							<input type="password" id="github-token"
+								class="github-credentials-modal__input github-credentials-modal__input--token"
+								placeholder="ghp_xxxxxxxxxxxxxxxxxxxx">
+
+							<button type="button" onclick="toggleTokenVisibility()"
+								class="github-credentials-modal__icon-btn github-credentials-modal__icon-btn--eye"
+								aria-label="Toggle token visibility"
+								title="Show / Hide token">
+								<i class="fa-solid fa-eye" id="token-eye-icon"></i>
+							</button>
+
+							<button type="button" onclick="copyTokenToClipboard()"
+								class="github-credentials-modal__icon-btn github-credentials-modal__icon-btn--copy"
+								aria-label="Copy token to clipboard"
+								title="Copy token to clipboard">
+								<i class="fa-solid fa-copy"></i>
+							</button>
+						</div>
+
+						<p class="github-credentials-modal__hint">Create a token with <span class="github-credentials-modal__mono">gist</span> scope only at
+							<a href="https://github.com/settings/tokens/new?scopes=gist&description=Start+Page+Sync" target="_blank" class="ui-modal__link github-credentials-modal__link">github.com/settings/tokens/new</a>
+						</p>
+					</div>
+
+					<div id="github-gist-info" class="github-credentials-modal__gist is-hidden">
+						<div class="github-credentials-modal__gist-row">
+							<div>
+								<span>Current Gist ID:</span><br>
+								<span id="current-gist-id" class="github-credentials-modal__gist-id"></span>
+							</div>
+							<button onclick="clearGitHubGistId()"
+								class="github-credentials-modal__gist-clear">Clear</button>
+						</div>
+					</div>
+				</div>
+
+				<div class="github-credentials-modal__actions">
+					<button onclick="closeGitHubCredentialsModal()"
+						class="github-credentials-modal__cancel ui-modal__btn ui-modal__btn--bordered">
+						Cancel
+					</button>
+					<button onclick="saveGitHubCredentials()"
+						class="github-credentials-modal__save ui-modal__btn ui-modal__btn--save">
+						Save Credentials
+					</button>
+				</div>
+			</div>
+		</div>
+
+		<!-- Gist list -->
+		<div id="gists-list-modal"
+			class="ui-modal gists-list-modal"
+			role="dialog" aria-modal="true" aria-labelledby="gists-list-modal-title">
+			<div onclick="event.stopImmediatePropagation()"
+				class="ui-modal__panel ui-modal__panel--lg ui-modal__panel--scroll-70 modal">
+
+				<div class="ui-modal__header">
+					<h3 id="gists-list-modal-title" class="ui-modal__title"><i class="ui-modal__title-icon fa-solid fa-list"></i>Your GitHub Gists</h3>
+					<button type="button" onclick="closeGistsListModal()" class="ui-modal__close" aria-label="Close">
+						<i class="fa-solid fa-times"></i>
+					</button>
+				</div>
+
+				<div class="gists-list-modal__list" id="gists-list-container">
+					<div class="gists-list-modal__loading">
+						<i class="fa-solid fa-spinner fa-spin"></i>
+						Loading your Gists...
+					</div>
+				</div>
+
+				<div class="gists-list-modal__note">
+					Only showing Gists that contain a <span class="gists-list-modal__mono">.json</span> file
+				</div>
+			</div>
+		</div>
+
+		<!-- Sync instructions -->
+		<div id="sync-instructions-modal"
+			class="ui-modal sync-instructions-modal"
+			role="dialog" aria-modal="true" aria-labelledby="sync-instructions-modal-title">
+			<div onclick="event.stopImmediatePropagation()"
+				class="ui-modal__panel ui-modal__panel--lg ui-modal__panel--scroll sync-instructions-modal__panel modal">
+
+				<div class="sync-instructions-modal__scroll custom-scroll">
+					<div class="ui-modal__header sync-instructions-modal__header">
+						<h3 id="sync-instructions-modal-title" class="ui-modal__title"><i class="ui-modal__title-icon fa-solid fa-info-circle"></i>How to Set Up GitHub Gist Sync</h3>
+						<button type="button" onclick="closeSyncInstructionsModal()" class="ui-modal__close" aria-label="Close">
+							<i class="fa-solid fa-times"></i>
+						</button>
+					</div>
+
+					<div class="sync-instructions-modal__body">
+						<div class="sync-instructions-modal__def">
+							<p>
+								A <strong>Gist</strong> is GitHub’s simple way to store text or files online.
+								It works like a private backup for your Start Page data and settings.
+							</p>
+						</div>
+
+						<div class="sync-instructions-modal__section">
+							<div class="sync-instructions-modal__step">Step 1: Create a GitHub Account</div>
+							<p>If you don't have one, sign up at <a href="https://github.com" target="_blank" class="ui-modal__link sync-instructions-modal__link">github.com</a></p>
+						</div>
+
+						<div class="sync-instructions-modal__section">
+							<div class="sync-instructions-modal__step">Step 2: Generate a Personal Access Token</div>
+							<ol class="sync-instructions-modal__list sync-instructions-modal__list--decimal">
+								<li>Go to <a href="https://github.com/settings/tokens/new?scopes=gist&description=Start+Page+Sync" target="_blank" class="ui-modal__link sync-instructions-modal__link">GitHub → Settings → Developer settings → Personal access tokens → Tokens (classic)</a></li>
+								<li>Give it a name like <span class="sync-instructions-modal__mono">"Start Page Sync"</span></li>
+								<li>Set the <strong>Expiration</strong> to <strong>"No expiration"</strong> (recommended)</li>
+								<li>Select only the <span class="sync-instructions-modal__mono key-hint">gist</span> scope</li>
+								<li>Click <strong>Generate token</strong> at the bottom</li>
+								<li><strong>Copy the token immediately</strong> (you won't see it again)</li>
+							</ol>
+						</div>
+
+						<div class="sync-instructions-modal__section">
+							<div class="sync-instructions-modal__step">Step 3: Save Credentials in Start Page</div>
+							<p>Click <strong>GitHub Credentials</strong> in the Sync menu and paste your username + token. Then click Save.</p>
+						</div>
+
+						<div class="sync-instructions-modal__section">
+							<div class="sync-instructions-modal__step">Step 4: Export for the First Time</div>
+							<p>Click <strong>Export to GitHub</strong>. This will create a new private Gist and save its ID.</p>
+						</div>
+
+						<div class="sync-instructions-modal__section">
+							<div class="sync-instructions-modal__step">Step 5: Import on Other Devices</div>
+							<p>On another browser/device, enter the same credentials, then click <strong>Import from GitHub</strong>. It will pull the latest version.</p>
+						</div>
+
+						<div class="sync-instructions-modal__section">
+							<div class="sync-instructions-modal__step">Step 6: Where to Find Your Gist ID</div>
+							<p>You can find your Gist ID in these places:</p>
+							<ul class="sync-instructions-modal__list sync-instructions-modal__list--disc">
+								<li>In the success popup right after you click <strong>Export to GitHub</strong></li>
+								<li>Inside this app: Go to <strong>Sync with GitHub → GitHub Credentials</strong></li>
+								<li>On GitHub: Visit <a href="https://gist.github.com" target="_blank" class="ui-modal__link sync-instructions-modal__link">gist.github.com</a>, click on your Gist, and copy the long string from the URL</li>
+							</ul>
+						</div>
+
+						<div class="sync-instructions-modal__tip">
+							<strong>Tip:</strong> Your Gist is private by default. Only people with the Gist ID + your token can read it. The Gist ID is saved in your browser after the first export.
+						</div>
+					</div>
+
+					<div class="sync-instructions-modal__footer">
+						<button onclick="closeSyncInstructionsModal()"
+							class="sync-instructions-modal__footer-close attribution-modal__footer-close ui-modal__btn ui-modal__btn--block ui-modal__btn--bordered">
+							Got it, close
+						</button>
+					</div>
+				</div> <!-- /scroll -->
+			</div>
+		</div>
+
+		<!-- Defer JS (tag order = execute order) -->
+		<script defer src="js/config.js"></script>
+		<script defer src="js/state.js"></script>
+		<script defer src="js/storage.js"></script>
+		<script defer src="js/github.js"></script>
+		<script defer src="js/render.js"></script>
+		<script defer src="js/quotes.js"></script>
+		<script defer src="js/addeditlink.js"></script>
+		<script defer src="js/settingsmodal.js"></script>
+		<script defer src="js/gsmodal.js"></script>
+		<script defer src="js/app.js"></script>
+		<script defer src="js/script.js"></script>
+	</body>
+</html>

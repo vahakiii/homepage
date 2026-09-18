@@ -1,0 +1,322 @@
+{
+  "links": [
+    {
+      "id": 1780843312861,
+      "createdAt": 1780843312861,
+      "name": "Google Photos",
+      "url": "https://photos.google.com",
+      "description": "Regular Google Photos",
+      "emoji": "📷",
+      "categories": [
+        "Photos",
+        "Google"
+      ],
+      "accentColor": null,
+      "isFavorite": false
+    },
+    {
+      "id": 1780818956357,
+      "name": "YouTube",
+      "url": "https://YouTube.com",
+      "description": "",
+      "emoji": "🎬",
+      "categories": [
+        "Entertainment",
+        "Google",
+        "Videos"
+      ],
+      "accentColor": null,
+      "isFavorite": false
+    },
+    {
+      "id": 1780818999821,
+      "name": "X",
+      "url": "https://x.com",
+      "description": "",
+      "emoji": "X",
+      "categories": [
+        "Entertainment",
+        "Social Media"
+      ],
+      "accentColor": null,
+      "isFavorite": false
+    },
+    {
+      "id": 1780843068797,
+      "createdAt": 1780843068797,
+      "name": "Facebook",
+      "url": "https://Facebook.com",
+      "description": "",
+      "emoji": "FB",
+      "categories": [
+        "Social Media"
+      ],
+      "accentColor": null,
+      "isFavorite": false
+    },
+    {
+      "id": 1780843105141,
+      "createdAt": 1780843105141,
+      "name": "Instagram",
+      "url": "https://Instagram.com",
+      "description": "",
+      "emoji": "I",
+      "categories": [
+        "Entertainment",
+        "Social Media"
+      ],
+      "accentColor": null,
+      "isFavorite": false
+    },
+    {
+      "id": 1780843193727,
+      "createdAt": 1780843193727,
+      "name": "GMail",
+      "url": "https://gmail.com",
+      "description": "Check Personal Emails",
+      "emoji": "📧",
+      "categories": [
+        "Email",
+        "Google"
+      ],
+      "accentColor": null,
+      "isFavorite": true
+    },
+    {
+      "id": 1780843372237,
+      "createdAt": 1780843372237,
+      "name": "Google Drive",
+      "url": "https://drive.google.com",
+      "description": "Personal online Storage",
+      "emoji": "💾",
+      "categories": [
+        "Google",
+        "Cloud",
+        "Storage"
+      ],
+      "accentColor": null,
+      "isFavorite": true
+    },
+    {
+      "id": 1781152764841,
+      "createdAt": 1781152764841,
+      "name": "Reuters",
+      "url": "https://reuters.com",
+      "description": "A global news agency providing rapid, unbiased, and straight-to-the-point international reporting.",
+      "emoji": "📰",
+      "categories": [
+        "News"
+      ],
+      "accentColor": null,
+      "isFavorite": false
+    },
+    {
+      "id": 1781152784313,
+      "createdAt": 1781152784313,
+      "name": "Associated Press (AP)",
+      "url": "https://apnews.com",
+      "description": "An independent, not-for-profit news cooperative that serves as the backbone for global breaking news.",
+      "emoji": "📰",
+      "categories": [
+        "News"
+      ],
+      "accentColor": null,
+      "isFavorite": false
+    },
+    {
+      "id": 1781152820257,
+      "createdAt": 1781152820257,
+      "name": "BBC News",
+      "url": "https://bbc.com/news",
+      "description": "The UK's public broadcaster, renowned for comprehensive, objective international news coverage.",
+      "emoji": "📰",
+      "categories": [
+        "UK",
+        "News",
+        "World"
+      ],
+      "accentColor": null,
+      "isFavorite": false
+    },
+    {
+      "id": 1781152854737,
+      "createdAt": 1781152854737,
+      "name": "The New York Times",
+      "url": "https://nytimes.com",
+      "description": "A premier American newspaper known for deep investigative journalism and extensive culture coverage.",
+      "emoji": "📰",
+      "categories": [
+        "Failing Newspaper",
+        "Liberal",
+        "News"
+      ],
+      "accentColor": null,
+      "isFavorite": false
+    },
+    {
+      "id": 1781152888890,
+      "createdAt": 1781152888890,
+      "name": "The Wall Street Journal",
+      "url": "https://wsj.com",
+      "description": "A prominent business-focused newspaper covering global markets, economics, and corporate news.",
+      "emoji": "📈",
+      "categories": [
+        "Finance",
+        "News"
+      ],
+      "accentColor": null,
+      "isFavorite": false
+    },
+    {
+      "id": 1781152924882,
+      "createdAt": 1781152924882,
+      "name": "Bloomberg",
+      "url": "https://bloomberg.com",
+      "description": "A data-heavy financial news network tracking global markets and macroeconomic trends.",
+      "emoji": "📊",
+      "categories": [
+        "Finance",
+        "News",
+        "Markets"
+      ],
+      "accentColor": null,
+      "isFavorite": false
+    },
+    {
+      "id": 1781153103851,
+      "createdAt": 1781153103851,
+      "name": "LinkedIn",
+      "url": "https://linkedin.com",
+      "description": "A professional networking site used for career development, job searching, and industry B2B sharing.",
+      "emoji": "LI",
+      "categories": [
+        "Social Media",
+        "Professional Networking"
+      ],
+      "accentColor": null,
+      "isFavorite": false
+    },
+    {
+      "id": 1781153122443,
+      "createdAt": 1781153122443,
+      "name": "Reddit",
+      "url": "https://reddit.com",
+      "description": "A massive network of user-moderated communities (subreddits) organized around specific hobbies and interests.",
+      "emoji": "💬",
+      "categories": [
+        "Social Media"
+      ],
+      "accentColor": null,
+      "isFavorite": false
+    },
+    {
+      "id": 1781153238620,
+      "createdAt": 1781153238620,
+      "name": "Gemini",
+      "url": "https://gemini.google.com",
+      "description": "Google's flagship AI assistant, powered by the advanced Gemini model family for reasoning, coding, and search integration.",
+      "emoji": "🧠",
+      "categories": [
+        "AI",
+        "Google"
+      ],
+      "accentColor": null,
+      "isFavorite": false
+    },
+    {
+      "id": 1781153319924,
+      "createdAt": 1781153319924,
+      "name": "Claude",
+      "url": "https://claude.ai",
+      "description": "Anthropic's AI assistant, highly regarded for its advanced writing capabilities, long-context reasoning, and coding skills.",
+      "emoji": "🧠",
+      "categories": [
+        "Anthropic",
+        "AI"
+      ],
+      "accentColor": null,
+      "isFavorite": false
+    },
+    {
+      "id": 1781153361452,
+      "createdAt": 1781153361452,
+      "name": "Microsoft Copilot",
+      "url": "https://copilot.microsoft.com",
+      "description": "Microsoft's AI companion, integrated with web search and Microsoft 365 apps to aid productivity.",
+      "emoji": "🧠",
+      "categories": [
+        "AI",
+        "Microsoft"
+      ],
+      "accentColor": null,
+      "isFavorite": false
+    },
+    {
+      "id": 1781153415117,
+      "createdAt": 1781153415117,
+      "name": "Grok",
+      "url": "https://x.com/i/grok",
+      "description": "xAI's assistant integrated into the X platform, designed to answer questions with a witty edge and access to real-time social data.",
+      "emoji": "🧠",
+      "categories": [
+        "AI",
+        "xAI",
+        "X",
+        "Twitter",
+        "Elon"
+      ],
+      "accentColor": null,
+      "isFavorite": false
+    },
+    {
+      "id": 1781153790302,
+      "createdAt": 1781153790302,
+      "name": "Wikipedia",
+      "url": "https://wikipedia.org",
+      "description": "Looking up information on almost anything",
+      "emoji": "📖",
+      "categories": [
+        "Knowledge",
+        "Encyclopedia"
+      ],
+      "accentColor": null,
+      "isFavorite": false
+    },
+    {
+      "id": 1781153850863,
+      "createdAt": 1781153850863,
+      "name": "Amazon",
+      "url": "https://Amazon.com",
+      "description": "",
+      "emoji": "🛍️",
+      "categories": [
+        "Shopping"
+      ],
+      "accentColor": null,
+      "isFavorite": false
+    }
+  ],
+  "colors": {
+    "bg": "#18181b",
+    "text": "#e4e4e7",
+    "card": "#27251f",
+    "activeCat": "#aa0000",
+    "category": "#27251f",
+    "textbox": "#18181b",
+    "activeText": "#ffffff",
+    "emojiBg": "#27251f",
+    "hoverBlend": "#ffffff",
+    "button": "#27251f",
+    "saveButton": "#4f46e5",
+    "success": "#10b981",
+    "caution": "#fbbf24"
+  },
+  "userName": "Alan",
+  "fontScale": 105,
+  "github": {
+    "username": "vahakiii",
+    "token": "g@h!p%_@2@O!y#u$N%G!q@X#W#P%7!9%0$v$p!E^h@K@y#w#T%A#g#8@H@4%d%R!U#T@2^g@o!6^l@n@",
+    "gistId": "883e7f38ca4c39c4137fccc2ce26458c"
+  },
+  "githubLastSync": "1781147868850"
+}

@@ -1,0 +1,27 @@
+{
+  "name": "Alan's Start Page",
+  "short_name": "Start Page",
+  "description": "A beautiful, customizable browser start page with quick links, categories, GitHub sync, and more. Built by Alan V. Terezian, 2026.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#18181b",
+  "theme_color": "#aa0000",
+  "orientation": "any",
+  "scope": "./",
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["productivity", "utilities"],
+  "lang": "en-US"
+}
