@@ -444,9 +444,14 @@ function getDevicePixelRatio() {
     return (isFinite(dpr) && dpr > 0) ? dpr : 1;
 }
 
-/** Site width used for layout breakpoints: innerWidth / DPR. */
+/** Device pixel width, e.g. 1902 on a 1268 CSS-pixel viewport at DPR 1.5. */
+function getDevicePixelWidth() {
+    return window.innerWidth * getDevicePixelRatio();
+}
+
+/** Normalized width: pixel width / DPR, once (e.g. 1902 / 1.5). */
 function getLayoutWidth() {
-    return window.innerWidth / getDevicePixelRatio();
+    return getDevicePixelWidth() / getDevicePixelRatio();
 }
 
 function updateWidthBasedLayout() {
@@ -531,8 +536,8 @@ function getPageTitleScale() {
     return minScale + clamped * (maxScale - minScale);
 }
 
-/** Rocket title uses layout width (innerWidth / DPR). Scale via transform (not zoom)
- *  so sibling header buttons stay a fixed size. */
+/** Rocket title uses layout width (pixel width / DPR, once). Scale via transform
+ *  (not zoom) so sibling header buttons stay a fixed size. */
 function updatePageTitleSize() {
     const title = document.getElementById('page-title');
     if (!title) return;
