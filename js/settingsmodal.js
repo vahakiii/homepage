@@ -66,9 +66,13 @@ function isMobileBrowser() {
 }
 
 function updateColorThemeMobileLayout() {
+    var mobile = isMobileBrowser();
+    document.documentElement.classList.toggle('is-mobile', mobile);
     var modal = document.getElementById('color-theme-modal');
-    if (!modal) return;
-    modal.classList.toggle('is-mobile', isMobileBrowser());
+    if (modal) modal.classList.toggle('is-mobile', mobile);
+    if (typeof refreshAbcSectionNavLayout === 'function') {
+        refreshAbcSectionNavLayout();
+    }
 }
 
 function ensureColorThemeFields() {

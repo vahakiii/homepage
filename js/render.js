@@ -186,7 +186,7 @@ function strictSingleWordFuzzyMatch(searchTerm, targetText) {
     return true;
 }
 
-/** ABC jump rows: first ≤13 labels, then ≤14 per row. */
+/** ABC jump rows: first ≤13 labels, then ≤14 per row. Mobile uses one wrapping row. */
 function chunkAbcJumpLabels(labels) {
     const rows = [];
     if (!labels || labels.length === 0) return rows;
@@ -197,20 +197,31 @@ function chunkAbcJumpLabels(labels) {
     return rows;
 }
 
+var lastAbcSectionLabels = [];
+
+function refreshAbcSectionNavLayout() {
+    updateAbcSectionNav(lastAbcSectionLabels);
+}
+
 function updateAbcSectionNav(sectionLabels) {
     const nav = document.getElementById('abc-section-nav');
     if (!nav) return;
 
+    lastAbcSectionLabels = Array.isArray(sectionLabels) ? sectionLabels.slice() : [];
+
     nav.innerHTML = '';
 
-    if (sortMode !== 'abc' || !sectionLabels || sectionLabels.length === 0) {
+    if (sortMode !== 'abc' || lastAbcSectionLabels.length === 0) {
         nav.classList.add('is-hidden');
         return;
     }
 
     nav.classList.remove('is-hidden');
 
-    chunkAbcJumpLabels(sectionLabels).forEach(rowLabels => {
+    const mobile = typeof isMobileBrowser === 'function' && isMobileBrowser();
+    const rows = mobile ? [lastAbcSectionLabels] : chunkAbcJumpLabels(lastAbcSectionLabels);
+
+    rows.forEach(rowLabels => {
         const row = document.createElement('div');
         row.className = 'abc-jump-row';
 
