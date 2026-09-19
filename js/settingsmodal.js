@@ -74,7 +74,40 @@ function updateColorThemeMobileLayout() {
     if (typeof refreshAbcSectionNavLayout === 'function') {
         refreshAbcSectionNavLayout();
     }
+    applyMobileZoomLock(mobile);
     updateSettingsMobileInfo();
+}
+
+var VIEWPORT_DESKTOP = 'width=device-width, initial-scale=1.0';
+var VIEWPORT_MOBILE = 'width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no';
+var mobileZoomLocked = false;
+
+function onMobileZoomGesture(e) {
+    e.preventDefault();
+}
+
+function onMobileMultiTouchMove(e) {
+    if (e.touches && e.touches.length > 1) e.preventDefault();
+}
+
+/** Block pinch / double-tap page zoom while the site is in mobile mode. */
+function applyMobileZoomLock(mobile) {
+    var meta = document.querySelector('meta[name="viewport"]');
+    if (meta) meta.setAttribute('content', mobile ? VIEWPORT_MOBILE : VIEWPORT_DESKTOP);
+
+    if (!!mobile === mobileZoomLocked) return;
+    mobileZoomLocked = !!mobile;
+
+    var opts = { passive: false, capture: true };
+    if (mobile) {
+        document.addEventListener('gesturestart', onMobileZoomGesture, opts);
+        document.addEventListener('gesturechange', onMobileZoomGesture, opts);
+        document.addEventListener('touchmove', onMobileMultiTouchMove, opts);
+    } else {
+        document.removeEventListener('gesturestart', onMobileZoomGesture, true);
+        document.removeEventListener('gesturechange', onMobileZoomGesture, true);
+        document.removeEventListener('touchmove', onMobileMultiTouchMove, true);
+    }
 }
 
 function updateSettingsMobileInfo() {
