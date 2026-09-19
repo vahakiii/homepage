@@ -439,6 +439,48 @@ function setupAppKeyboardShortcuts() {
 
 
 
+function getDevicePixelRatio() {
+    const dpr = Number(window.devicePixelRatio);
+    return (isFinite(dpr) && dpr > 0) ? dpr : 1;
+}
+
+/** Site width used for layout breakpoints: innerWidth / DPR. */
+function getLayoutWidth() {
+    return window.innerWidth / getDevicePixelRatio();
+}
+
+function updateWidthBasedLayout() {
+    if (typeof updateMenuLabelsVisibility === 'function') {
+        updateMenuLabelsVisibility();
+    }
+    if (typeof updateDatetimeVisibility === 'function') {
+        updateDatetimeVisibility();
+    }
+    if (typeof updateListControlsLayout === 'function') {
+        updateListControlsLayout();
+    }
+}
+
+function bindLayoutWidthListeners() {
+    window.addEventListener('resize', updateWidthBasedLayout);
+
+    let dprQuery;
+    const attachDprWatch = () => {
+        try {
+            if (dprQuery && dprQuery.removeEventListener) {
+                dprQuery.removeEventListener('change', onDprChange);
+            }
+            dprQuery = window.matchMedia('(resolution: ' + getDevicePixelRatio() + 'dppx)');
+            if (dprQuery.addEventListener) dprQuery.addEventListener('change', onDprChange);
+        } catch (e) { /* ignore */ }
+    };
+    function onDprChange() {
+        updateWidthBasedLayout();
+        attachDprWatch();
+    }
+    attachDprWatch();
+}
+
 /** Width threshold that grows with font scale: base / (1 - p), p = (fontScale - 100) / 100. */
 function getFontAwareWidthThreshold(basePx) {
     const scale = currentFontScale || 100;
@@ -457,7 +499,7 @@ function getMenuCollapseThreshold() {
 
 function updateMenuLabelsVisibility() {
     const threshold = getMenuCollapseThreshold();
-    const isNarrow = window.innerWidth < threshold;
+    const isNarrow = getLayoutWidth() < threshold;
 
     document.querySelectorAll('.menu-text-label').forEach(label => {
         if (isNarrow) {
@@ -481,7 +523,7 @@ function getDatetimeCollapseThreshold() {
 function updateDatetimeVisibility() {
     const el = document.querySelector('.header-datetime');
     if (!el) return;
-    el.classList.toggle('is-shown', window.innerWidth >= getDatetimeCollapseThreshold());
+    el.classList.toggle('is-shown', getLayoutWidth() >= getDatetimeCollapseThreshold());
 }
 
 /** Stack "Show by" / "View" when width < 580 / font scale. */
@@ -492,7 +534,7 @@ function updateListControlsLayout() {
     const scale = (currentFontScale || 100) / 100;
     const threshold = 580 / scale;
 
-    const shouldStack = window.innerWidth < threshold;
+    const shouldStack = getLayoutWidth() < threshold;
 
     if (shouldStack !== listControlsStacked) {
         listControlsStacked = shouldStack;
@@ -571,16 +613,7 @@ function applyFontScale(scale) {
     localStorage.setItem('startpage_font_scale', currentFontScale);
 
     updateFontScaleControl();
-
-    if (typeof updateMenuLabelsVisibility === 'function') {
-        updateMenuLabelsVisibility();
-    }
-    if (typeof updateDatetimeVisibility === 'function') {
-        updateDatetimeVisibility();
-    }
-    if (typeof updateListControlsLayout === 'function') {
-        updateListControlsLayout();
-    }
+    updateWidthBasedLayout();
 }
 
 function changeFontScale(delta) {
@@ -916,19 +949,8 @@ function initializeApp() {
 
     loadColorSettings();
     loadFontScale();
-    updateMenuLabelsVisibility();
-    updateDatetimeVisibility();
-    window.addEventListener('resize', () => {
-        if (typeof updateMenuLabelsVisibility === 'function') {
-            updateMenuLabelsVisibility();
-        }
-        if (typeof updateDatetimeVisibility === 'function') {
-            updateDatetimeVisibility();
-        }
-        if (typeof updateListControlsLayout === 'function') {
-            updateListControlsLayout();
-        }
-    });
+    bindLayoutWidthListeners();
+    updateWidthBasedLayout();
 
     setupLinkKeyboardNavigation();
     setupBackupDropdownAutoHide();
