@@ -551,7 +551,9 @@ function getDatetimeCollapseThreshold() {
 function updateDatetimeVisibility() {
     const el = document.querySelector('.header-datetime');
     if (!el) return;
-    el.classList.toggle('is-shown', getLayoutWidth() >= getDatetimeCollapseThreshold());
+    const layoutWidth = getLayoutWidth();
+    el.classList.toggle('is-shown', layoutWidth >= getDatetimeCollapseThreshold());
+    el.classList.toggle('is-stacked', layoutWidth < 1050);
 }
 
 /** Stack "Show by" / "View" when width < 580 / font scale. */
