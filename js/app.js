@@ -444,15 +444,24 @@ function getDevicePixelRatio() {
     return (isFinite(dpr) && dpr > 0) ? dpr : 1;
 }
 
-/** Current viewport width (visualViewport, else innerWidth). */
+function getDeviceScreenWidth() {
+    const w = (window.screen && Number(window.screen.width)) || 0;
+    return (isFinite(w) && w > 0) ? w : 0;
+}
+
+/** Device screen width on mobile; otherwise the current viewport width. */
 function getRawLayoutWidth() {
+    if (typeof isMobileBrowser === 'function' && isMobileBrowser()) {
+        const screenW = getDeviceScreenWidth();
+        if (screenW > 0) return screenW;
+    }
     const vv = window.visualViewport;
     const visual = vv ? Number(vv.width) : 0;
     const inner = Number(window.innerWidth) || 0;
     return (isFinite(visual) && visual > 0) ? visual : inner;
 }
 
-/** Layout width for every size breakpoint: current width / current DPR. */
+/** Normalized width: raw width / DPR. Mobile raw width is screen.width. */
 function getLayoutWidth() {
     return getRawLayoutWidth() / getDevicePixelRatio();
 }
@@ -487,6 +496,7 @@ function updateWidthBasedLayout() {
 
 function bindLayoutWidthListeners() {
     window.addEventListener('resize', updateWidthBasedLayout);
+    window.addEventListener('orientationchange', updateWidthBasedLayout);
     if (window.visualViewport) {
         window.visualViewport.addEventListener('resize', updateWidthBasedLayout);
     }

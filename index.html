@@ -7,8 +7,27 @@
 		(function () {
 			var dpr = Number(window.devicePixelRatio);
 			if (!isFinite(dpr) || dpr <= 0) dpr = 1;
-			var vv = window.visualViewport;
-			var raw = (vv && vv.width) ? Number(vv.width) : (Number(window.innerWidth) || 0);
+			var mobile = false;
+			try {
+				if (navigator.userAgentData && navigator.userAgentData.mobile === true) mobile = true;
+			} catch (e) { /* ignore */ }
+			if (!mobile) {
+				var ua = navigator.userAgent || '';
+				if (/Mobi|Android|iPhone|iPod|IEMobile|Opera Mini/i.test(ua)) mobile = true;
+			}
+			if (!mobile) {
+				try {
+					mobile = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
+				} catch (e2) { /* ignore */ }
+			}
+			var raw;
+			var screenW = (window.screen && Number(window.screen.width)) || 0;
+			if (mobile && isFinite(screenW) && screenW > 0) {
+				raw = screenW;
+			} else {
+				var vv = window.visualViewport;
+				raw = (vv && vv.width) ? Number(vv.width) : (Number(window.innerWidth) || 0);
+			}
 			var w = raw / dpr;
 			var root = document.documentElement;
 			root.style.setProperty('--nw', w + 'px');
