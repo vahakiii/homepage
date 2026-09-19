@@ -31,6 +31,9 @@
 			var w = raw / dpr;
 			var root = document.documentElement;
 			root.style.setProperty('--nw', w + 'px');
+			if (mobile && isFinite(w) && w > 0) {
+				root.setAttribute('data-nw-frozen', String(w));
+			}
 			[640, 768, 1024, 1075, 1320].forEach(function (bp) {
 				root.classList.toggle('nw-' + bp, w >= bp);
 			});

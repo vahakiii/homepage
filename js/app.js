@@ -461,8 +461,32 @@ function getRawLayoutWidth() {
     return (isFinite(visual) && visual > 0) ? visual : inner;
 }
 
-/** Normalized width: raw width / DPR. Mobile raw width is screen.width. */
+let frozenMobileLayoutWidth = null;
+
+function isMobileLayoutLocked() {
+    return typeof isMobileBrowser === 'function' && isMobileBrowser() && frozenMobileLayoutWidth != null;
+}
+
+function freezeMobileLayoutWidth(width) {
+    const n = Number(width);
+    if (!isFinite(n) || n <= 0) return;
+    frozenMobileLayoutWidth = n;
+    document.documentElement.setAttribute('data-nw-frozen', String(n));
+}
+
+/** Desktop: live viewport / DPR. Mobile: screen.width / DPR, frozen after first read. */
 function getLayoutWidth() {
+    if (typeof isMobileBrowser === 'function' && isMobileBrowser()) {
+        if (frozenMobileLayoutWidth == null) {
+            const seeded = parseFloat(document.documentElement.getAttribute('data-nw-frozen'));
+            if (isFinite(seeded) && seeded > 0) {
+                frozenMobileLayoutWidth = seeded;
+            } else {
+                freezeMobileLayoutWidth(getRawLayoutWidth() / getDevicePixelRatio());
+            }
+        }
+        return frozenMobileLayoutWidth;
+    }
     return getRawLayoutWidth() / getDevicePixelRatio();
 }
 
@@ -495,10 +519,14 @@ function updateWidthBasedLayout() {
 }
 
 function bindLayoutWidthListeners() {
-    window.addEventListener('resize', updateWidthBasedLayout);
-    window.addEventListener('orientationchange', updateWidthBasedLayout);
+    const onLayoutWidthEvent = () => {
+        if (isMobileLayoutLocked()) return;
+        updateWidthBasedLayout();
+    };
+    window.addEventListener('resize', onLayoutWidthEvent);
+    window.addEventListener('orientationchange', onLayoutWidthEvent);
     if (window.visualViewport) {
-        window.visualViewport.addEventListener('resize', updateWidthBasedLayout);
+        window.visualViewport.addEventListener('resize', onLayoutWidthEvent);
     }
 
     let dprQuery;
@@ -512,7 +540,7 @@ function bindLayoutWidthListeners() {
         } catch (e) { /* ignore */ }
     };
     function onDprChange() {
-        updateWidthBasedLayout();
+        if (!isMobileLayoutLocked()) updateWidthBasedLayout();
         attachDprWatch();
     }
     attachDprWatch();
