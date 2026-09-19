@@ -444,7 +444,7 @@ function getDevicePixelRatio() {
     return (isFinite(dpr) && dpr > 0) ? dpr : 1;
 }
 
-/** Viewport width before DPR (e.g. 1920). */
+/** Current viewport width (visualViewport, else innerWidth). */
 function getRawLayoutWidth() {
     const vv = window.visualViewport;
     const visual = vv ? Number(vv.width) : 0;
@@ -452,7 +452,7 @@ function getRawLayoutWidth() {
     return (isFinite(visual) && visual > 0) ? visual : inner;
 }
 
-/** Normalized width: width / DPR, once. Example: 1920 / 1.5 = 1280. */
+/** Layout width for every size breakpoint: current width / current DPR. */
 function getLayoutWidth() {
     return getRawLayoutWidth() / getDevicePixelRatio();
 }
