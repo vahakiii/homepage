@@ -511,7 +511,10 @@ function updateMenuLabelsVisibility() {
     });
 
     const actions = document.querySelector('.app-header__actions');
-    if (actions) actions.classList.toggle('is-collapsed', isNarrow);
+    if (actions) {
+        actions.classList.toggle('is-collapsed', isNarrow);
+        actions.classList.toggle('is-tight-gap', getLayoutWidth() <= 450);
+    }
 }
 
 /** Rocket title uses layout width (innerWidth / DPR). Scale via transform (not zoom)
