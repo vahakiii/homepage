@@ -514,24 +514,25 @@ function updateMenuLabelsVisibility() {
     if (actions) actions.classList.toggle('is-collapsed', isNarrow);
 }
 
-/** Rocket title uses layout width (innerWidth / DPR). 0.75 is applied via zoom so
- *  mobile min-font-size cannot clamp a sub-16px rem back up to 1rem. */
+/** Rocket title uses layout width (innerWidth / DPR). Scale via transform (not zoom)
+ *  so sibling header buttons stay a fixed size. */
 function updatePageTitleSize() {
     const title = document.getElementById('page-title');
     if (!title) return;
     const wide = getLayoutWidth() >= 768;
+    const scale = 0.85;
     title.classList.toggle('is-wide', wide);
-    const supportsZoom = typeof CSS !== 'undefined' && CSS.supports && CSS.supports('zoom', '0.75');
+    title.style.zoom = '';
     if (wide) {
-        title.style.zoom = '';
         title.style.transform = '';
-    } else if (supportsZoom) {
-        title.style.zoom = '0.75';
-        title.style.transform = '';
-    } else {
-        title.style.zoom = '';
-        title.style.transform = 'scale(0.75)';
+        title.style.marginRight = '';
+        return;
     }
+    title.style.transform = 'scale(' + scale + ')';
+    title.style.transformOrigin = 'left center';
+    title.style.marginRight = '';
+    const layoutW = title.offsetWidth;
+    title.style.marginRight = ((scale - 1) * layoutW) + 'px';
 }
 
 /** Header date/time collapse: 825 / (1 - p). */
