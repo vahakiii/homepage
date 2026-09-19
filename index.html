@@ -14,7 +14,7 @@
 		<!-- Critical CSS (FOUC / first paint) -->
 		<style>
 	  /* First-paint tokens only; full :root lives in css/styles.css */
-	  :root{--app-font-body:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;--app-font-display:"Inter",system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;--active-cat-bg:#aa0000;--color-surface-chrome:#09090b;--color-text-primary:#e4e4e7;}
+	  :root{--app-font-body:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;--app-font-display:"Inter",system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;--active-cat-bg:#e14c4c;--color-surface-chrome:#09090b;--color-text-primary:#e4e4e7;}
 	  /* Critical document reset (FOUC-safe; inlined intentionally) */
 	  *,*::before,*::after{box-sizing:border-box}
 	  html{height:100%;line-height:1.5;-webkit-text-size-adjust:100%}
@@ -25,7 +25,7 @@
 	  button,[type=button],[type=reset],[type=submit]{background-color:transparent;background-image:none}
 	  textarea{resize:vertical}
 	  ol,ul{list-style:none;margin:0;padding:0}
-	  body{margin:0;height:100%;overflow:hidden;display:flex;flex-direction:column;background-color:var(--color-surface-chrome);color:var(--color-text-primary);font-family:var(--app-font-body)}
+	  body{margin:0;height:100%;overflow:hidden;display:flex;flex-direction:column;background-color:#c9c9c9;color:#2e2e2e;font-family:var(--app-font-body)}
 	  #page-title,#greeting,#date,#clock{font-family:var(--app-font-display);font-weight:600}
 	  #header-logo{background-color:var(--active-cat-color,var(--active-cat-bg))!important}
 	  #daily-quote,#page-title,#greeting,#date,#clock,.menu-text-label{color:var(--color-text-primary)!important}
@@ -168,8 +168,8 @@
 								<div class="list-controls__group">
 									<span class="list-controls__label">Show by:</span>
 									<div class="list-toggle-group">
-										<button id="sort-default" class="list-toggle is-active">Default</button>
-										<button id="sort-tally" class="list-toggle">Tally</button>
+										<button id="sort-default" class="list-toggle">Default</button>
+										<button id="sort-tally" class="list-toggle is-active">Tally</button>
 										<button id="sort-abc" class="list-toggle">ABC</button>
 										<button id="sort-date" class="list-toggle">Date Added</button>
 									</div>
@@ -179,8 +179,8 @@
 								<div class="list-controls__group">
 									<span class="list-controls__label">View:</span>
 									<div class="list-toggle-group">
-										<button id="view-full" class="list-toggle is-active">Full</button>
-										<button id="view-compact" class="list-toggle">Compact</button>
+										<button id="view-full" class="list-toggle">Full</button>
+										<button id="view-compact" class="list-toggle is-active">Compact</button>
 									</div>
 								</div>
 							</div>
@@ -190,32 +190,34 @@
 								class="abc-section-nav is-hidden"
 								aria-label="Jump to ABC section"></nav>
 
-							<div id="link-search-wrap">
-								<div class="app-search">
-									<input
-										id="link-search-input"
-										type="text"
-										placeholder="Search your links by name, URL, or description..."
-										class="search-input"
-										>
-									<i class="app-search__icon fa-solid fa-search"></i>
-									<button onclick="clearLinkSearch()"
-										class="app-search__clear">
-										<i class="fa-solid fa-times"></i>
-									</button>
+							<div class="links-header__toolbar">
+								<div id="link-search-wrap">
+									<div class="app-search">
+										<input
+											id="link-search-input"
+											type="text"
+											placeholder="Search your links by name, URL, or description..."
+											class="search-input"
+											>
+										<i class="app-search__icon fa-solid fa-search"></i>
+										<button onclick="clearLinkSearch()"
+											class="app-search__clear">
+											<i class="fa-solid fa-times"></i>
+										</button>
+									</div>
 								</div>
+
+								<button id="add-link-btn" class="add-link-btn">
+									<i class="fa-solid fa-plus"></i>
+									<span>Add Link</span>
+								</button>
 							</div>
 						</div>
-
-						<button id="add-link-btn" class="add-link-btn">
-							<i class="fa-solid fa-plus"></i>
-							<span>Add Link</span>
-						</button>
 					</div>
 
 					<!-- Scrolls under the fixed toolbar -->
 					<div id="links-scroll" class="links-scroll custom-scroll">
-						<div id="links-grid" class="links-grid"></div>
+						<div id="links-grid" class="links-grid is-compact"></div>
 
 						<!-- Privacy note: links column only -->
 						<div id="privacy-note" class="privacy-note">
@@ -385,12 +387,12 @@
 							<button type="button" onclick="applyColorMode('light')"
 								class="color-mode-btn color-theme-modal__mode"
 								title="Apply Light Mode color scheme">
-								Light Mode
+								Light
 							</button>
 							<button type="button" onclick="applyColorMode('dark')"
 								class="color-mode-btn color-theme-modal__mode"
 								title="Apply Dark Mode color scheme (defaults)">
-								Dark Mode
+								Dark
 							</button>
 						</div>
 						<button type="button" onclick="closeColorThemeModal()"
