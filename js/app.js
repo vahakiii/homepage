@@ -595,10 +595,6 @@ function changeFontScale(delta) {
     applyFontScale(steps[idx]);
 }
 
-function resetFontScale() {
-    applyFontScale(100);
-}
-
 function loadFontScale() {
     const saved = localStorage.getItem('startpage_font_scale');
     const scale = saved ? parseInt(saved, 10) : 100;
@@ -1191,7 +1187,6 @@ window.openSettingsModal = openSettingsModal;
 window.exportLinks = exportLinks;
 window.importLinks = importLinks;
 window.changeFontScale = changeFontScale;
-window.resetFontScale = resetFontScale;
 window.openColorThemeModal = openColorThemeModal;
 window.applyColorMode = applyColorMode;
 window.applyColorPalette = applyColorPalette;
