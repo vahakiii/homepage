@@ -514,23 +514,23 @@ function updateMenuLabelsVisibility() {
     if (actions) actions.classList.toggle('is-collapsed', isNarrow);
 }
 
-/** Rocket title uses layout width (innerWidth / DPR). 0.9 is applied via zoom so
- *  mobile min-font-size cannot clamp 0.9rem back up to 16px (same as 1rem). */
+/** Rocket title uses layout width (innerWidth / DPR). 0.75 is applied via zoom so
+ *  mobile min-font-size cannot clamp a sub-16px rem back up to 1rem. */
 function updatePageTitleSize() {
     const title = document.getElementById('page-title');
     if (!title) return;
     const wide = getLayoutWidth() >= 768;
     title.classList.toggle('is-wide', wide);
-    const supportsZoom = typeof CSS !== 'undefined' && CSS.supports && CSS.supports('zoom', '0.9');
+    const supportsZoom = typeof CSS !== 'undefined' && CSS.supports && CSS.supports('zoom', '0.75');
     if (wide) {
         title.style.zoom = '';
         title.style.transform = '';
     } else if (supportsZoom) {
-        title.style.zoom = '0.9';
+        title.style.zoom = '0.75';
         title.style.transform = '';
     } else {
         title.style.zoom = '';
-        title.style.transform = 'scale(0.9)';
+        title.style.transform = 'scale(0.75)';
     }
 }
 
