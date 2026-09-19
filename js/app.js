@@ -520,22 +520,27 @@ function updateMenuLabelsVisibility() {
     if (logo) logo.classList.toggle('is-button-size', tightHeader);
 }
 
+/** Rocket title scale: 0.85 at 450px layout width, 1.5 at 1050px. Linear in between. */
+function getPageTitleScale() {
+    const minW = 450;
+    const maxW = 1050;
+    const minScale = 0.85;
+    const maxScale = 1.5;
+    const t = (getLayoutWidth() - minW) / (maxW - minW);
+    const clamped = Math.max(0, Math.min(1, t));
+    return minScale + clamped * (maxScale - minScale);
+}
+
 /** Rocket title uses layout width (innerWidth / DPR). Scale via transform (not zoom)
  *  so sibling header buttons stay a fixed size. */
 function updatePageTitleSize() {
     const title = document.getElementById('page-title');
     if (!title) return;
-    const wide = getLayoutWidth() >= 768;
-    const scale = 0.85;
-    title.classList.toggle('is-wide', wide);
+    const scale = getPageTitleScale();
+    title.classList.remove('is-wide');
     title.style.zoom = '';
-    if (wide) {
-        title.style.transform = '';
-        title.style.marginRight = '';
-        return;
-    }
-    title.style.transform = 'scale(' + scale + ')';
     title.style.transformOrigin = 'left center';
+    title.style.transform = 'scale(' + scale + ')';
     title.style.marginRight = '';
     const layoutW = title.offsetWidth;
     title.style.marginRight = ((scale - 1) * layoutW) + 'px';
