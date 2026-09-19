@@ -141,6 +141,12 @@ function updateDebugInfo() {
 
     const w = window.innerWidth;
     const h = window.innerHeight;
+    const dpr = (typeof getDevicePixelRatio === 'function')
+        ? getDevicePixelRatio()
+        : (Number(window.devicePixelRatio) || 1);
+    const nw = (typeof getLayoutWidth === 'function')
+        ? getLayoutWidth()
+        : (w / dpr);
 
     const linkCount = (typeof links !== 'undefined' && Array.isArray(links)) ? links.length : 0;
     const categoryCount = (typeof getAllCategories === 'function') ? getAllCategories().length : 0;
@@ -164,6 +170,14 @@ function updateDebugInfo() {
         <div class="debug-panel__row">
             <span class="debug-panel__key">Window Height</span>
             <span class="debug-panel__val debug-panel__val--size">${h} <span class="debug-panel__unit">px</span></span>
+        </div>
+        <div class="debug-panel__row">
+            <span class="debug-panel__key">DPR</span>
+            <span class="debug-panel__val debug-panel__val--size">${dpr}</span>
+        </div>
+        <div class="debug-panel__row">
+            <span class="debug-panel__key">Normalized Width</span>
+            <span class="debug-panel__val debug-panel__val--size">${Math.round(nw)} <span class="debug-panel__unit">px</span></span>
         </div>
 
         <!-- Data Stats -->

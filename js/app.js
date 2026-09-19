@@ -444,12 +444,35 @@ function getDevicePixelRatio() {
     return (isFinite(dpr) && dpr > 0) ? dpr : 1;
 }
 
-/** Site width used for layout breakpoints: innerWidth / DPR. */
+/** Current viewport width (visualViewport, else innerWidth). */
+function getRawLayoutWidth() {
+    const vv = window.visualViewport;
+    const visual = vv ? Number(vv.width) : 0;
+    const inner = Number(window.innerWidth) || 0;
+    return (isFinite(visual) && visual > 0) ? visual : inner;
+}
+
+/** Layout width for every size breakpoint: current width / current DPR. */
 function getLayoutWidth() {
-    return window.innerWidth / getDevicePixelRatio();
+    return getRawLayoutWidth() / getDevicePixelRatio();
+}
+
+const NW_MIN_WIDTHS = [640, 768, 1024, 1075, 1320];
+
+function updateNormalizedWidthClasses() {
+    const w = getLayoutWidth();
+    const root = document.documentElement;
+    root.style.setProperty('--nw', w + 'px');
+    NW_MIN_WIDTHS.forEach((bp) => {
+        root.classList.toggle('nw-' + bp, w >= bp);
+    });
+    if (typeof updateSettingsMobileInfo === 'function') {
+        updateSettingsMobileInfo();
+    }
 }
 
 function updateWidthBasedLayout() {
+    updateNormalizedWidthClasses();
     if (typeof updateMenuLabelsVisibility === 'function') {
         updateMenuLabelsVisibility();
     }
@@ -464,6 +487,9 @@ function updateWidthBasedLayout() {
 
 function bindLayoutWidthListeners() {
     window.addEventListener('resize', updateWidthBasedLayout);
+    if (window.visualViewport) {
+        window.visualViewport.addEventListener('resize', updateWidthBasedLayout);
+    }
 
     let dprQuery;
     const attachDprWatch = () => {
@@ -520,26 +546,31 @@ function updateMenuLabelsVisibility() {
     if (logo) logo.classList.toggle('is-button-size', tightHeader);
 }
 
-/** Rocket title scale: 0.85 at 450px layout width, 1.5 at 1050px. Linear in between. */
-function getPageTitleScale() {
+/** Visual rem size for the rocket title: 0.85 at 450px, 1.5 at 768px+. */
+function getPageTitleVisualRem() {
     const minW = 450;
-    const maxW = 1050;
-    const minScale = 0.85;
-    const maxScale = 1.5;
+    const maxW = 768;
+    const minRem = 0.85;
+    const maxRem = 1.5;
     const t = (getLayoutWidth() - minW) / (maxW - minW);
     const clamped = Math.max(0, Math.min(1, t));
-    return minScale + clamped * (maxScale - minScale);
+    return minRem + clamped * (maxRem - minRem);
 }
 
-/** Rocket title uses layout width (innerWidth / DPR). Scale via transform (not zoom)
- *  so sibling header buttons stay a fixed size. */
+/** Scale the 1.5rem title down (never up) so text stays sharp. */
 function updatePageTitleSize() {
     const title = document.getElementById('page-title');
     if (!title) return;
-    const scale = getPageTitleScale();
+    const baseRem = 1.5;
+    const scale = getPageTitleVisualRem() / baseRem;
     title.classList.remove('is-wide');
     title.style.zoom = '';
     title.style.transformOrigin = 'left center';
+    if (scale >= 0.999) {
+        title.style.transform = '';
+        title.style.marginRight = '';
+        return;
+    }
     title.style.transform = 'scale(' + scale + ')';
     title.style.marginRight = '';
     const layoutW = title.offsetWidth;

@@ -80,6 +80,7 @@ function updateColorThemeMobileLayout() {
 function updateSettingsMobileInfo() {
     var info = document.getElementById('settings-mobile-info');
     var dprEl = document.getElementById('settings-dpr-value');
+    var nwEl = document.getElementById('settings-nw-value');
     if (!info) return;
 
     var mobile = isMobileBrowser();
@@ -89,6 +90,10 @@ function updateSettingsMobileInfo() {
     if (dprEl) {
         var dpr = window.devicePixelRatio;
         dprEl.textContent = (typeof dpr === 'number' && isFinite(dpr)) ? String(dpr) : '—';
+    }
+    if (nwEl) {
+        var nw = (typeof getLayoutWidth === 'function') ? getLayoutWidth() : NaN;
+        nwEl.textContent = (typeof nw === 'number' && isFinite(nw)) ? String(Math.round(nw)) : '—';
     }
 }
 

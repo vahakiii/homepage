@@ -3,6 +3,20 @@
 	<head>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<script>
+		(function () {
+			var dpr = Number(window.devicePixelRatio);
+			if (!isFinite(dpr) || dpr <= 0) dpr = 1;
+			var vv = window.visualViewport;
+			var raw = (vv && vv.width) ? Number(vv.width) : (Number(window.innerWidth) || 0);
+			var w = raw / dpr;
+			var root = document.documentElement;
+			root.style.setProperty('--nw', w + 'px');
+			[640, 768, 1024, 1075, 1320].forEach(function (bp) {
+				root.classList.toggle('nw-' + bp, w >= bp);
+			});
+		})();
+		</script>
 		<title>Your Start Page</title>
 		<link rel="manifest" href="manifest.json">
 
@@ -276,6 +290,7 @@
 						<div id="settings-mobile-info" class="settings-modal__mobile-info" hidden>
 							<span class="settings-modal__mobile-chip">Mobile</span>
 							<span class="settings-modal__mobile-chip">DPR: <span id="settings-dpr-value" class="settings-modal__dpr-value"></span></span>
+							<span class="settings-modal__mobile-chip">NW: <span id="settings-nw-value" class="settings-modal__dpr-value"></span></span>
 						</div>
 					</div>
 				</div>
