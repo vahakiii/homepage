@@ -47,6 +47,30 @@ function buildColorThemeField(field) {
     return wrap;
 }
 
+/** True when the browser is in mobile/device mode (UA or coarse touch pointer). */
+function isMobileBrowser() {
+    try {
+        if (navigator.userAgentData && navigator.userAgentData.mobile === true) {
+            return true;
+        }
+    } catch (e) { /* ignore */ }
+
+    var ua = navigator.userAgent || '';
+    if (/Mobi|Android|iPhone|iPod|IEMobile|Opera Mini/i.test(ua)) return true;
+
+    try {
+        return window.matchMedia('(hover: none) and (pointer: coarse)').matches;
+    } catch (e2) {
+        return false;
+    }
+}
+
+function updateColorThemeMobileLayout() {
+    var modal = document.getElementById('color-theme-modal');
+    if (!modal) return;
+    modal.classList.toggle('is-mobile', isMobileBrowser());
+}
+
 function ensureColorThemeFields() {
     const grid = document.querySelector('#color-theme-modal .color-theme-modal__grid');
     if (!grid || grid.dataset.fieldsBuilt === 'true') return;
@@ -115,6 +139,7 @@ function openColorThemeModal() {
         }
     }
 
+    updateColorThemeMobileLayout();
     openUiModal('color-theme-modal');
 }
 
@@ -251,6 +276,16 @@ function saveColorSettings(colors) {
 }
 
 ensureColorThemeFields();
+updateColorThemeMobileLayout();
+window.addEventListener('resize', updateColorThemeMobileLayout);
+try {
+    var colorThemeMobileMq = window.matchMedia('(hover: none) and (pointer: coarse)');
+    if (colorThemeMobileMq.addEventListener) {
+        colorThemeMobileMq.addEventListener('change', updateColorThemeMobileLayout);
+    } else if (colorThemeMobileMq.addListener) {
+        colorThemeMobileMq.addListener(updateColorThemeMobileLayout);
+    }
+} catch (e) { /* ignore */ }
 
 
 
