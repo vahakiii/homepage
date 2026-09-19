@@ -564,88 +564,84 @@
 
 
 					<div class="add-edit-modal__split">
-						<div class="add-edit-modal__split-left">
-							<!-- Add-only; hidden in edit (move buttons instead) -->
-							<div id="position-options" class="add-edit-modal__position">
-								<span class="add-edit-modal__position-label">Position</span>
-								<label class="add-edit-modal__radio-row">
-									<input type="radio" name="add-position" value="top" id="position-top" class="add-edit-modal__radio">
-									<span>Add to Top</span>
-								</label>
-								<label class="add-edit-modal__radio-row">
-									<input type="radio" name="add-position" value="bottom" id="position-bottom" class="add-edit-modal__radio" checked>
-									<span>Add to Bottom</span>
-								</label>
-							</div>
-
-							<div class="add-edit-modal__favorite">
-								<label class="add-edit-modal__favorite-label">
-									<input type="checkbox" id="link-is-favorite" class="add-edit-modal__checkbox">
-									<span>
-										<i class="add-edit-modal__heart fa-solid fa-heart"></i>
-										<span>Add to favorites</span>
-									</span>
-								</label>
-							</div>
+						<!-- Add-only; hidden in edit (move buttons instead) -->
+						<div id="position-options" class="add-edit-modal__position">
+							<span class="add-edit-modal__position-label">Position</span>
+							<label class="add-edit-modal__radio-row">
+								<input type="radio" name="add-position" value="top" id="position-top" class="add-edit-modal__radio">
+								<span>Add to Top</span>
+							</label>
+							<label class="add-edit-modal__radio-row">
+								<input type="radio" name="add-position" value="bottom" id="position-bottom" class="add-edit-modal__radio" checked>
+								<span>Add to Bottom</span>
+							</label>
 						</div>
 
-						<div class="add-edit-modal__split-right">
-							<div class="add-edit-modal__emoji">
-								<label class="add-edit-modal__label">ICON (emoji)</label>
+						<div class="add-edit-modal__emoji">
+							<label class="add-edit-modal__label">ICON (emoji)</label>
 
-								<div class="add-edit-modal__emoji-row">
-									<div class="add-edit-modal__emoji-wrap">
-										<input type="text" id="link-emoji" maxlength="2"
-											class="add-edit-modal__emoji-input"
-											placeholder="🔗">
+							<div class="add-edit-modal__emoji-row">
+								<div class="add-edit-modal__emoji-wrap">
+									<input type="text" id="link-emoji" maxlength="2"
+										class="add-edit-modal__emoji-input"
+										placeholder="🔗">
 
-										<span class="add-edit-modal__emoji-hint">
-											Type any emoji or click the arrow
-										</span>
+									<span class="add-edit-modal__emoji-hint">
+										Type any emoji or click the arrow
+									</span>
 
-										<div id="emoji-picker-popover"
-											class="emoji-picker">
-											<div class="emoji-picker__column">
-												<div class="emoji-picker__header">
-													<div class="emoji-picker__title">
-														<i class="emoji-picker__title-icon fa-regular fa-face-smile"></i>Quick Pick Emojis
-													</div>
-
-													<div class="emoji-picker__search-wrap">
-														<i class="emoji-picker__search-icon fa-solid fa-search"></i>
-														<input type="text" id="emoji-search-input"
-															class="emoji-picker__search"
-															placeholder="search">
-													</div>
+									<div id="emoji-picker-popover"
+										class="emoji-picker">
+										<div class="emoji-picker__column">
+											<div class="emoji-picker__header">
+												<div class="emoji-picker__title">
+													<i class="emoji-picker__title-icon fa-regular fa-face-smile"></i>Quick Pick Emojis
 												</div>
 
-												<div id="emoji-grid" class="emoji-picker__grid custom-scroll">
+												<div class="emoji-picker__search-wrap">
+													<i class="emoji-picker__search-icon fa-solid fa-search"></i>
+													<input type="text" id="emoji-search-input"
+														class="emoji-picker__search"
+														placeholder="search">
 												</div>
+											</div>
 
-												<div class="emoji-picker__footer">
-													<button type="button" id="emoji-picker-cancel"
-														class="emoji-picker__cancel">
-														Cancel
-													</button>
-												</div>
+											<div id="emoji-grid" class="emoji-picker__grid custom-scroll">
+											</div>
+
+											<div class="emoji-picker__footer">
+												<button type="button" id="emoji-picker-cancel"
+													class="emoji-picker__cancel">
+													Cancel
+												</button>
 											</div>
 										</div>
 									</div>
-
-									<button type="button" id="emoji-dropdown-btn"
-										class="add-edit-modal__emoji-btn"
-										title="Choose emoji">
-										<i class="fa-solid fa-chevron-down"></i>
-									</button>
 								</div>
-							</div>
 
-							<div class="add-edit-modal__tally">
-								<label for="link-tally" class="add-edit-modal__label">TALLY</label>
-								<input type="text" id="link-tally"
-									class="add-edit-modal__input add-edit-modal__tally-input"
-									value="0" title="Number of times this link has been opened" aria-label="Link open tally">
+								<button type="button" id="emoji-dropdown-btn"
+									class="add-edit-modal__emoji-btn"
+									title="Choose emoji">
+									<i class="fa-solid fa-chevron-down"></i>
+								</button>
 							</div>
+						</div>
+
+						<div class="add-edit-modal__favorite">
+							<label class="add-edit-modal__favorite-label">
+								<input type="checkbox" id="link-is-favorite" class="add-edit-modal__checkbox">
+								<span>
+									<i class="add-edit-modal__heart fa-solid fa-heart"></i>
+									<span>Add to favorites</span>
+								</span>
+							</label>
+						</div>
+
+						<div class="add-edit-modal__tally">
+							<label for="link-tally" class="add-edit-modal__label">TALLY</label>
+							<input type="text" id="link-tally"
+								class="add-edit-modal__input add-edit-modal__tally-input"
+								value="0" title="Number of times this link has been opened" aria-label="Link open tally">
 						</div>
 					</div>
 
