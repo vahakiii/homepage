@@ -444,17 +444,35 @@ function getDevicePixelRatio() {
     return (isFinite(dpr) && dpr > 0) ? dpr : 1;
 }
 
-/** Device pixel width, e.g. 1902 on a 1268 CSS-pixel viewport at DPR 1.5. */
-function getDevicePixelWidth() {
-    return window.innerWidth * getDevicePixelRatio();
+/** Viewport width before DPR (e.g. 1920). */
+function getRawLayoutWidth() {
+    const vv = window.visualViewport;
+    const visual = vv ? Number(vv.width) : 0;
+    const inner = Number(window.innerWidth) || 0;
+    return (isFinite(visual) && visual > 0) ? visual : inner;
 }
 
-/** Normalized width: pixel width / DPR, once (e.g. 1902 / 1.5). */
+/** Normalized width: width / DPR, once. Example: 1920 / 1.5 = 1280. */
 function getLayoutWidth() {
-    return getDevicePixelWidth() / getDevicePixelRatio();
+    return getRawLayoutWidth() / getDevicePixelRatio();
+}
+
+const NW_MIN_WIDTHS = [640, 768, 1024, 1075, 1320];
+
+function updateNormalizedWidthClasses() {
+    const w = getLayoutWidth();
+    const root = document.documentElement;
+    root.style.setProperty('--nw', w + 'px');
+    NW_MIN_WIDTHS.forEach((bp) => {
+        root.classList.toggle('nw-' + bp, w >= bp);
+    });
+    if (typeof updateSettingsMobileInfo === 'function') {
+        updateSettingsMobileInfo();
+    }
 }
 
 function updateWidthBasedLayout() {
+    updateNormalizedWidthClasses();
     if (typeof updateMenuLabelsVisibility === 'function') {
         updateMenuLabelsVisibility();
     }
@@ -469,6 +487,9 @@ function updateWidthBasedLayout() {
 
 function bindLayoutWidthListeners() {
     window.addEventListener('resize', updateWidthBasedLayout);
+    if (window.visualViewport) {
+        window.visualViewport.addEventListener('resize', updateWidthBasedLayout);
+    }
 
     let dprQuery;
     const attachDprWatch = () => {
