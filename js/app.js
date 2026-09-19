@@ -459,6 +459,7 @@ function updateWidthBasedLayout() {
     if (typeof updateListControlsLayout === 'function') {
         updateListControlsLayout();
     }
+    updatePageTitleSize();
 }
 
 function bindLayoutWidthListeners() {
@@ -511,6 +512,13 @@ function updateMenuLabelsVisibility() {
 
     const actions = document.querySelector('.app-header__actions');
     if (actions) actions.classList.toggle('is-collapsed', isNarrow);
+}
+
+/** Rocket title uses layout width (innerWidth / DPR), not CSS min-width. */
+function updatePageTitleSize() {
+    const title = document.getElementById('page-title');
+    if (!title) return;
+    title.classList.toggle('is-wide', getLayoutWidth() >= 768);
 }
 
 /** Header date/time collapse: 825 / (1 - p). */
