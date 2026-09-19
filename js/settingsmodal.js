@@ -1,5 +1,6 @@
 function openSettingsModal() {
     updateSettingsMobileInfo();
+    if (typeof syncDebugSettingsCheckbox === 'function') syncDebugSettingsCheckbox();
     openUiModal('settings-modal');
 }
 
@@ -80,7 +81,6 @@ function updateColorThemeMobileLayout() {
 function updateSettingsMobileInfo() {
     var info = document.getElementById('settings-mobile-info');
     var dprEl = document.getElementById('settings-dpr-value');
-    var nwEl = document.getElementById('settings-nw-value');
     if (!info) return;
 
     var mobile = isMobileBrowser();
@@ -91,10 +91,13 @@ function updateSettingsMobileInfo() {
         var dpr = window.devicePixelRatio;
         dprEl.textContent = (typeof dpr === 'number' && isFinite(dpr)) ? String(dpr) : '—';
     }
-    if (nwEl) {
-        var nw = (typeof getLayoutWidth === 'function') ? getLayoutWidth() : NaN;
-        nwEl.textContent = (typeof nw === 'number' && isFinite(nw)) ? String(Math.round(nw)) : '—';
-    }
+}
+
+function syncDebugSettingsCheckbox() {
+    var cb = document.getElementById('debug-panel-checkbox');
+    if (!cb) return;
+    var open = (typeof isDebugPanelOpen === 'function') ? !!isDebugPanelOpen() : false;
+    cb.checked = open;
 }
 
 function ensureColorThemeFields() {
