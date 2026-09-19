@@ -511,10 +511,13 @@ function updateMenuLabelsVisibility() {
     });
 
     const actions = document.querySelector('.app-header__actions');
+    const tightHeader = getLayoutWidth() <= 450;
     if (actions) {
         actions.classList.toggle('is-collapsed', isNarrow);
-        actions.classList.toggle('is-tight-gap', getLayoutWidth() <= 450);
+        actions.classList.toggle('is-tight-gap', tightHeader);
     }
+    const logo = document.getElementById('header-logo');
+    if (logo) logo.classList.toggle('is-button-size', tightHeader);
 }
 
 /** Rocket title uses layout width (innerWidth / DPR). Scale via transform (not zoom)
