@@ -1,4 +1,5 @@
 function openSettingsModal() {
+    updateSettingsMobileInfo();
     openUiModal('settings-modal');
 }
 
@@ -72,6 +73,22 @@ function updateColorThemeMobileLayout() {
     if (modal) modal.classList.toggle('is-mobile', mobile);
     if (typeof refreshAbcSectionNavLayout === 'function') {
         refreshAbcSectionNavLayout();
+    }
+    updateSettingsMobileInfo();
+}
+
+function updateSettingsMobileInfo() {
+    var info = document.getElementById('settings-mobile-info');
+    var dprEl = document.getElementById('settings-dpr-value');
+    if (!info) return;
+
+    var mobile = isMobileBrowser();
+    if (mobile) info.removeAttribute('hidden');
+    else info.setAttribute('hidden', '');
+
+    if (dprEl) {
+        var dpr = window.devicePixelRatio;
+        dprEl.textContent = (typeof dpr === 'number' && isFinite(dpr)) ? String(dpr) : '—';
     }
 }
 
