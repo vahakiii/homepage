@@ -95,9 +95,8 @@ var COLOR_FIELDS = [
 ];
 
 // Color Theme grid order (3 columns above 429px; 2 columns below 430px).
-// Actions sit after Button (col 3, rows 4–5 on 3-col; col 2 auto row on 2-col).
+// 3-col: actions pinned to col 3, rows 4–5. 2-col: actions span both columns on the last row.
 var COLOR_EDITOR_KEYS = ['bg', 'text', 'textbox', 'activeCat', 'activeText', 'card', 'category', 'emojiBg', 'hoverBlend', 'button', 'saveButton', 'success', 'caution'];
-var COLOR_EDITOR_ACTIONS_AFTER = 'button';
 
 var COLOR_DEFAULTS = {};
 var COLOR_LIGHT_DEFAULTS = {};

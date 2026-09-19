@@ -56,19 +56,12 @@ function ensureColorThemeFields() {
     const byKey = {};
     COLOR_FIELDS.forEach(function (f) { byKey[f.key] = f; });
 
-    const keys = COLOR_EDITOR_KEYS;
-    const splitAfter = COLOR_EDITOR_ACTIONS_AFTER;
-    const splitAt = keys.indexOf(splitAfter);
-
-    keys.forEach(function (key, i) {
+    // All fields first so 2-col auto-placement puts actions on the last row.
+    // 3-col still pins actions with CSS (col 3, rows 4–5).
+    COLOR_EDITOR_KEYS.forEach(function (key) {
         const field = byKey[key];
         if (!field) return;
-        const node = buildColorThemeField(field);
-        if (i <= splitAt) {
-            grid.insertBefore(node, actions);
-        } else {
-            grid.appendChild(node);
-        }
+        grid.insertBefore(buildColorThemeField(field), actions);
     });
     grid.dataset.fieldsBuilt = 'true';
 }
