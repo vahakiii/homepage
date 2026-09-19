@@ -514,11 +514,24 @@ function updateMenuLabelsVisibility() {
     if (actions) actions.classList.toggle('is-collapsed', isNarrow);
 }
 
-/** Rocket title uses layout width (innerWidth / DPR), not CSS min-width. */
+/** Rocket title uses layout width (innerWidth / DPR). 0.9 is applied via zoom so
+ *  mobile min-font-size cannot clamp 0.9rem back up to 16px (same as 1rem). */
 function updatePageTitleSize() {
     const title = document.getElementById('page-title');
     if (!title) return;
-    title.classList.toggle('is-wide', getLayoutWidth() >= 768);
+    const wide = getLayoutWidth() >= 768;
+    title.classList.toggle('is-wide', wide);
+    const supportsZoom = typeof CSS !== 'undefined' && CSS.supports && CSS.supports('zoom', '0.9');
+    if (wide) {
+        title.style.zoom = '';
+        title.style.transform = '';
+    } else if (supportsZoom) {
+        title.style.zoom = '0.9';
+        title.style.transform = '';
+    } else {
+        title.style.zoom = '';
+        title.style.transform = 'scale(0.9)';
+    }
 }
 
 /** Header date/time collapse: 825 / (1 - p). */
