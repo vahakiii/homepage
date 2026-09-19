@@ -315,12 +315,29 @@ function requestDebugToggle() {
     });
 }
 
-function requestDebugUpdate() {
+function requestDebugSet(open) {
     ensureDebugLoaded().then(function () {
-        updateDebugInfo();
+        if (typeof setDebugPanelOpen === 'function') setDebugPanelOpen(!!open);
     }).catch(function (err) {
         console.error(err);
     });
+}
+
+function requestDebugUpdate() {
+    ensureDebugLoaded().then(function () {
+        if (typeof updateDebugInfo === 'function' && updateDebugInfo !== requestDebugUpdate) {
+            updateDebugInfo();
+        }
+    }).catch(function (err) {
+        console.error(err);
+    });
+}
+
+function refreshDebugIfOpen() {
+    if (typeof isDebugPanelOpen !== 'function' || !isDebugPanelOpen()) return;
+    if (typeof updateDebugInfo === 'function' && updateDebugInfo !== requestDebugUpdate) {
+        updateDebugInfo();
+    }
 }
 
 function setupAppKeyboardShortcuts() {
@@ -771,7 +788,10 @@ function clearLinkCardKeyboardFocus() {
 function applyLinkCardKeyboardFocus(options) {
     clearLinkCardKeyboardFocus();
 
-    if (keyboardFocusedIndex < 0) return;
+    if (keyboardFocusedIndex < 0) {
+        refreshDebugIfOpen();
+        return;
+    }
 
     const cards = document.querySelectorAll('#links-grid .link-card');
     if (keyboardFocusedIndex >= cards.length) {
@@ -786,6 +806,7 @@ function applyLinkCardKeyboardFocus(options) {
         }
     }
 
+    refreshDebugIfOpen();
 }
 
 /** Column count in #links-grid (compact 1/2/3 from CSS; full flex → 1). */
@@ -811,6 +832,7 @@ function avt_ScrollTo(top) {
     if (keyboardFocusedIndex !== -1) {
         keyboardFocusedIndex = -1;
         clearLinkCardKeyboardFocus();
+        refreshDebugIfOpen();
     }
 
     const scroller = getLinksScrollEl();
@@ -1043,6 +1065,13 @@ function initializeApp() {
         hideCategoriesCheckbox.addEventListener('change', () => {
             localStorage.setItem('startpage_hide_categories', hideCategoriesCheckbox.checked ? 'true' : 'false');
             applyHideCategories(hideCategoriesCheckbox.checked);
+        });
+    }
+
+    const debugPanelCheckbox = document.getElementById('debug-panel-checkbox');
+    if (debugPanelCheckbox) {
+        debugPanelCheckbox.addEventListener('change', () => {
+            requestDebugSet(debugPanelCheckbox.checked);
         });
     }
 

@@ -1,7 +1,7 @@
 
-function toggleDebugPanel() {
-    if (!debugPanel) {
-        debugPanel = document.createElement('div');
+function ensureDebugPanel() {
+    if (debugPanel) return;
+    debugPanel = document.createElement('div');
         debugPanel.id = 'debug-panel';
         debugPanel.className = 'debug-panel';
         debugPanel.style.display = 'none';
@@ -27,7 +27,7 @@ function toggleDebugPanel() {
             </div>
             <div id="debug-content" class="debug-panel__content"></div>
             <div class="debug-panel__hint">
-                Drag header/area to move • Ctrl+Shift+D to toggle • Auto-clamps on release
+                Ctrl+Shift+D to toggle
             </div>
         `;
 
@@ -94,10 +94,25 @@ function toggleDebugPanel() {
                 }
             }
         });
+}
+
+function toggleDebugPanel() {
+    // Not a ui-modal — display + .is-open only; Esc does not close
+    ensureDebugPanel();
+    setDebugPanelOpen(!isDebugPanelOpen());
+}
+
+function setDebugPanelOpen(open) {
+    ensureDebugPanel();
+
+    const currentlyOpen = isDebugPanelOpen();
+    if (!!open === currentlyOpen) {
+        if (open) updateDebugInfo();
+        if (typeof syncDebugSettingsCheckbox === 'function') syncDebugSettingsCheckbox();
+        return;
     }
 
-    // Not a ui-modal — display + .is-open only; Esc does not close
-    if (!isDebugPanelOpen()) {
+    if (open) {
         debugPanel.style.display = 'block';
         debugPanel.classList.add('is-open');
         updateDebugInfo();
@@ -107,7 +122,7 @@ function toggleDebugPanel() {
                 if (isDebugPanelOpen()) {
                     updateDebugInfo();
                 }
-            }, 3000);
+            }, 250);
         }
     } else {
         debugPanel.style.display = 'none';
@@ -117,6 +132,8 @@ function toggleDebugPanel() {
             debugUpdateInterval = null;
         }
     }
+
+    if (typeof syncDebugSettingsCheckbox === 'function') syncDebugSettingsCheckbox();
 }
 
 
@@ -158,10 +175,6 @@ function updateDebugInfo() {
         });
     }
 
-    const emojiNameCount = (typeof EMOJI_NAMES === 'object' && EMOJI_NAMES !== null) 
-        ? Object.keys(EMOJI_NAMES).length 
-        : 0;
-
     content.innerHTML = `
         <div class="debug-panel__row">
             <span class="debug-panel__key">Window Width</span>
@@ -176,7 +189,7 @@ function updateDebugInfo() {
             <span class="debug-panel__val debug-panel__val--size">${dpr}</span>
         </div>
         <div class="debug-panel__row">
-            <span class="debug-panel__key">Normalized Width</span>
+            <span class="debug-panel__key">NW</span>
             <span class="debug-panel__val debug-panel__val--size">${Math.round(nw)} <span class="debug-panel__unit">px</span></span>
         </div>
 
@@ -193,13 +206,9 @@ function updateDebugInfo() {
             <span class="debug-panel__key">Categories</span>
             <span class="debug-panel__val debug-panel__val--count">${categoryCount}</span>
         </div>
-        <div class="debug-panel__row">
+        <div class="debug-panel__row debug-panel__row--last">
             <span class="debug-panel__key">COMMON_EMOJIS</span>
             <span class="debug-panel__val debug-panel__val--count">${commonEmojiCount}</span>
-        </div>
-        <div class="debug-panel__row debug-panel__row--last">
-            <span class="debug-panel__key">EMOJI_NAMES</span>
-            <span class="debug-panel__val debug-panel__val--count">${emojiNameCount}</span>
         </div>
     `;
 }
