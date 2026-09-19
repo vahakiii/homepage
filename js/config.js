@@ -94,6 +94,9 @@ var COLOR_FIELDS = [
     { key: 'caution', label: 'Caution', storage: 'startpage_caution_color', prefix: 'caution', dark: APP_THEME_HEX.caution, light: '#c0911b', saveIfSet: true }
 ];
 
+// Font size steps in Settings: Small, Normal, Large, XL (percentages are not shown in the UI).
+var FONT_SCALE_STEPS = [95, 100, 105, 110];
+
 // Color Theme grid order (3 columns on desktop; 2 columns in mobile/device mode).
 // 3-col: actions pinned to col 3, rows 4–5. 2-col: actions span both columns on the last row.
 var COLOR_EDITOR_KEYS = ['bg', 'text', 'textbox', 'activeCat', 'activeText', 'card', 'category', 'emojiBg', 'hoverBlend', 'button', 'saveButton', 'success', 'caution'];

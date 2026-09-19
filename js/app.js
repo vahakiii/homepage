@@ -525,8 +525,44 @@ function updateListControlsLayout() {
     }
 }
 
+function nearestFontScale(scale) {
+    const steps = (typeof FONT_SCALE_STEPS !== 'undefined' && FONT_SCALE_STEPS.length)
+        ? FONT_SCALE_STEPS
+        : [95, 100, 105, 110];
+    const n = Number(scale);
+    if (!isFinite(n)) return 100;
+    let best = steps[0];
+    let bestDist = Math.abs(n - best);
+    for (let i = 1; i < steps.length; i++) {
+        const d = Math.abs(n - steps[i]);
+        if (d < bestDist) {
+            best = steps[i];
+            bestDist = d;
+        }
+    }
+    return best;
+}
+
+function updateFontScaleControl() {
+    const steps = (typeof FONT_SCALE_STEPS !== 'undefined' && FONT_SCALE_STEPS.length)
+        ? FONT_SCALE_STEPS
+        : [95, 100, 105, 110];
+    const idx = steps.indexOf(currentFontScale);
+
+    document.querySelectorAll('.settings-modal__font-dot').forEach(dot => {
+        const selected = Number(dot.dataset.scale) === currentFontScale;
+        dot.classList.toggle('is-selected', selected);
+        dot.setAttribute('aria-checked', selected ? 'true' : 'false');
+    });
+
+    const minus = document.getElementById('font-scale-minus');
+    const plus = document.getElementById('font-scale-plus');
+    if (minus) minus.disabled = idx <= 0;
+    if (plus) plus.disabled = idx < 0 || idx >= steps.length - 1;
+}
+
 function applyFontScale(scale) {
-    currentFontScale = Math.max(70, Math.min(150, scale));
+    currentFontScale = nearestFontScale(scale);
     const scaleDecimal = currentFontScale / 100;
 
     document.documentElement.style.fontSize = currentFontScale + '%';
@@ -534,8 +570,7 @@ function applyFontScale(scale) {
 
     localStorage.setItem('startpage_font_scale', currentFontScale);
 
-    const valueEl = document.getElementById('font-scale-value');
-    if (valueEl) valueEl.textContent = currentFontScale + '%';
+    updateFontScaleControl();
 
     if (typeof updateMenuLabelsVisibility === 'function') {
         updateMenuLabelsVisibility();
@@ -549,7 +584,15 @@ function applyFontScale(scale) {
 }
 
 function changeFontScale(delta) {
-    applyFontScale(currentFontScale + delta);
+    const steps = (typeof FONT_SCALE_STEPS !== 'undefined' && FONT_SCALE_STEPS.length)
+        ? FONT_SCALE_STEPS
+        : [95, 100, 105, 110];
+    let idx = steps.indexOf(nearestFontScale(currentFontScale));
+    if (idx < 0) idx = steps.indexOf(100);
+    if (idx < 0) idx = 1;
+    const dir = Number(delta) < 0 ? -1 : 1;
+    idx = Math.max(0, Math.min(steps.length - 1, idx + dir));
+    applyFontScale(steps[idx]);
 }
 
 function resetFontScale() {

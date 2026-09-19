@@ -283,16 +283,29 @@
 				<div class="settings-modal__field">
 					<label class="settings-modal__label">Font Size</label>
 					<div class="settings-modal__font-row">
-						<button onclick="changeFontScale(-5)"
-							class="settings-modal__font-btn">-</button>
-						<div id="font-scale-value"
-							class="settings-modal__font-value">
-							100%
+						<button type="button" id="font-scale-minus" onclick="changeFontScale(-1)"
+							class="settings-modal__font-btn" aria-label="Smaller font">-</button>
+						<div class="settings-modal__font-scale" role="radiogroup" aria-label="Font size">
+							<div class="settings-modal__font-track" aria-hidden="true"></div>
+							<button type="button" class="settings-modal__font-dot" data-scale="95"
+								role="radio" aria-label="Small" onclick="applyFontScale(95)"></button>
+							<button type="button" class="settings-modal__font-dot" data-scale="100"
+								role="radio" aria-label="Normal" onclick="applyFontScale(100)"></button>
+							<button type="button" class="settings-modal__font-dot" data-scale="105"
+								role="radio" aria-label="Large" onclick="applyFontScale(105)"></button>
+							<button type="button" class="settings-modal__font-dot" data-scale="110"
+								role="radio" aria-label="XL" onclick="applyFontScale(110)"></button>
 						</div>
-						<button onclick="changeFontScale(5)"
-							class="settings-modal__font-btn">+</button>
-						<button onclick="resetFontScale()"
+						<button type="button" id="font-scale-plus" onclick="changeFontScale(1)"
+							class="settings-modal__font-btn" aria-label="Larger font">+</button>
+						<button type="button" onclick="resetFontScale()"
 							class="settings-modal__font-reset">Reset</button>
+						<div class="settings-modal__font-names" aria-hidden="true">
+							<span>Small</span>
+							<span>Normal</span>
+							<span>Large</span>
+							<span>XL</span>
+						</div>
 					</div>
 					<p class="settings-modal__font-hint">Affects all text on the page</p>
 				</div>
