@@ -444,9 +444,14 @@ function getDevicePixelRatio() {
     return (isFinite(dpr) && dpr > 0) ? dpr : 1;
 }
 
-/** Site width used for layout breakpoints: innerWidth / DPR. */
+/** Device pixel width, e.g. 1902 on a 1268 CSS-pixel viewport at DPR 1.5. */
+function getDevicePixelWidth() {
+    return window.innerWidth * getDevicePixelRatio();
+}
+
+/** Normalized width: pixel width / DPR, once (e.g. 1902 / 1.5). */
 function getLayoutWidth() {
-    return window.innerWidth / getDevicePixelRatio();
+    return getDevicePixelWidth() / getDevicePixelRatio();
 }
 
 function updateWidthBasedLayout() {
@@ -520,26 +525,31 @@ function updateMenuLabelsVisibility() {
     if (logo) logo.classList.toggle('is-button-size', tightHeader);
 }
 
-/** Rocket title scale: 0.85 at 450px layout width, 1.5 at 1050px. Linear in between. */
-function getPageTitleScale() {
+/** Visual rem size for the rocket title: 0.85 at 450px, 1.5 at 768px+. */
+function getPageTitleVisualRem() {
     const minW = 450;
-    const maxW = 1050;
-    const minScale = 0.85;
-    const maxScale = 1.5;
+    const maxW = 768;
+    const minRem = 0.85;
+    const maxRem = 1.5;
     const t = (getLayoutWidth() - minW) / (maxW - minW);
     const clamped = Math.max(0, Math.min(1, t));
-    return minScale + clamped * (maxScale - minScale);
+    return minRem + clamped * (maxRem - minRem);
 }
 
-/** Rocket title uses layout width (innerWidth / DPR). Scale via transform (not zoom)
- *  so sibling header buttons stay a fixed size. */
+/** Scale the 1.5rem title down (never up) so text stays sharp. */
 function updatePageTitleSize() {
     const title = document.getElementById('page-title');
     if (!title) return;
-    const scale = getPageTitleScale();
+    const baseRem = 1.5;
+    const scale = getPageTitleVisualRem() / baseRem;
     title.classList.remove('is-wide');
     title.style.zoom = '';
     title.style.transformOrigin = 'left center';
+    if (scale >= 0.999) {
+        title.style.transform = '';
+        title.style.marginRight = '';
+        return;
+    }
     title.style.transform = 'scale(' + scale + ')';
     title.style.marginRight = '';
     const layoutW = title.offsetWidth;
