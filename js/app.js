@@ -466,6 +466,9 @@ function updateMenuLabelsVisibility() {
             label.classList.remove('is-hidden');
         }
     });
+
+    const actions = document.querySelector('.app-header__actions');
+    if (actions) actions.classList.toggle('is-collapsed', isNarrow);
 }
 
 /** Header date/time collapse: 825 / (1 - p). */
