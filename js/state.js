@@ -7,9 +7,9 @@ var modalCurrentCategories = [];
 var modalCurrentAccent = null;
 var categorySearchTerm = '';
 var linkSearchTerm = '';
-var sortMode = 'default'; // 'default' | 'tally' | 'abc' | 'date'
+var sortMode = 'tally'; // 'default' | 'tally' | 'abc' | 'date'
 var currentFontScale = 100;
-var viewMode = 'full'; // 'full' or 'compact'
+var viewMode = 'compact'; // 'full' or 'compact'
 var hideCategories = true;
 var keyboardFocusedIndex = -1; // keyboard highlight on #links-grid cards; -1 = none
 var listControlsStacked = false;

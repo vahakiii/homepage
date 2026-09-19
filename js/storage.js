@@ -231,10 +231,10 @@ function buildBackupPayload(options) {
         // sortMode/viewMode also in localStorage; optional on older backups
         sortMode: (typeof sortMode !== 'undefined' && sortMode)
             ? sortMode
-            : (localStorage.getItem('startpage_sort_mode') || 'default'),
+            : (localStorage.getItem('startpage_sort_mode') || 'tally'),
         viewMode: (typeof viewMode !== 'undefined' && viewMode)
             ? viewMode
-            : (localStorage.getItem('startpage_view_mode') || 'full'),
+            : (localStorage.getItem('startpage_view_mode') || 'compact'),
         github: {
             username: username,
             token: maskToken(token),

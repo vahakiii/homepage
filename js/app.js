@@ -855,12 +855,18 @@ function initializeApp() {
     const savedViewMode = localStorage.getItem('startpage_view_mode');
     if (savedViewMode === 'compact' || savedViewMode === 'full') {
         viewMode = savedViewMode;
+    } else {
+        viewMode = 'compact';
+        try { localStorage.setItem('startpage_view_mode', viewMode); } catch (e) {}
     }
 
     const savedSortMode = localStorage.getItem('startpage_sort_mode');
     if (savedSortMode === 'default' || savedSortMode === 'tally' ||
         savedSortMode === 'abc' || savedSortMode === 'date') {
         sortMode = savedSortMode;
+    } else {
+        sortMode = 'tally';
+        try { localStorage.setItem('startpage_sort_mode', sortMode); } catch (e) {}
     }
 
     loadHideCategories();

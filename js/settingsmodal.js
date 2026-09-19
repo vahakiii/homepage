@@ -30,7 +30,7 @@ function buildColorThemeField(field) {
     text.type = 'text';
     text.id = colorFieldTextId(field);
     text.className = 'color-theme-modal__hex';
-    text.placeholder = field.dark;
+    text.placeholder = field.light;
     controls.appendChild(text);
 
     const reset = document.createElement('button');
@@ -77,12 +77,10 @@ function openColorThemeModal() {
     closeSettingsModal(false);
     ensureColorThemeFields();
     const modal = document.getElementById('color-theme-modal');
+    const colors = readStoredColors();
 
     COLOR_FIELDS.forEach(field => {
-        let stored = localStorage.getItem(field.storage) || field.dark;
-        if (field.editorUsesLegacy && field.legacyStorage && !localStorage.getItem(field.storage)) {
-            stored = localStorage.getItem(field.legacyStorage) || field.dark;
-        }
+        const stored = colors[field.key];
 
         const pickerEl = document.getElementById(colorFieldPickerId(field));
         if (pickerEl) pickerEl.value = stored;
@@ -153,7 +151,7 @@ function getCurrentColorValues() {
 
     const colors = {};
     COLOR_FIELDS.forEach(field => {
-        colors[field.key] = getVal(colorFieldTextId(field), field.dark);
+        colors[field.key] = getVal(colorFieldTextId(field), field.light);
     });
     return colors;
 }
@@ -241,7 +239,10 @@ function applyColors(colors) {
 
 
 function loadColorSettings() {
-    applyColors(readStoredColors());
+    const firstVisit = !hasStoredColorSettings();
+    const colors = readStoredColors();
+    applyColors(colors);
+    if (firstVisit) saveColorSettings(colors);
 }
 
 function saveColorSettings(colors) {

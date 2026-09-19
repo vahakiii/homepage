@@ -53,7 +53,7 @@ function escapeHtml(str) {
         .replace(/'/g, '&#39;');
 }
 
-// Theme hex defaults — keep in sync with css :root tokens
+// Dark palette + chrome tokens (Light Mode is the first-visit default)
 var APP_THEME_HEX = {
     surfacePage: '#18181b',
     surfaceChrome: '#09090b',
@@ -120,12 +120,22 @@ function colorFieldTextId(field) {
     return field.prefix + '-color-text';
 }
 
+function hasStoredColorSettings() {
+    for (var i = 0; i < COLOR_FIELDS.length; i++) {
+        var f = COLOR_FIELDS[i];
+        if (localStorage.getItem(f.storage)) return true;
+        if (f.legacyStorage && localStorage.getItem(f.legacyStorage)) return true;
+    }
+    return false;
+}
+
 function readStoredColors() {
+    var anyStored = hasStoredColorSettings();
     var colors = {};
     COLOR_FIELDS.forEach(function (f) {
         var stored = localStorage.getItem(f.storage);
         if (!stored && f.legacyStorage) stored = localStorage.getItem(f.legacyStorage);
-        colors[f.key] = stored || f.dark;
+        colors[f.key] = stored || (anyStored ? f.dark : f.light);
     });
     return colors;
 }
