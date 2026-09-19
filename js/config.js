@@ -94,7 +94,8 @@ var COLOR_FIELDS = [
     { key: 'caution', label: 'Caution', storage: 'startpage_caution_color', prefix: 'caution', dark: APP_THEME_HEX.caution, light: '#c0911b', saveIfSet: true }
 ];
 
-// Color Theme grid order (3 columns). Actions sit after Button (col 3, rows 4–5).
+// Color Theme grid order (3 columns above 429px; 2 columns below 430px).
+// Actions sit after Button (col 3, rows 4–5 on 3-col; col 2 auto row on 2-col).
 var COLOR_EDITOR_KEYS = ['bg', 'text', 'textbox', 'activeCat', 'activeText', 'card', 'category', 'emojiBg', 'hoverBlend', 'button', 'saveButton', 'success', 'caution'];
 var COLOR_EDITOR_ACTIONS_AFTER = 'button';
 
