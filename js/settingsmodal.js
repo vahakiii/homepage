@@ -75,7 +75,47 @@ function updateColorThemeMobileLayout() {
     if (typeof refreshAbcSectionNavLayout === 'function') {
         refreshAbcSectionNavLayout();
     }
+    applyMobileZoomLock(mobile);
     updateSettingsMobileInfo();
+}
+
+var VIEWPORT_DESKTOP = 'width=device-width, initial-scale=1.0';
+var VIEWPORT_MOBILE = 'width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no';
+var mobileZoomLocked = false;
+
+function onMobileZoomGesture(e) {
+    e.preventDefault();
+}
+
+function onMobilePinchTouch(e) {
+    var scale = e.scale;
+    if ((e.touches && e.touches.length > 1) || (typeof scale === 'number' && scale !== 1)) {
+        e.preventDefault();
+    }
+}
+
+/** Block pinch-zoom and double-tap zoom while the site is in mobile mode. */
+function applyMobileZoomLock(mobile) {
+    var meta = document.querySelector('meta[name="viewport"]');
+    if (meta) meta.setAttribute('content', mobile ? VIEWPORT_MOBILE : VIEWPORT_DESKTOP);
+
+    if (!!mobile === mobileZoomLocked) return;
+    mobileZoomLocked = !!mobile;
+
+    var opts = { passive: false, capture: true };
+    if (mobile) {
+        document.addEventListener('gesturestart', onMobileZoomGesture, opts);
+        document.addEventListener('gesturechange', onMobileZoomGesture, opts);
+        document.addEventListener('gestureend', onMobileZoomGesture, opts);
+        document.addEventListener('touchstart', onMobilePinchTouch, opts);
+        document.addEventListener('touchmove', onMobilePinchTouch, opts);
+    } else {
+        document.removeEventListener('gesturestart', onMobileZoomGesture, true);
+        document.removeEventListener('gesturechange', onMobileZoomGesture, true);
+        document.removeEventListener('gestureend', onMobileZoomGesture, true);
+        document.removeEventListener('touchstart', onMobilePinchTouch, true);
+        document.removeEventListener('touchmove', onMobilePinchTouch, true);
+    }
 }
 
 function updateSettingsMobileInfo() {

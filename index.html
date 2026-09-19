@@ -15,6 +15,28 @@
 			[640, 768, 1024, 1075, 1320].forEach(function (bp) {
 				root.classList.toggle('nw-' + bp, w >= bp);
 			});
+
+			var mobile = false;
+			try {
+				if (navigator.userAgentData && navigator.userAgentData.mobile === true) mobile = true;
+			} catch (e) { /* ignore */ }
+			if (!mobile) {
+				var ua = navigator.userAgent || '';
+				if (/Mobi|Android|iPhone|iPod|IEMobile|Opera Mini/i.test(ua)) mobile = true;
+			}
+			if (!mobile) {
+				try {
+					mobile = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
+				} catch (e2) { /* ignore */ }
+			}
+			if (mobile) {
+				root.classList.add('is-mobile');
+				var meta = document.querySelector('meta[name="viewport"]');
+				if (meta) {
+					meta.setAttribute('content',
+						'width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no');
+				}
+			}
 		})();
 		</script>
 		<title>Your Start Page</title>
@@ -32,6 +54,7 @@
 	  /* Critical document reset (FOUC-safe; inlined intentionally) */
 	  *,*::before,*::after{box-sizing:border-box}
 	  html{height:100%;line-height:1.5;-webkit-text-size-adjust:100%}
+	  html.is-mobile,html.is-mobile body,html.is-mobile *{touch-action:pan-x pan-y;-ms-touch-action:pan-x pan-y}
 	  a{color:inherit;text-decoration:inherit}
 	  h2,h3,p{margin:0}
 	  button,input,textarea{font-family:inherit;font-size:100%;font-weight:inherit;line-height:inherit;color:inherit;margin:0;padding:0}

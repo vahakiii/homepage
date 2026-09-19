@@ -20,15 +20,12 @@ function ensureDebugPanel() {
                     </button>
                     <button type="button" onclick="toggleDebugPanel()" 
                             class="debug-panel__btn debug-panel__btn--close"
-                            title="Close debug panel (or press Ctrl+Shift+D)">
+                            title="Close debug panel">
                         <i class="debug-panel__btn-icon fa-solid fa-times"></i>
                     </button>
                 </div>
             </div>
             <div id="debug-content" class="debug-panel__content"></div>
-            <div class="debug-panel__hint">
-                Ctrl+Shift+D to toggle
-            </div>
         `;
 
         document.body.appendChild(debugPanel);
@@ -138,7 +135,7 @@ function setDebugPanelOpen(open) {
 
 
 
-// --- Debug panel (Ctrl+Shift+D) ---
+// --- Debug panel ---
 
 let debugPanel = null;
 let debugUpdateInterval = null;
