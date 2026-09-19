@@ -541,18 +541,11 @@ function updatePageTitleSize() {
     title.style.marginRight = ((scale - 1) * layoutW) + 'px';
 }
 
-/** Header date/time collapse: 825 / (1 - p). */
-function getDatetimeCollapseThreshold() {
-    let threshold = getFontAwareWidthThreshold(825);
-    threshold = Math.max(500, Math.min(threshold, 2000));
-    return threshold;
-}
-
 function updateDatetimeVisibility() {
     const el = document.querySelector('.header-datetime');
     if (!el) return;
     const layoutWidth = getLayoutWidth();
-    el.classList.toggle('is-shown', layoutWidth >= getDatetimeCollapseThreshold());
+    el.classList.toggle('is-shown', layoutWidth > 870);
     el.classList.toggle('is-stacked', layoutWidth < 1050);
 }
 
