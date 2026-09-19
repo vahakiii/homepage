@@ -268,7 +268,7 @@ function setupSearchModalForm() {
     });
 }
 
-/** Lazy-load js/debug.js on first Ctrl+Shift+D / console use. */
+/** Lazy-load js/debug.js the first time Debug is opened. */
 var __debugScriptPromise = null;
 var __debugToggleQueued = false;
 
@@ -445,11 +445,6 @@ function setupAppKeyboardShortcuts() {
                 const linkSearch = document.getElementById('link-search-input');
                 if (linkSearch) linkSearch.focus();
             }
-        }
-
-        if (e.ctrlKey && e.shiftKey && e.key.toUpperCase() === 'D') {
-            e.preventDefault();
-            requestDebugToggle();
         }
     });
 }
