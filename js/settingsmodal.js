@@ -77,6 +77,9 @@ function updateColorThemeMobileLayout() {
     }
     applyMobileZoomLock(mobile);
     updateSettingsMobileInfo();
+    if (typeof updateDatetimeVisibility === 'function') {
+        updateDatetimeVisibility();
+    }
 }
 
 var VIEWPORT_DESKTOP = 'width=device-width, initial-scale=1.0';

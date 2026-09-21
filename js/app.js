@@ -555,6 +555,12 @@ function updateDatetimeVisibility() {
     const el = document.querySelector('.header-datetime');
     if (!el) return;
     const layoutWidth = getLayoutWidth();
+    const mobile = typeof isMobileBrowser === 'function' && isMobileBrowser();
+    if (mobile) {
+        el.classList.toggle('is-shown', layoutWidth >= 775);
+        el.classList.add('is-stacked');
+        return;
+    }
     el.classList.toggle('is-shown', layoutWidth > 870);
     el.classList.toggle('is-stacked', layoutWidth < 1050);
 }
