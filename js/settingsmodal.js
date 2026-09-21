@@ -78,6 +78,7 @@ function updateColorThemeMobileLayout() {
     }
     applyMobileZoomLock(mobile);
     updateSettingsMobileInfo();
+    syncMobileLandscapeLock();
     if (typeof updateDatetimeVisibility === 'function') {
         updateDatetimeVisibility();
     }
@@ -129,6 +130,45 @@ function updateSettingsMobileInfo() {
     var mobile = isMobileBrowser();
     if (mobile) info.removeAttribute('hidden');
     else info.setAttribute('hidden', '');
+}
+
+function isLandscapeOrientation() {
+    try {
+        var mq = window.matchMedia('(orientation: landscape)');
+        if (mq && typeof mq.matches === 'boolean') return mq.matches;
+    } catch (e) { /* ignore */ }
+    return (Number(window.innerWidth) || 0) > (Number(window.innerHeight) || 0);
+}
+
+var landscapeLockActive = false;
+
+function onLandscapeLockKey(e) {
+    if (!landscapeLockActive) return;
+    e.preventDefault();
+    e.stopImmediatePropagation();
+}
+
+/** Block the whole site on mobile devices held in landscape until they rotate to portrait. */
+function syncMobileLandscapeLock() {
+    var lock = !!(isMobileBrowser() && isLandscapeOrientation());
+    var wasLocked = landscapeLockActive;
+    landscapeLockActive = lock;
+    document.documentElement.classList.toggle('is-landscape', lock);
+
+    var overlay = document.getElementById('landscape-lock');
+    var kids = document.body ? document.body.children : [];
+    for (var i = 0; i < kids.length; i++) {
+        if (overlay && kids[i] === overlay) continue;
+        if (lock) kids[i].setAttribute('inert', '');
+        else kids[i].removeAttribute('inert');
+    }
+
+    if (overlay) {
+        overlay.setAttribute('aria-hidden', lock ? 'false' : 'true');
+        if (lock && !wasLocked) {
+            try { overlay.focus(); } catch (e) { /* ignore */ }
+        }
+    }
 }
 
 function syncDebugSettingsCheckbox() {
@@ -345,6 +385,8 @@ function saveColorSettings(colors) {
 ensureColorThemeFields();
 updateColorThemeMobileLayout();
 window.addEventListener('resize', updateColorThemeMobileLayout);
+window.addEventListener('orientationchange', updateColorThemeMobileLayout);
+document.addEventListener('keydown', onLandscapeLockKey, true);
 try {
     var colorThemeMobileMq = window.matchMedia('(hover: none) and (pointer: coarse)');
     if (colorThemeMobileMq.addEventListener) {
@@ -353,6 +395,14 @@ try {
         colorThemeMobileMq.addListener(updateColorThemeMobileLayout);
     }
 } catch (e) { /* ignore */ }
+try {
+    var landscapeMq = window.matchMedia('(orientation: landscape)');
+    if (landscapeMq.addEventListener) {
+        landscapeMq.addEventListener('change', updateColorThemeMobileLayout);
+    } else if (landscapeMq.addListener) {
+        landscapeMq.addListener(updateColorThemeMobileLayout);
+    }
+} catch (e2) { /* ignore */ }
 
 
 

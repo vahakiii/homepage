@@ -21,6 +21,12 @@
 			}
 			if (mobile) {
 				root.classList.add('is-mobile');
+				var landscape = false;
+				try {
+					landscape = window.matchMedia('(orientation: landscape)').matches;
+				} catch (e3) { /* ignore */ }
+				if (!landscape) landscape = (window.innerWidth || 0) > (window.innerHeight || 0);
+				if (landscape) root.classList.add('is-landscape');
 				var meta = document.querySelector('meta[name="viewport"]');
 				if (meta) {
 					meta.setAttribute('content',
@@ -48,6 +54,9 @@
 	  html{height:100%;line-height:1.5;-webkit-text-size-adjust:100%}
 	  html.is-mobile,html.is-mobile body,html.is-mobile *{touch-action:pan-x pan-y;-ms-touch-action:pan-x pan-y}
 	  html.is-mobile .debug-panel,html.is-mobile .debug-panel *{touch-action:none;-ms-touch-action:none}
+	  #landscape-lock{display:none;position:fixed;inset:0;z-index:100000;align-items:center;justify-content:center;padding:1rem;background-color:rgb(0 0 0 / 0.85);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+	  html.is-mobile.is-landscape #landscape-lock{display:flex}
+	  @media (orientation:landscape){html.is-mobile #landscape-lock{display:flex}}
 	  a{color:inherit;text-decoration:inherit}
 	  h2,h3,p{margin:0}
 	  button,input,textarea{font-family:inherit;font-size:100%;font-weight:inherit;line-height:inherit;color:inherit;margin:0;padding:0}
@@ -64,7 +73,7 @@
 	  @font-face{font-family:"Font Awesome 7 Free";font-style:normal;font-weight:900;font-display:swap;src:url(css/fontawesome/webfonts/fa-solid-900.woff2) format("woff2")}
 	  .fa-solid{font-family:"Font Awesome 7 Free";font-weight:900;display:inline-block;font-style:normal;line-height:1;-webkit-font-smoothing:antialiased}
 	  .fa-solid:before{content:var(--fa)}
-	  .fa-rocket{--fa:"\f135"}.fa-search{--fa:"\f002"}.fa-cog{--fa:"\f013"}.fa-download{--fa:"\f019"}.fa-chevron-down{--fa:"\f078"}
+	  .fa-rocket{--fa:"\f135"}.fa-search{--fa:"\f002"}.fa-cog{--fa:"\f013"}.fa-download{--fa:"\f019"}.fa-chevron-down{--fa:"\f078"}.fa-sync-alt{--fa:"\f2f1"}
 		</style>
 
 		<!-- Main CSS (blocking; avoid FOUC) -->
@@ -979,6 +988,21 @@
 						</button>
 					</div>
 				</div> <!-- /scroll -->
+			</div>
+		</div>
+
+		<div id="landscape-lock"
+			class="landscape-lock"
+			role="alertdialog"
+			aria-modal="true"
+			aria-labelledby="landscape-lock-title"
+			aria-describedby="landscape-lock-text"
+			tabindex="-1"
+			aria-hidden="true">
+			<div class="landscape-lock__panel">
+				<i class="fa-solid fa-sync-alt landscape-lock__icon" aria-hidden="true"></i>
+				<h2 id="landscape-lock-title" class="landscape-lock__title">Turn your device to portrait</h2>
+				<p id="landscape-lock-text" class="landscape-lock__text">This start page is made for portrait mode. Rotate your phone upright to keep using it.</p>
 			</div>
 		</div>
 
