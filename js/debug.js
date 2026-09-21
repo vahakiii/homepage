@@ -13,11 +13,6 @@ function ensureDebugPanel() {
                     <span class="debug-panel__label">DEBUG</span>
                 </div>
                 <div class="debug-panel__controls">
-                    <button type="button" onclick="updateDebugInfo()" 
-                            class="debug-panel__btn debug-panel__btn--refresh"
-                            title="Refresh values">
-                        <i class="debug-panel__btn-icon fa-solid fa-sync-alt"></i>
-                    </button>
                     <button type="button" onclick="toggleDebugPanel()" 
                             class="debug-panel__btn debug-panel__btn--close"
                             title="Close debug panel">

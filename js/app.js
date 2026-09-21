@@ -474,6 +474,7 @@ function updateWidthBasedLayout() {
     if (typeof updateListControlsLayout === 'function') {
         updateListControlsLayout();
     }
+    updateSettingsHintsLayout();
     updatePageTitleSize();
 }
 
@@ -556,6 +557,15 @@ function updateDatetimeVisibility() {
     const layoutWidth = getLayoutWidth();
     el.classList.toggle('is-shown', layoutWidth > 870);
     el.classList.toggle('is-stacked', layoutWidth < 1050);
+}
+
+/** Shrink Settings shortcut hints when width < 475px × font scale. */
+function updateSettingsHintsLayout() {
+    const hints = document.querySelector('.settings-modal__hints');
+    if (!hints) return;
+    const scale = (currentFontScale || 100) / 100;
+    const threshold = 475 * scale;
+    hints.classList.toggle('is-compact', getLayoutWidth() < threshold);
 }
 
 /** Stack "Show by" / "View" when width < 580 / font scale. */
