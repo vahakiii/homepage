@@ -15,6 +15,54 @@ function syncAddEditModalLayout() {
         modal.setAttribute('data-add-edit-layout', 'desktop');
         modal.removeAttribute('aria-roledescription');
     }
+    syncEmojiPickerLayout();
+}
+
+/** Apply the Mobile Quick Pick Emojis layout in mobile mode; desktop stays unchanged. */
+function syncEmojiPickerLayout() {
+    const popover = document.getElementById('emoji-picker-popover');
+    const grid = document.getElementById('emoji-grid');
+    if (!popover) return;
+    const mobile = isAddEditModalMobile();
+    popover.classList.toggle('emoji-picker--mobile', mobile);
+    if (mobile) {
+        popover.setAttribute('data-emoji-picker-layout', 'mobile');
+        popover.setAttribute('aria-roledescription', 'Mobile Quick Pick Emojis');
+    } else {
+        popover.setAttribute('data-emoji-picker-layout', 'desktop');
+        popover.removeAttribute('aria-roledescription');
+    }
+    applyEmojiPickerChrome(popover, grid);
+}
+
+function applyEmojiPickerChrome(popover, grid) {
+    if (!popover) return;
+    const mobile = isAddEditModalMobile();
+    if (mobile) {
+        popover.style.maxHeight = '';
+        popover.style.height = '';
+        popover.style.overflow = '';
+        popover.style.width = '';
+        popover.style.minWidth = '';
+        if (grid) {
+            grid.style.minHeight = '0px';
+            grid.style.maxHeight = '';
+            grid.style.overflowY = 'auto';
+            grid.style.padding = '';
+        }
+    } else {
+        if (grid) {
+            grid.style.minHeight = '420px';
+            grid.style.maxHeight = '720px';
+            grid.style.overflowY = 'auto';
+            grid.style.padding = '20px 12px';
+        }
+        popover.style.maxHeight = '860px';
+        popover.style.height = 'auto';
+        popover.style.overflow = 'hidden';
+        popover.style.width = '';
+        popover.style.minWidth = '';
+    }
 }
 
 /** Open Add Link modal (position radios; move buttons hidden). */
@@ -298,6 +346,7 @@ function initEmojiPicker() {
         e.preventDefault();
         e.stopImmediatePropagation();
         if (!popover.classList.contains('is-open')) {
+            syncEmojiPickerLayout();
             popover.classList.add('is-open');
             emojiPopoverOpen = true;
             if (searchInput) {
@@ -333,18 +382,7 @@ function initEmojiPicker() {
             closeEmojiPopover();
         }
     }, { capture: true });
-    if (grid) {
-        grid.style.minHeight = '420px';
-        grid.style.maxHeight = '720px';
-        grid.style.overflowY = 'auto';
-        grid.style.padding = '20px 12px';
-    }
-
-    if (popover) {
-        popover.style.maxHeight = '860px';
-        popover.style.height = 'auto';
-        popover.style.overflow = 'hidden';
-    }
+    syncEmojiPickerLayout();
 }
 
 
