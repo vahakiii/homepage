@@ -5,17 +5,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<script>
 		(function () {
-			var dpr = Number(window.devicePixelRatio);
-			if (!isFinite(dpr) || dpr <= 0) dpr = 1;
-			var vv = window.visualViewport;
-			var raw = (vv && vv.width) ? Number(vv.width) : (Number(window.innerWidth) || 0);
-			var w = raw / dpr;
 			var root = document.documentElement;
-			root.style.setProperty('--nw', w + 'px');
-			[640, 768, 1024, 1075, 1320].forEach(function (bp) {
-				root.classList.toggle('nw-' + bp, w >= bp);
-			});
-
 			var mobile = false;
 			try {
 				if (navigator.userAgentData && navigator.userAgentData.mobile === true) mobile = true;

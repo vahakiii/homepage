@@ -456,35 +456,15 @@ function getDevicePixelRatio() {
     return (isFinite(dpr) && dpr > 0) ? dpr : 1;
 }
 
-/** Current viewport width (visualViewport, else innerWidth). */
-function getRawLayoutWidth() {
-    const vv = window.visualViewport;
-    const visual = vv ? Number(vv.width) : 0;
-    const inner = Number(window.innerWidth) || 0;
-    return (isFinite(visual) && visual > 0) ? visual : inner;
-}
-
-/** Layout width for every size breakpoint: current width / current DPR. */
+/** Viewport width used for every size breakpoint: window.innerWidth. */
 function getLayoutWidth() {
-    return getRawLayoutWidth() / getDevicePixelRatio();
-}
-
-const NW_MIN_WIDTHS = [640, 768, 1024, 1075, 1320];
-
-function updateNormalizedWidthClasses() {
-    const w = getLayoutWidth();
-    const root = document.documentElement;
-    root.style.setProperty('--nw', w + 'px');
-    NW_MIN_WIDTHS.forEach((bp) => {
-        root.classList.toggle('nw-' + bp, w >= bp);
-    });
-    if (typeof updateSettingsMobileInfo === 'function') {
-        updateSettingsMobileInfo();
-    }
+    return Number(window.innerWidth) || 0;
 }
 
 function updateWidthBasedLayout() {
-    updateNormalizedWidthClasses();
+    if (typeof updateSettingsMobileInfo === 'function') {
+        updateSettingsMobileInfo();
+    }
     if (typeof updateMenuLabelsVisibility === 'function') {
         updateMenuLabelsVisibility();
     }
@@ -499,25 +479,6 @@ function updateWidthBasedLayout() {
 
 function bindLayoutWidthListeners() {
     window.addEventListener('resize', updateWidthBasedLayout);
-    if (window.visualViewport) {
-        window.visualViewport.addEventListener('resize', updateWidthBasedLayout);
-    }
-
-    let dprQuery;
-    const attachDprWatch = () => {
-        try {
-            if (dprQuery && dprQuery.removeEventListener) {
-                dprQuery.removeEventListener('change', onDprChange);
-            }
-            dprQuery = window.matchMedia('(resolution: ' + getDevicePixelRatio() + 'dppx)');
-            if (dprQuery.addEventListener) dprQuery.addEventListener('change', onDprChange);
-        } catch (e) { /* ignore */ }
-    };
-    function onDprChange() {
-        updateWidthBasedLayout();
-        attachDprWatch();
-    }
-    attachDprWatch();
 }
 
 /** Width threshold that grows with font scale: base / (1 - p), p = (fontScale - 100) / 100. */
