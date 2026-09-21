@@ -349,6 +349,7 @@ function initEmojiPicker() {
             syncEmojiPickerLayout();
             popover.classList.add('is-open');
             emojiPopoverOpen = true;
+            setAddEditInertForEmojiPicker(true);
             if (searchInput) {
                 searchInput.value = '';
                 renderEmojiGrid('');
@@ -398,6 +399,7 @@ function closeEmojiPopover() {
     const searchInput = document.getElementById('emoji-search-input');
     if (popover) popover.classList.remove('is-open');
     emojiPopoverOpen = false;
+    setAddEditInertForEmojiPicker(false);
     if (searchInput) {
         searchInput.value = '';
         const grid = document.getElementById('emoji-grid');
@@ -406,6 +408,17 @@ function closeEmojiPopover() {
             grid.classList.remove('empty');
         }
     }
+}
+
+/** Blur and lock Add/Edit Link while Quick Pick Emojis is open. */
+function setAddEditInertForEmojiPicker(locked) {
+    const modal = document.getElementById('modal');
+    if (!modal) return;
+    modal.classList.toggle('is-emoji-picker-open', !!locked);
+    const panel = modal.querySelector('.add-edit-modal__panel');
+    if (!panel) return;
+    if (locked) panel.setAttribute('inert', '');
+    else panel.removeAttribute('inert');
 }
 
 
