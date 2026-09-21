@@ -1,0 +1,10 @@
+{
+  "name": "Start Page (static site)",
+  "start": "python3 -m http.server 8000 --bind 0.0.0.0 --directory /workspace",
+  "ports": [
+    {
+      "name": "web",
+      "port": 8000
+    }
+  ]
+}
