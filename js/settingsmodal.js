@@ -148,6 +148,14 @@ function onLandscapeLockKey(e) {
     e.stopImmediatePropagation();
 }
 
+function onLandscapeLockInput(e) {
+    if (!landscapeLockActive) return;
+    var overlay = document.getElementById('landscape-lock');
+    if (overlay && overlay.contains(e.target)) return;
+    e.preventDefault();
+    e.stopImmediatePropagation();
+}
+
 /** Block the whole site on mobile devices held in landscape until they rotate to portrait. */
 function syncMobileLandscapeLock() {
     var lock = !!(isMobileBrowser() && isLandscapeOrientation());
@@ -387,6 +395,10 @@ updateColorThemeMobileLayout();
 window.addEventListener('resize', updateColorThemeMobileLayout);
 window.addEventListener('orientationchange', updateColorThemeMobileLayout);
 document.addEventListener('keydown', onLandscapeLockKey, true);
+document.addEventListener('click', onLandscapeLockInput, true);
+document.addEventListener('pointerdown', onLandscapeLockInput, true);
+document.addEventListener('mousedown', onLandscapeLockInput, true);
+document.addEventListener('touchstart', onLandscapeLockInput, true);
 try {
     var colorThemeMobileMq = window.matchMedia('(hover: none) and (pointer: coarse)');
     if (colorThemeMobileMq.addEventListener) {

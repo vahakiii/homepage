@@ -28,6 +28,7 @@ function isAnyUiModalOpen() {
 }
 
 function openUiModal(modalId) {
+    if (typeof landscapeLockActive !== 'undefined' && landscapeLockActive) return;
     var m = document.getElementById(modalId);
     if (!m) return;
     m.classList.add('is-open');
