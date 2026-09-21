@@ -73,6 +73,7 @@ function updateColorThemeMobileLayout() {
     var modal = document.getElementById('color-theme-modal');
     if (modal) modal.classList.toggle('is-mobile', mobile);
     if (typeof syncAddEditModalLayout === 'function') syncAddEditModalLayout();
+    if (typeof syncGitHubCredentialsModalLayout === 'function') syncGitHubCredentialsModalLayout();
     if (typeof refreshAbcSectionNavLayout === 'function') {
         refreshAbcSectionNavLayout();
     }

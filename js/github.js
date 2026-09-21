@@ -140,10 +140,18 @@ function ensureGithubCredsLoaded() {
     githubToken = githubToken || localStorage.getItem('github_token') || '';
 }
 
+function syncGitHubCredentialsModalLayout() {
+    var modal = document.getElementById('github-credentials-modal');
+    if (!modal) return;
+    var mobile = typeof isMobileBrowser === 'function' && !!isMobileBrowser();
+    modal.classList.toggle('github-credentials-modal--mobile', mobile);
+}
+
 function openGitHubCredentialsModal() {
     closeSyncModal(false);
     const modal = document.getElementById('github-credentials-modal');
     if (!modal) return;
+    syncGitHubCredentialsModalLayout();
     
     const usernameInput = document.getElementById('github-username');
     const tokenInput = document.getElementById('github-token');

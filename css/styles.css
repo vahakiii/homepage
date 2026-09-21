@@ -12,3 +12,6 @@ html.is-mobile.is-landscape body>:not(#landscape-lock),html.is-mobile.is-landsca
 @keyframes landscape-lock-tilt{0%,100%{transform:rotate(-25deg)}50%{transform:rotate(65deg)}}
 .landscape-lock__title{font-family:var(--app-font-display);font-size:1.25rem;line-height:1.4;font-weight:600;letter-spacing:-0.025em;color:var(--text-color);margin:0 0 0.5rem}
 .landscape-lock__text{font-size:0.875rem;line-height:1.4;color:var(--text-color);margin:0}
+.ui-modal.add-edit-modal--mobile,#github-credentials-modal.github-credentials-modal--mobile{padding-left:0;padding-right:0}
+.add-edit-modal--mobile .add-edit-modal__panel,#github-credentials-modal.github-credentials-modal--mobile .ui-modal__panel{width:100%;min-width:0;max-width:100%}
+@media (min-width:500px){.add-edit-modal--mobile .add-edit-modal__panel,#github-credentials-modal.github-credentials-modal--mobile .ui-modal__panel{width:80vw;min-width:500px;max-width:100%}}
