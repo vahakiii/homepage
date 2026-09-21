@@ -31,6 +31,8 @@
 		</script>
 		<title>Your Start Page</title>
 		<link rel="manifest" href="manifest.json">
+		<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+		<link rel="apple-touch-icon" href="icons/icon-192.png">
 
 		<!-- Preload fonts + CSS -->
 		<link rel="preload" href="css/fontawesome/webfonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
@@ -805,19 +807,21 @@
 					<p class="github-credentials-modal__warning">⚠️ Never share your Personal Access Token with anyone. It grants access to your GitHub account.</p>
 				</div>
 
+				<form id="github-credentials-form" class="github-credentials-form" autocomplete="on"
+					onsubmit="event.preventDefault(); saveGitHubCredentials();">
 				<div class="github-credentials-modal__body">
 					<div class="github-credentials-modal__field">
-						<label class="github-credentials-modal__label">GITHUB USERNAME</label>
-						<input type="text" id="github-username"
+						<label class="github-credentials-modal__label" for="github-username">GITHUB USERNAME</label>
+						<input type="text" id="github-username" name="username" autocomplete="username"
 							class="github-credentials-modal__input"
 							placeholder="yourusername">
 					</div>
 
 					<div class="github-credentials-modal__field">
-						<label class="github-credentials-modal__label">PERSONAL ACCESS TOKEN (classic)</label>
+						<label class="github-credentials-modal__label" for="github-token">PERSONAL ACCESS TOKEN (classic)</label>
 
 						<div class="github-credentials-modal__token-wrap">
-							<input type="password" id="github-token"
+							<input type="password" id="github-token" name="password" autocomplete="current-password"
 								class="github-credentials-modal__input github-credentials-modal__input--token"
 								placeholder="ghp_xxxxxxxxxxxxxxxxxxxx">
 
@@ -847,22 +851,23 @@
 								<span>Current Gist ID:</span><br>
 								<span id="current-gist-id" class="github-credentials-modal__gist-id"></span>
 							</div>
-							<button onclick="clearGitHubGistId()"
+							<button type="button" onclick="clearGitHubGistId()"
 								class="github-credentials-modal__gist-clear">Clear</button>
 						</div>
 					</div>
 				</div>
 
 				<div class="github-credentials-modal__actions">
-					<button onclick="closeGitHubCredentialsModal()"
+					<button type="button" onclick="closeGitHubCredentialsModal()"
 						class="github-credentials-modal__cancel ui-modal__btn ui-modal__btn--bordered">
 						Cancel
 					</button>
-					<button onclick="saveGitHubCredentials()"
+					<button type="submit"
 						class="github-credentials-modal__save ui-modal__btn ui-modal__btn--save">
 						Save Credentials
 					</button>
 				</div>
+				</form>
 			</div>
 		</div>
 
