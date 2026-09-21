@@ -1,8 +1,28 @@
+function isAddEditModalMobile() {
+    return typeof isMobileBrowser === 'function' && !!isMobileBrowser();
+}
+
+/** Apply the Mobile add/edit Link layout in mobile mode; desktop stays unchanged. */
+function syncAddEditModalLayout() {
+    const modal = document.getElementById('modal');
+    if (!modal) return;
+    const mobile = isAddEditModalMobile();
+    modal.classList.toggle('add-edit-modal--mobile', mobile);
+    if (mobile) {
+        modal.setAttribute('data-add-edit-layout', 'mobile');
+        modal.setAttribute('aria-roledescription', 'Mobile add/edit Link');
+    } else {
+        modal.setAttribute('data-add-edit-layout', 'desktop');
+        modal.removeAttribute('aria-roledescription');
+    }
+}
+
 /** Open Add Link modal (position radios; move buttons hidden). */
 function openAddModal() {
     currentEditId = null;
     modalCurrentCategories = [];
     modalCurrentAccent = null;
+    syncAddEditModalLayout();
 
     document.getElementById('modal-title').innerHTML = '＋ Add New Link';
 
@@ -28,6 +48,7 @@ function editLink(id) {
     currentEditId = id;
     modalCurrentCategories = [...(link.categories || [])];
     modalCurrentAccent = link.accentColor || null;
+    syncAddEditModalLayout();
 
     document.getElementById('modal-title').innerHTML = '<i class="ui-modal__title-icon fa-solid fa-edit"></i>Edit Link';
 
