@@ -26,14 +26,31 @@ function ensureDebugPanel() {
         document.body.appendChild(debugPanel);
 
         debugPanel.style.cursor = 'grab';
-        debugPanel.addEventListener('mousedown', (e) => {
-            if (e.target.closest('button')) {
-                return;
+        debugPanel.style.touchAction = 'none';
+        debugPanel.style.msTouchAction = 'none';
+        debugPanel.style.webkitUserSelect = 'none';
+        debugPanel.style.userSelect = 'none';
+
+        function debugDragPoint(e) {
+            if (e.touches && e.touches.length) {
+                return { x: e.touches[0].clientX, y: e.touches[0].clientY };
             }
+            if (e.changedTouches && e.changedTouches.length) {
+                return { x: e.changedTouches[0].clientX, y: e.changedTouches[0].clientY };
+            }
+            return { x: e.clientX, y: e.clientY };
+        }
+
+        function startDebugDrag(e) {
+            if (e.type === 'mousedown' && e.button !== 0) return;
+            if (e.touches && e.touches.length > 1) return;
+            if (e.target.closest('button')) return;
+
+            const point = debugDragPoint(e);
             isDraggingDebug = true;
             const rect = debugPanel.getBoundingClientRect();
-            debugDragOffsetX = e.clientX - rect.left;
-            debugDragOffsetY = e.clientY - rect.top;
+            debugDragOffsetX = point.x - rect.left;
+            debugDragOffsetY = point.y - rect.top;
             debugPanel.style.transition = 'none';
             debugPanel.style.cursor = 'grabbing';
             if (!debugPanel.style.left || debugPanel.style.left === 'auto') {
@@ -41,21 +58,22 @@ function ensureDebugPanel() {
                 debugPanel.style.top = rect.top + 'px';
                 debugPanel.style.right = 'auto';
             }
-        });
+            if (e.cancelable) e.preventDefault();
+        }
 
-        document.addEventListener('mousemove', (e) => {
+        function moveDebugDrag(e) {
             if (!isDraggingDebug || !debugPanel) return;
-            e.preventDefault();
+            if (e.touches && e.touches.length > 1) return;
+            if (e.cancelable) e.preventDefault();
 
-            let newLeft = e.clientX - debugDragOffsetX;
-            let newTop = e.clientY - debugDragOffsetY;
+            const point = debugDragPoint(e);
+            debugPanel.style.left = (point.x - debugDragOffsetX) + 'px';
+            debugPanel.style.top = (point.y - debugDragOffsetY) + 'px';
+        }
 
-            debugPanel.style.left = newLeft + 'px';
-            debugPanel.style.top = newTop + 'px';
-        });
-
-        document.addEventListener('mouseup', () => {
+        function endDebugDrag(e) {
             if (!isDraggingDebug || !debugPanel) return;
+            if (e && e.touches && e.touches.length > 0) return;
 
             isDraggingDebug = false;
             debugPanel.style.transition = '';
@@ -70,7 +88,15 @@ function ensureDebugPanel() {
 
             debugPanel.style.left = clampedLeft + 'px';
             debugPanel.style.top = clampedTop + 'px';
-        });
+        }
+
+        debugPanel.addEventListener('mousedown', startDebugDrag);
+        debugPanel.addEventListener('touchstart', startDebugDrag, { passive: false });
+        document.addEventListener('mousemove', moveDebugDrag);
+        document.addEventListener('touchmove', moveDebugDrag, { passive: false });
+        document.addEventListener('mouseup', endDebugDrag);
+        document.addEventListener('touchend', endDebugDrag);
+        document.addEventListener('touchcancel', endDebugDrag);
 
         window.addEventListener('resize', () => {
             if (isDebugPanelOpen()) {
