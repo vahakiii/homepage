@@ -120,17 +120,11 @@ function applyMobileZoomLock(mobile) {
 
 function updateSettingsMobileInfo() {
     var info = document.getElementById('settings-mobile-info');
-    var dprEl = document.getElementById('settings-dpr-value');
     if (!info) return;
 
     var mobile = isMobileBrowser();
     if (mobile) info.removeAttribute('hidden');
     else info.setAttribute('hidden', '');
-
-    if (dprEl) {
-        var dpr = window.devicePixelRatio;
-        dprEl.textContent = (typeof dpr === 'number' && isFinite(dpr)) ? String(dpr) : '—';
-    }
 }
 
 function syncDebugSettingsCheckbox() {
