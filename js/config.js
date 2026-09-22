@@ -91,7 +91,7 @@ var COLOR_FIELDS = [
     { key: 'hoverBlend', label: 'Hover Blend', storage: 'startpage_hover_blend_color', prefix: 'hover-blend', dark: APP_THEME_HEX.hoverBlend, light: '#ffffff', saveIfSet: true },
     { key: 'button', label: 'Button', storage: 'startpage_button_color', prefix: 'button', dark: APP_THEME_HEX.card, light: '#999999', saveIfSet: true },
     { key: 'saveButton', label: 'Submit Button & Links', storage: 'startpage_save_button_color', prefix: 'save-button', dark: APP_THEME_HEX.save, light: '#7973e8', saveIfSet: true },
-    { key: 'success', label: 'Interfaces / Headers', storage: 'startpage_success_color', prefix: 'success', dark: APP_THEME_HEX.success, light: '#0a6647', importAliases: ['connection'], legacyStorage: 'startpage_connection_color', editorUsesLegacy: true, saveIfSet: true },
+    { key: 'success', label: 'Interfaces / Headers', storage: 'startpage_success_color', prefix: 'success', dark: APP_THEME_HEX.success, light: '#0a6647', importAliases: ['connection'], legacyStorage: 'startpage_connection_color', saveIfSet: true },
     { key: 'caution', label: 'Caution', storage: 'startpage_caution_color', prefix: 'caution', dark: APP_THEME_HEX.caution, light: '#c0911b', saveIfSet: true }
 ];
 
