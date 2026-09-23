@@ -27,7 +27,7 @@ startpage/
 2. All data stays in your browser — nothing is sent to any server.
 3. Drag links to reorder (when not sorted by Date Added).
 4. When **adding or editing a link**, click the big emoji button for a quick visual picker (40 useful emojis) or type any emoji manually in the input.
-5. Use Settings (gear icon) → "Edit Color Theme" for full visual customization.
+5. Use Settings (gear icon) → "Edit Colors" for full visual customization. Show by, View, Hide Categories, and Show Debug live under "Other Options".
 6. Export/Import your links + theme as JSON backup.
 7. **New:** Sync with GitHub Gist — Click "Sync with GitHub" (next to Import) to backup/restore your entire setup (links + colors + name) across devices using a private GitHub Gist. Requires a free GitHub account and a Personal Access Token with `gist` scope.
 

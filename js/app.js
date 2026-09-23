@@ -165,6 +165,7 @@ function updateSortModeUI() {
             dragReorderText.classList.remove('date-warning');
         }
     }
+    updatePerspectiveLabel();
 }
 
 function setSortMode(mode) {
@@ -193,6 +194,19 @@ function updateViewModeUI() {
     } else {
         viewFullBtn.classList.add('is-active');
     }
+    updatePerspectiveLabel();
+}
+
+function getViewModeLabel() {
+    return viewMode === 'compact' ? 'Compact' : 'Full';
+}
+
+function updatePerspectiveLabel() {
+    const el = document.getElementById('perspective-label');
+    if (!el) return;
+    const sortLabel = (typeof getSortModeLabel === 'function') ? getSortModeLabel() : 'Tally';
+    const viewLabel = getViewModeLabel();
+    el.textContent = 'Perspective: ' + sortLabel + ' / ' + viewLabel;
 }
 
 function setViewMode(mode) {
@@ -347,6 +361,7 @@ function setupAppKeyboardShortcuts() {
         'color-theme-modal': closeColorThemeModal,
         'attribution-modal': closeAttributionModal,
         'about-modal': closeAboutModal,
+        'other-options-modal': closeOtherOptionsModal,
         'sync-modal': closeSyncModal,
         'sync-instructions-modal': closeSyncInstructionsModal,
         'github-credentials-modal': closeGitHubCredentialsModal,
@@ -1320,6 +1335,8 @@ window.openAttributionModal = openAttributionModal;
 window.closeAttributionModal = closeAttributionModal;
 window.openAboutModal = openAboutModal;
 window.closeAboutModal = closeAboutModal;
+window.openOtherOptionsModal = openOtherOptionsModal;
+window.closeOtherOptionsModal = closeOtherOptionsModal;
 window.addCategoryToModal = addCategoryToModal;
 window.moveLinkToTop = moveLinkToTop;
 window.moveLinkToBottom = moveLinkToBottom;

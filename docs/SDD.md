@@ -1350,7 +1350,7 @@ Uses **Link** (§4.1). Render-time only:
 
 **DnD events (default sort):** `dragstart` (set `draggedId`, `.dragging`, clear tooltips) → `dragover` / `dragleave` (`.drag-over`, `.drop-indicator`) → `drop` → `reorderLinks` → `dragend` cleanup.
 
-**Compact tooltip:** `mouseenter` → 1000 ms → show fixed `.link-card-tooltip` (`z-index` 99999, `textContent`); `mousemove` repositions; `mouseleave` hide after 250 ms unless pointer enters tooltip (tooltip leave hide 150 ms). **Mobile:** once shown, the tip stays **5000** ms and is not dismissed early by leaving the card.
+**Compact tooltip:** `mouseenter` → 1000 ms → show fixed `.link-card-tooltip` (`z-index` 99999, `textContent`); only **one** link-card tooltip is visible at a time; `mousemove` repositions; `mouseleave` hide after 250 ms unless pointer enters tooltip (tooltip leave hide 150 ms). **Mobile:** once shown, the tip stays **5000** ms and is not dismissed early by leaving the card.
 
 ##### 6.1.2.8 Security & Compliance Requirements
 
@@ -4140,6 +4140,7 @@ Minimum before tagging a release:
 | 3.0 | July 21, 2026 | Readability reorganization: How to Read, TOC, Parts I–IV, Feature Index, glossary, REQ index; greeting bands corrected to match `updateGreeting` |
 | 3.1 | September 23, 2026 | Quick Pick middle-click shows full `EMOJI_NAMES` descriptor (REQ-EMO-016); hover remains name-only |
 | 3.2 | September 23, 2026 | Compact link-card description tooltip on mobile stays **5** seconds before auto-hide |
+| 3.3 | September 23, 2026 | Other Options modal holds Show by, View, Hide Categories, and Show Debug; main page shows Perspective; one link-card description tooltip at a time; Settings button is Edit Colors; Debug PR 37 |
 
 ---
 

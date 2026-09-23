@@ -129,8 +129,14 @@ function updateSettingsMobileInfo() {
     if (!info) return;
 
     var mobile = isMobileBrowser();
-    if (mobile) info.removeAttribute('hidden');
-    else info.setAttribute('hidden', '');
+    var field = info.closest('.settings-modal__field');
+    if (mobile) {
+        info.removeAttribute('hidden');
+        if (field) field.classList.remove('is-hidden');
+    } else {
+        info.setAttribute('hidden', '');
+        if (field) field.classList.add('is-hidden');
+    }
 }
 
 function isLandscapeOrientation() {
@@ -356,6 +362,18 @@ function openAboutModal() {
 
 function closeAboutModal() {
     closeUiModal('about-modal');
+    openSettingsModal();
+}
+
+function openOtherOptionsModal() {
+    closeSettingsModal(false);
+    openUiModal('other-options-modal');
+    const body = document.querySelector('#other-options-modal .other-options-modal__body');
+    if (body) body.scrollTop = 0;
+}
+
+function closeOtherOptionsModal() {
+    closeUiModal('other-options-modal');
     openSettingsModal();
 }
 
