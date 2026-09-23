@@ -549,13 +549,18 @@ function renderLinks() {
 
         // Compact tooltip: 1s delay, follows mouse; hide if cursor enters tooltip.
         // Only one link-card description is visible at a time.
-        // Mobile: once shown, it stays for 5s, then closes. Leaving the card does not dismiss it early.
+        // Mobile: a tap does not show it. A long press shows it for 5s.
         if (isCompact && link.description) {
             card._tooltipTimeout = null;
             card._tooltipEl = null;
             let currentMouseX = 0;
             let currentMouseY = 0;
             let hideTimeout = null;
+            let longPressFired = false;
+            let pressPoint = null;
+            const LONG_PRESS_MS = 500;
+
+            const onMobile = () => typeof isMobileBrowser === 'function' && isMobileBrowser();
 
             const clampPosition = (left, top, width, height) => {
                 const pad = 8;
@@ -641,6 +646,7 @@ function renderLinks() {
             };
 
             card.addEventListener('mousemove', (e) => {
+                if (onMobile()) return;
                 currentMouseX = e.clientX;
                 currentMouseY = e.clientY;
 
@@ -650,6 +656,7 @@ function renderLinks() {
             });
 
             card.addEventListener('mouseenter', () => {
+                if (onMobile()) return;
                 if (hideTimeout) {
                     clearTimeout(hideTimeout);
                     hideTimeout = null;
@@ -658,6 +665,59 @@ function renderLinks() {
                     showTooltip();
                 }, 1000);
             });
+
+            card.addEventListener('contextmenu', (e) => {
+                if (onMobile()) e.preventDefault();
+            });
+
+            card.addEventListener('touchstart', (e) => {
+                if (!onMobile()) return;
+                if (e.target.closest('.edit-btn, .delete-btn, .drag-handle')) return;
+                const t = e.touches && e.touches[0];
+                if (!t) return;
+                pressPoint = { x: t.clientX, y: t.clientY };
+                currentMouseX = t.clientX;
+                currentMouseY = t.clientY;
+                longPressFired = false;
+                if (card._tooltipTimeout) {
+                    clearTimeout(card._tooltipTimeout);
+                    card._tooltipTimeout = null;
+                }
+                card._tooltipTimeout = setTimeout(() => {
+                    card._tooltipTimeout = null;
+                    longPressFired = true;
+                    showTooltip();
+                }, LONG_PRESS_MS);
+            }, { passive: true });
+
+            card.addEventListener('touchmove', (e) => {
+                if (!card._tooltipTimeout || !pressPoint) return;
+                const t = e.touches && e.touches[0];
+                if (!t) return;
+                if (Math.abs(t.clientX - pressPoint.x) > 10 || Math.abs(t.clientY - pressPoint.y) > 10) {
+                    clearTimeout(card._tooltipTimeout);
+                    card._tooltipTimeout = null;
+                }
+            }, { passive: true });
+
+            const endCardPress = () => {
+                if (card._tooltipTimeout) {
+                    clearTimeout(card._tooltipTimeout);
+                    card._tooltipTimeout = null;
+                }
+                if (longPressFired) {
+                    setTimeout(() => { longPressFired = false; }, 500);
+                }
+            };
+            card.addEventListener('touchend', endCardPress);
+            card.addEventListener('touchcancel', endCardPress);
+
+            card.addEventListener('click', (e) => {
+                if (!longPressFired) return;
+                longPressFired = false;
+                e.preventDefault();
+                e.stopPropagation();
+            }, true);
 
             card.addEventListener('mouseleave', () => {
                 if (card._tooltipTimeout) {

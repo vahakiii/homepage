@@ -443,9 +443,66 @@ function initEmojiPicker() {
     }, true);
 
     grid.addEventListener('auxclick', onEmojiMiddleClick, true);
+
+    const EMOJI_LONG_PRESS_MS = 500;
+    let emojiLongPressTimer = null;
+    let emojiLongPressFired = false;
+    let emojiPressPoint = null;
+
+    function clearEmojiLongPressTimer() {
+        if (emojiLongPressTimer) {
+            clearTimeout(emojiLongPressTimer);
+            emojiLongPressTimer = null;
+        }
+    }
+
+    grid.addEventListener('touchstart', (e) => {
+        if (!isAddEditModalMobile()) return;
+        const cell = e.target.closest('.emoji-picker__cell');
+        if (!cell || !grid.contains(cell)) return;
+        const t = e.touches && e.touches[0];
+        if (!t) return;
+        emojiPressPoint = { x: t.clientX, y: t.clientY };
+        emojiLongPressFired = false;
+        clearEmojiLongPressTimer();
+        emojiLongPressTimer = setTimeout(() => {
+            emojiLongPressTimer = null;
+            emojiLongPressFired = true;
+            const fullName = cell.dataset.fullName || cell.textContent;
+            showEmojiDetailTip(cell, fullName);
+        }, EMOJI_LONG_PRESS_MS);
+    }, { passive: true });
+
+    grid.addEventListener('touchmove', (e) => {
+        if (!emojiLongPressTimer || !emojiPressPoint) return;
+        const t = e.touches && e.touches[0];
+        if (!t) return;
+        if (Math.abs(t.clientX - emojiPressPoint.x) > 10 || Math.abs(t.clientY - emojiPressPoint.y) > 10) {
+            clearEmojiLongPressTimer();
+        }
+    }, { passive: true });
+
+    const endEmojiPress = () => {
+        clearEmojiLongPressTimer();
+        if (emojiLongPressFired) {
+            setTimeout(() => { emojiLongPressFired = false; }, 500);
+        }
+    };
+    grid.addEventListener('touchend', endEmojiPress);
+    grid.addEventListener('touchcancel', endEmojiPress);
+    grid.addEventListener('contextmenu', (e) => {
+        if (isAddEditModalMobile() && e.target.closest('.emoji-picker__cell')) e.preventDefault();
+    });
+
     grid.addEventListener('click', (e) => {
         const cell = e.target.closest('.emoji-picker__cell');
         if (!cell || !grid.contains(cell)) return;
+        if (emojiLongPressFired) {
+            emojiLongPressFired = false;
+            e.preventDefault();
+            e.stopPropagation();
+            return;
+        }
         if (isMiddleClick(e)) {
             onEmojiMiddleClick(e);
             return;
