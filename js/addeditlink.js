@@ -289,12 +289,17 @@ let emojiPopoverOpen = false;
 let emojiDetailTip = null;
 let emojiDetailSourceBtn = null;
 let emojiDetailJustOpened = false;
+let emojiDetailHideTimer = null;
 
 function stripEmojiHoverName(fullName) {
     return String(fullName || '').replace(/\s*\(.*?\)\s*/g, '').trim();
 }
 
 function hideEmojiDetailTip() {
+    if (emojiDetailHideTimer) {
+        clearTimeout(emojiDetailHideTimer);
+        emojiDetailHideTimer = null;
+    }
     if (emojiDetailTip) {
         emojiDetailTip.remove();
         emojiDetailTip = null;
@@ -352,6 +357,10 @@ function showEmojiDetailTip(btn, fullName) {
     setTimeout(() => {
         emojiDetailJustOpened = false;
     }, 0);
+    emojiDetailHideTimer = setTimeout(() => {
+        emojiDetailHideTimer = null;
+        hideEmojiDetailTip();
+    }, 4000);
 }
 
 function initEmojiPicker() {

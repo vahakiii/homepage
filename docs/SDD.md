@@ -1888,7 +1888,7 @@ No external BRD / FRS / Jira linkage in-repo. Internal IDs below; map **External
 | `emojiPopoverOpen` | boolean | `true` while Quick Pick visible |
 | Search box value | DOM | Cleared on open and on close |
 | Grid contents | DOM | Built by inner `renderEmojiGrid`; cleared on close |
-| `.emoji-picker__detail` | ephemeral DOM | Full descriptor tip after middle-click; removed on close, scroll, re-render, or later click |
+| `.emoji-picker__detail` | ephemeral DOM | Full descriptor tip after middle-click; auto-hides after **4000** ms; also removed on close, scroll, re-render, or later click |
 
 **Search algorithm (filter)**
 
@@ -1927,7 +1927,7 @@ No external BRD / FRS / Jira linkage in-repo. Internal IDs below; map **External
 | Chevron click | Toggle; on open reset search/grid/focus |
 | Search `input` | `renderEmojiGrid(value)` |
 | Emoji button click (left) | Write field + `closeEmojiPopover` |
-| Emoji middle-click (`button === 1`) | Show full descriptor tip; do not pick; prevent autoscroll |
+| Emoji middle-click (`button === 1`) | Show full descriptor tip for 4s; do not pick; prevent autoscroll |
 | Document click (outside popover & button) | `closeEmojiPopover` |
 | Cancel click | `closeEmojiPopover` |
 | Keydown Escape (capture) if popover visible | `preventDefault` + `stopImmediatePropagation` + close |
