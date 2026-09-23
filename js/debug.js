@@ -190,7 +190,14 @@ function updateDebugInfo() {
         });
     }
 
+    const prMeta = document.querySelector('meta[name="homepage-pr"]');
+    const prNumber = (prMeta && prMeta.content) ? prMeta.content : '?';
+
     content.innerHTML = `
+        <div class="debug-panel__row">
+            <span class="debug-panel__key">PR</span>
+            <span class="debug-panel__val debug-panel__val--pr">${prNumber}</span>
+        </div>
         <div class="debug-panel__row">
             <span class="debug-panel__key">Window Width</span>
             <span class="debug-panel__val debug-panel__val--size">${w} <span class="debug-panel__unit">px</span></span>
