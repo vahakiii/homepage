@@ -526,7 +526,7 @@ function renderLinks() {
         grid.appendChild(card);
 
         // Compact tooltip: 1s delay, follows mouse; hide if cursor enters tooltip.
-        // Mobile: once shown, it stays for 4s, then closes. Leaving the card does not dismiss it early.
+        // Mobile: once shown, it stays for 5s, then closes. Leaving the card does not dismiss it early.
         if (isCompact && link.description) {
             card._tooltipTimeout = null;
             card._tooltipEl = null;
@@ -607,7 +607,7 @@ function renderLinks() {
                     card._tooltipLifeTimer = setTimeout(() => {
                         card._tooltipLifeTimer = null;
                         hideTooltipNow();
-                    }, 4000);
+                    }, 5000);
                 }
 
                 card._tooltipEl.addEventListener('mouseenter', () => {

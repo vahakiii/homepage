@@ -1350,7 +1350,7 @@ Uses **Link** (§4.1). Render-time only:
 
 **DnD events (default sort):** `dragstart` (set `draggedId`, `.dragging`, clear tooltips) → `dragover` / `dragleave` (`.drag-over`, `.drop-indicator`) → `drop` → `reorderLinks` → `dragend` cleanup.
 
-**Compact tooltip:** `mouseenter` → 1000 ms → show fixed `.link-card-tooltip` (`z-index` 99999, `textContent`); `mousemove` repositions; `mouseleave` hide after 250 ms unless pointer enters tooltip (tooltip leave hide 150 ms).
+**Compact tooltip:** `mouseenter` → 1000 ms → show fixed `.link-card-tooltip` (`z-index` 99999, `textContent`); `mousemove` repositions; `mouseleave` hide after 250 ms unless pointer enters tooltip (tooltip leave hide 150 ms). **Mobile:** once shown, the tip stays **5000** ms and is not dismissed early by leaving the card.
 
 ##### 6.1.2.8 Security & Compliance Requirements
 
@@ -1446,9 +1446,10 @@ Controls density of the links grid on the Landing Screen. Toggle UI: `#view-full
         │              mousemove → reposition (centered above cursor, clamped)
         │                    │
         ▼                    ▼
-  mouseleave card ──► 250ms hide (unless enter tooltip)
-  tooltip mouseenter ── cancel hide
-  tooltip mouseleave ── 150ms hide
+  mouseleave card ──► 250ms hide (unless enter tooltip) [desktop]
+  tooltip mouseenter ── cancel hide [desktop]
+  tooltip mouseleave ── 150ms hide [desktop]
+  mobile: after show ── 5000ms auto-hide (leave does not dismiss early)
   dragstart / renderLinks ── force remove all tooltips
 ```
 
@@ -1490,7 +1491,7 @@ Controls density of the links grid on the Landing Screen. Toggle UI: `#view-full
 | `#view-full` click | `viewMode='full'`; persist; buttons; `renderLinks` |
 | `#view-compact` click | `viewMode='compact'`; persist; buttons; `renderLinks` |
 | `updateViewModeButtons()` | Selected: `.list-toggle.is-active` |
-| Tooltip timers | Show **1000** ms; card leave hide **250** ms; tooltip leave hide **150** ms; clamp pad **8** px |
+| Tooltip timers | Show **1000** ms; card leave hide **250** ms; tooltip leave hide **150** ms; mobile life **5000** ms; clamp pad **8** px |
 
 #### 6.2.8 Security & Compliance Requirements
 
@@ -4138,6 +4139,7 @@ Minimum before tagging a release:
 | 2.11 | July 21, 2026 | P3 expansions: §4.4 seed catalog; §14 repo utilities/README policy; §15 manual verification test plan |
 | 3.0 | July 21, 2026 | Readability reorganization: How to Read, TOC, Parts I–IV, Feature Index, glossary, REQ index; greeting bands corrected to match `updateGreeting` |
 | 3.1 | September 23, 2026 | Quick Pick middle-click shows full `EMOJI_NAMES` descriptor (REQ-EMO-016); hover remains name-only |
+| 3.2 | September 23, 2026 | Compact link-card description tooltip on mobile stays **5** seconds before auto-hide |
 
 ---
 
