@@ -163,7 +163,7 @@ function importedColorMap(c) {
     return colors;
 }
 
-// Emoji picker: format Name (keywords); parens hidden in tooltips but searchable.
+// Emoji picker: format Name (keywords); hover tooltips hide parens; middle-click shows the full descriptor; keywords remain searchable.
 // Keep EMOJI_NAMES ↔ COMMON_EMOJIS in sync; categories alphabetical; General last resort; new category needs ≥5.
 var COMMON_EMOJIS = {
     "Animals": [

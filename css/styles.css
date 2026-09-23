@@ -71,4 +71,5 @@ html.is-mobile.is-landscape body>:not(#landscape-lock),html.is-mobile.is-landsca
 #about-modal .about-modal__footer-close:hover{background-color:var(--btn-hover-bg) !important;color:var(--active-text-color,#ffffff) !important}
 #about-modal .about-modal__icon--success{color:var(--success-color)}
 #about-modal .about-modal__lead{background-color:var(--card-bg)}
+.emoji-picker__detail{position:fixed;z-index:300;max-width:22rem;padding:0.5rem 0.75rem;border-radius:0.75rem;border:1px solid var(--color-border);background-color:var(--card-bg);color:var(--text-color);font-size:0.8125rem;line-height:1.4;box-shadow:var(--app-elevation-2);pointer-events:none;white-space:normal;overflow-wrap:anywhere}
 
