@@ -346,6 +346,7 @@ function setupAppKeyboardShortcuts() {
         'settings-modal': closeSettingsModal,
         'color-theme-modal': closeColorThemeModal,
         'attribution-modal': closeAttributionModal,
+        'about-modal': closeAboutModal,
         'sync-modal': closeSyncModal,
         'sync-instructions-modal': closeSyncInstructionsModal,
         'github-credentials-modal': closeGitHubCredentialsModal,
@@ -1317,6 +1318,8 @@ window.closeColorThemeModal = closeColorThemeModal;
 window.closeSettingsModal = closeSettingsModal;
 window.openAttributionModal = openAttributionModal;
 window.closeAttributionModal = closeAttributionModal;
+window.openAboutModal = openAboutModal;
+window.closeAboutModal = closeAboutModal;
 window.addCategoryToModal = addCategoryToModal;
 window.moveLinkToTop = moveLinkToTop;
 window.moveLinkToBottom = moveLinkToBottom;

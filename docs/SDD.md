@@ -1257,7 +1257,7 @@ Link cards are the primary presentation of `links[]` on the Landing Screen. Rend
 | **REQ-LC-011** | Drag reorder shall be enabled only when sort ≠ date | `card.draggable`; handle opacity in date mode | *TBD* |
 | **REQ-LC-012** | Drop on another card shall splice order and persist | `reorderLinks` | *TBD* |
 | **REQ-LC-013** | If drag occurs while date sort, mode shall switch to default | `reorderLinks` UI chrome reset | *TBD* |
-| **REQ-LC-014** | Compact mode shall show description via delayed tooltip | 1000 ms delay; `.link-card-tooltip` | *TBD* |
+| **REQ-LC-014** | Compact mode shall show description via delayed tooltip | 1000 ms delay; `.link-card-tooltip`; mobile auto-hide **5000** ms | *TBD* |
 | **REQ-LC-015** | Tooltips shall follow mouse and clamp to viewport | 8px pad clamp | *TBD* |
 | **REQ-LC-016** | Drag start shall dismiss active compact tooltips | Cleanup in `dragstart` | *TBD* |
 
@@ -1350,7 +1350,7 @@ Uses **Link** (§4.1). Render-time only:
 
 **DnD events (default sort):** `dragstart` (set `draggedId`, `.dragging`, clear tooltips) → `dragover` / `dragleave` (`.drag-over`, `.drop-indicator`) → `drop` → `reorderLinks` → `dragend` cleanup.
 
-**Compact tooltip:** `mouseenter` → 1000 ms → show fixed `.link-card-tooltip` (`z-index` 99999, `textContent`); `mousemove` repositions; `mouseleave` hide after 250 ms unless pointer enters tooltip (tooltip leave hide 150 ms).
+**Compact tooltip:** `mouseenter` → 1000 ms → show fixed `.link-card-tooltip` (`z-index` 99999, `textContent`); `mousemove` repositions; `mouseleave` hide after 250 ms unless pointer enters tooltip (tooltip leave hide 150 ms). **Mobile:** once shown, the tip stays **5000** ms and is not dismissed early by leaving the card.
 
 ##### 6.1.2.8 Security & Compliance Requirements
 
@@ -1446,9 +1446,10 @@ Controls density of the links grid on the Landing Screen. Toggle UI: `#view-full
         │              mousemove → reposition (centered above cursor, clamped)
         │                    │
         ▼                    ▼
-  mouseleave card ──► 250ms hide (unless enter tooltip)
-  tooltip mouseenter ── cancel hide
-  tooltip mouseleave ── 150ms hide
+  mouseleave card ──► 250ms hide (unless enter tooltip) [desktop]
+  tooltip mouseenter ── cancel hide [desktop]
+  tooltip mouseleave ── 150ms hide [desktop]
+  mobile: after show ── 5000ms auto-hide (leave does not dismiss early)
   dragstart / renderLinks ── force remove all tooltips
 ```
 
@@ -1490,7 +1491,7 @@ Controls density of the links grid on the Landing Screen. Toggle UI: `#view-full
 | `#view-full` click | `viewMode='full'`; persist; buttons; `renderLinks` |
 | `#view-compact` click | `viewMode='compact'`; persist; buttons; `renderLinks` |
 | `updateViewModeButtons()` | Selected: `.list-toggle.is-active` |
-| Tooltip timers | Show **1000** ms; card leave hide **250** ms; tooltip leave hide **150** ms; clamp pad **8** px |
+| Tooltip timers | Show **1000** ms; card leave hide **250** ms; tooltip leave hide **150** ms; mobile life **5000** ms; clamp pad **8** px |
 
 #### 6.2.8 Security & Compliance Requirements
 
@@ -1715,7 +1716,7 @@ Catalog data lives in `js/config.js`. Selection UI is the nested **Quick Pick Em
 | Item | Description |
 |------|-------------|
 | **Purpose** | Let the user assign a compact visual icon (emoji or short text) to a link, either by free-typing or by browsing/searching a curated catalog. |
-| **In scope** | Curated catalog (`COMMON_EMOJIS`, `EMOJI_NAMES`); Quick Pick open/close; categorized grid render; multi-word search filter; pick → write `#link-emoji`; tooltips from descriptors; parent-safe Escape; outside-click and Cancel dismiss; init wiring; free-type field constraints. |
+| **In scope** | Curated catalog (`COMMON_EMOJIS`, `EMOJI_NAMES`); Quick Pick open/close; categorized grid render; multi-word search filter; pick → write `#link-emoji`; hover name-only tooltips; middle-click full descriptors; parent-safe Escape; outside-click and Cancel dismiss; init wiring; free-type field constraints. |
 | **Out of scope** | Full Unicode emoji browser; custom user-uploaded icons; SVG/icon-font picker; network emoji APIs; persisting catalog edits at runtime; ARIA dialog/roving-tabindex full compliance (known gap). |
 | **Actors** | End user editing a link in Add/Edit mode. |
 | **Primary artifacts** | Shell: `index.html` (`#link-emoji`, `#emoji-dropdown-btn`, `#emoji-picker-popover`, …). Logic: `js/addeditlink.js` (`initEmojiPicker`, `closeEmojiPopover`, `setModalEmoji`). Data: `js/config.js`. Init: `app.js` → `initEmojiPicker()` during `initializeApp`. |
@@ -1735,6 +1736,7 @@ No external BRD / FRS / Jira linkage in-repo. Internal IDs below; map **External
 | **REQ-EMO-005** | Multi-word search shall require **all** tokens to match (AND) | `searchWords.every(...)` on descriptor + glyph | *TBD* |
 | **REQ-EMO-006** | Selecting an emoji shall populate the field and close Quick Pick | Button `onclick` → `emojiInput.value` + `closeEmojiPopover()` | *TBD* |
 | **REQ-EMO-007** | Hover tooltips shall show cleaned display names (no parentheticals) | `title` = descriptor with `\s*\(.*?\)\s*` stripped | *TBD* |
+| **REQ-EMO-016** | Middle-click on a catalog cell shall show the full descriptor including parentheticals for 4 seconds without picking | `auxclick` / middle `click` (`button === 1`) → `.emoji-picker__detail` for **4000** ms; `mousedown` preventDefault to block autoscroll | *TBD* |
 | **REQ-EMO-008** | Search shall use full descriptors including parenthetical keywords | Match against full `EMOJI_NAMES[emoji]` | *TBD* |
 | **REQ-EMO-009** | Escape shall close Quick Pick without closing Add/Edit | Capture-phase `keydown` on Escape | *TBD* |
 | **REQ-EMO-010** | Outside click and Cancel shall close Quick Pick | Document click listener; `#emoji-picker-cancel` | *TBD* |
@@ -1784,6 +1786,7 @@ No external BRD / FRS / Jira linkage in-repo. Internal IDs below; map **External
                 │                                           │
                 ├─ type search ──► filter grid (AND tokens) │
                 ├─ click emoji ──► set input · close ───────┤
+                ├─ middle-click emoji ──► full descriptor   │
                 ├─ Cancel / outside / Esc ──► close only    │
                 └─ parent closeModal ──► closeEmojiPopover  │
                                                             ▼
@@ -1819,7 +1822,7 @@ No external BRD / FRS / Jira linkage in-repo. Internal IDs below; map **External
 | E1 | Nested Quick Pick (not standalone app modal) | Icon selection is always in context of link edit; reduces modal stack complexity | **Current** |
 | E2 | Dual entry: free-type **and** catalog | Power users paste any emoji/short label; catalog aids discovery | **Current** |
 | E3 | Curated static catalog (not full Unicode) | Predictable UX, searchable descriptors, small bundle, no network | **Current** |
-| E4 | Descriptor format `Name (keywords…)` with dual use | Short tooltips; rich search without cluttering UI | **Current** |
+| E4 | Descriptor format `Name (keywords…)` with dual use | Short hover tooltips; full descriptor on middle-click; rich search without cluttering UI | **Current** |
 | E5 | Multi-word **AND** substring search (not fuzzy) | Predictable filtering; distinct from link-list Levenshtein search | **Current** |
 | E6 | Esc handled in **capture** phase | Prevents parent `#modal` from closing when picker is open | **Current** *(critical UX decision)* |
 | E7 | On open: reset search + full grid + focus search | Clean session each open; keyboard-ready filter | **Current** |
@@ -1831,6 +1834,7 @@ No external BRD / FRS / Jira linkage in-repo. Internal IDs below; map **External
 | E13 | `closeEmojiPopover` also defined in `app.js` | Historical consolidation; load order means **app.js definition wins** at runtime | **Current / tech debt** |
 | E14 | No live re-render of grid after close’s clear | Avoids needing inner `renderEmojiGrid` export; open path always repaints | **Current** |
 | E15 | Empty filter shows italic empty state + `empty` class | Clear zero-result feedback | **Current** |
+| E16 | Middle-click shows full `EMOJI_NAMES` in a custom tip | Native `title` cannot be forced on click and omits parentheticals by design (REQ-EMO-007) | **Current** |
 
 #### 6.6.6 Data Model / Schema
 
@@ -1866,7 +1870,8 @@ No external BRD / FRS / Jira linkage in-repo. Internal IDs below; map **External
 | Aspect | Rule |
 |--------|------|
 | Format | `Name (Keyword1, Keyword2, …)` or plain comma-separated names |
-| Tooltip | Parenthetical segment **stripped** for `title` |
+| Tooltip | Parenthetical segment **stripped** for hover `title` |
+| Middle-click | **Full** descriptor in `.emoji-picker__detail` (name + parentheticals); does not pick or close |
 | Search | **Full** string lowercased; parentheses keywords **included** |
 | Integrity | Every key in `EMOJI_NAMES` must appear in some `COMMON_EMOJIS` array and vice versa |
 | Style | Searchability first; natural language; ~30–150 chars preferred; important terms near front |
@@ -1884,6 +1889,7 @@ No external BRD / FRS / Jira linkage in-repo. Internal IDs below; map **External
 | `emojiPopoverOpen` | boolean | `true` while Quick Pick visible |
 | Search box value | DOM | Cleared on open and on close |
 | Grid contents | DOM | Built by inner `renderEmojiGrid`; cleared on close |
+| `.emoji-picker__detail` | ephemeral DOM | Full descriptor tip after middle-click; auto-hides after **4000** ms; also removed on close, scroll, re-render, or later click |
 
 **Search algorithm (filter)**
 
@@ -1921,7 +1927,8 @@ No external BRD / FRS / Jira linkage in-repo. Internal IDs below; map **External
 |-------|----------------|
 | Chevron click | Toggle; on open reset search/grid/focus |
 | Search `input` | `renderEmojiGrid(value)` |
-| Emoji button click | Write field + `closeEmojiPopover` |
+| Emoji button click (left) | Write field + `closeEmojiPopover` |
+| Emoji middle-click (`button === 1`) | Show full descriptor tip for 4s; do not pick; prevent autoscroll |
 | Document click (outside popover & button) | `closeEmojiPopover` |
 | Cancel click | `closeEmojiPopover` |
 | Keydown Escape (capture) if popover visible | `preventDefault` + `stopImmediatePropagation` + close |
@@ -1942,7 +1949,7 @@ No external BRD / FRS / Jira linkage in-repo. Internal IDs below; map **External
 | **Data residency** | Catalog is static app content. Selected icon persists only as part of link JSON in `localStorage` / export / optional Gist. |
 | **Secrets** | No credentials in picker. |
 | **Network** | No fetch of emoji assets or third-party picker CDNs. |
-| **XSS** | Grid cells use `textContent` for glyphs; tooltips from static config or stripped descriptors. Free-type still becomes `link.emoji` rendered on cards — keep card render escaping disciplined. |
+| **XSS** | Grid cells use `textContent` for glyphs; hover titles from stripped descriptors; middle-click tip uses `textContent` of the static `EMOJI_NAMES` string. Free-type still becomes `link.emoji` rendered on cards — keep card render escaping disciplined. |
 | **Content policy** | Curated list may include symbols some enterprises restrict in other channels; local personal page context. Catalog includes flags, religious symbols, etc., under user discretion. |
 | **Regulated use** | Not a system of record. Do not encode confidential data into icon fields. |
 | **Audit** | No picker-specific audit trail. |
@@ -1956,7 +1963,7 @@ No external BRD / FRS / Jira linkage in-repo. Internal IDs below; map **External
 | **Reliability** | Esc capture prevents accidental parent close. Parent close always tears down picker. Open always resets filter state. |
 | **Availability** | Fully offline; no external emoji service. Rendering depends on OS/browser emoji fonts. |
 | **Scalability** | Catalog growth increases DOM node count on full render; fine for hundreds; not designed for tens of thousands. |
-| **Usability** | Search-first open focus; category headers; hover names; empty state; free-type fallback. |
+| **Usability** | Search-first open focus; category headers; hover names; middle-click full descriptors; empty state; free-type fallback. |
 | **Accessibility** | Gaps: no `role="dialog"` / focus trap; grid is pointer-oriented buttons; free-type field is keyboard-accessible. Esc and Cancel available. |
 | **Maintainability** | Catalog and descriptors co-located in `config.js` with inline `/spec` rules. Duplicate `closeEmojiPopover` / `setModalEmoji` should be consolidated. |
 | **Observability** | Debug Panel (§6.14) surfaces `COMMON_EMOJIS` and `EMOJI_NAMES` counts for integrity checks. |
@@ -2013,6 +2020,8 @@ No external BRD / FRS / Jira linkage in-repo. Internal IDs below; map **External
 | Filtered | Type e.g. `rocket` or `red h` | Reduced set; AND multi-word behavior |
 | Empty filter | Type nonsense token | “No matching emojis” |
 | After pick | Click a glyph | Popover closed; field shows selection |
+| Hover name | Hover a glyph | Native `title` is cleaned name (no parentheticals) |
+| Middle-click detail | Middle-click a glyph | Full descriptor including parentheses; picker stays open; field unchanged |
 | Esc vs parent | Open picker, press Esc | Picker closes; Add/Edit remains |
 
 **Recommended assets (not yet in-repo):** `docs/assets/emoji-quick-pick/`  
@@ -4080,7 +4089,7 @@ No automated unit/e2e suite ships in-repo. This section is the **manual regressi
 | T-MD-03 | Esc | Closes top known modal; emoji Esc keeps parent |
 | T-MD-04 | Settings name + font | Title + scale persist |
 | T-MD-05 | Theme Save / Light / Dark | Colors apply; reload retains |
-| T-MD-06 | Emoji Quick Pick | Search AND; pick sets field |
+| T-MD-06 | Emoji Quick Pick | Search AND; pick sets field; hover name-only; middle-click full descriptor |
 | T-MD-07 | Ctrl+Shift+D | Debug panel metrics + drag clamp |
 
 ### 15.7 GitHub sync (optional, non-prod)
@@ -4129,6 +4138,8 @@ Minimum before tagging a release:
 | 2.10 | July 21, 2026 | P2 expansions: §7 keyboard navigation design; §8.3 optimize_css/USED_ICONS pipeline; §8.5 CSS component inventory |
 | 2.11 | July 21, 2026 | P3 expansions: §4.4 seed catalog; §14 repo utilities/README policy; §15 manual verification test plan |
 | 3.0 | July 21, 2026 | Readability reorganization: How to Read, TOC, Parts I–IV, Feature Index, glossary, REQ index; greeting bands corrected to match `updateGreeting` |
+| 3.1 | September 23, 2026 | Quick Pick middle-click shows full `EMOJI_NAMES` descriptor (REQ-EMO-016); hover remains name-only |
+| 3.2 | September 23, 2026 | Compact link-card description tooltip on mobile stays **5** seconds before auto-hide |
 
 ---
 
@@ -4231,6 +4242,7 @@ Search the document for an ID (e.g. REQ-GHS-001) to open its requirement row.
 | REQ-EMO-013 | §6.6 |
 | REQ-EMO-014 | §6.6 |
 | REQ-EMO-015 | §6.6 |
+| REQ-EMO-016 | §6.6 |
 | REQ-FIO-001 | §6.12 |
 | REQ-FIO-002 | §6.12 |
 | REQ-FIO-003 | §6.12 |

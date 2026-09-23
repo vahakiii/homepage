@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<!-- AI: The Debug screen shows this pull request number. When a new PR starts, update content below to that PR number. -->
-		<meta name="homepage-pr" content="34">
+		<meta name="homepage-pr" content="36">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<script>
 		(function () {
@@ -362,8 +362,13 @@
 					</button>
 				</div>
 
-				<div class="settings-modal__action-wrap">
-					<button onclick="openAttributionModal()"
+				<div class="settings-modal__action-wrap settings-modal__action-wrap--pair">
+					<button type="button" onclick="openAboutModal()"
+						class="settings-modal__action">
+						<i class="settings-modal__action-icon fa-solid fa-rocket"></i>
+						About
+					</button>
+					<button type="button" onclick="openAttributionModal()"
 						class="settings-modal__action">
 						<i class="settings-modal__action-icon fa-solid fa-info-circle"></i>
 						Attributions
@@ -461,6 +466,93 @@
 							Save Colors
 						</button>
 					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- About -->
+		<div id="about-modal"
+			class="ui-modal ui-modal--topmost about-modal"
+			role="dialog" aria-modal="true" aria-labelledby="about-modal-title">
+			<div onclick="event.stopImmediatePropagation()"
+				class="ui-modal__panel ui-modal__panel--xl modal">
+
+				<div class="ui-modal__header">
+					<h3 id="about-modal-title" class="ui-modal__title ui-modal__title--row">
+						<i class="fa-solid fa-rocket"></i>
+						<span>About</span>
+					</h3>
+					<button type="button" onclick="closeAboutModal()" class="ui-modal__close" aria-label="Close">
+						<i class="fa-solid fa-times"></i>
+					</button>
+				</div>
+
+				<div class="about-modal__body custom-scroll">
+
+					<div class="about-modal__lead">
+						<p>
+							This is your <span class="about-modal__emphasis">personal start page</span> —
+							a calm, private home for the links you actually use.
+							Open it as a new tab or bookmark it, then build a page that feels like yours.
+						</p>
+					</div>
+
+					<div class="about-modal__section">
+						<div class="about-modal__section-head">
+							<i class="about-modal__icon about-modal__icon--success fa-solid fa-list"></i>
+							<span class="about-modal__name">Keep every shortcut close</span>
+						</div>
+						<p class="about-modal__text">
+							Add the sites you reach for every day. Each card can carry a name, URL, description,
+							emoji, accent color, favorite heart, and categories. Drag to reorder, sort by name,
+							date, or tally, and switch between a roomy list and a compact grid.
+						</p>
+					</div>
+
+					<div class="about-modal__section">
+						<div class="about-modal__section-head">
+							<i class="about-modal__icon about-modal__icon--violet fa-solid fa-tag"></i>
+							<span class="about-modal__name">Find things your way</span>
+						</div>
+						<p class="about-modal__text">
+							Filter by category in the sidebar, search the list with
+							<span class="about-modal__key key-hint">*</span>,
+							or press <span class="about-modal__key key-hint">/</span> to search Google without leaving the page.
+							Arrow keys move through cards; Enter opens the highlighted link.
+						</p>
+					</div>
+
+					<div class="about-modal__section">
+						<div class="about-modal__section-head">
+							<i class="about-modal__icon about-modal__icon--orange fa-solid fa-palette"></i>
+							<span class="about-modal__name">Make the room feel right</span>
+						</div>
+						<p class="about-modal__text">
+							Set your name in the header, pick a font size, and tune colors in the theme editor —
+							light and dark starting points, plus every surface if you want to go further.
+							Link icons come from a searchable emoji catalog, so a card can look like the site it opens.
+						</p>
+					</div>
+
+					<div class="about-modal__section">
+						<div class="about-modal__section-head">
+							<i class="about-modal__icon about-modal__icon--github fa-brands fa-github"></i>
+							<span class="about-modal__name">Yours, and it stays yours</span>
+						</div>
+						<p class="about-modal__text">
+							Everything lives in this browser by default. Nothing is sent to a server unless you choose
+							optional GitHub Gist sync, a private backup you can restore on another device.
+							Export and import JSON anytime. Credits for the tools behind the page live next door in Attributions.
+						</p>
+					</div>
+
+				</div>
+
+				<div class="about-modal__footer ui-modal__footer">
+					<button type="button" onclick="closeAboutModal()"
+						class="about-modal__footer-close attribution-modal__footer-close ui-modal__btn ui-modal__btn--block ui-modal__btn--bordered">
+						Got it, close
+					</button>
 				</div>
 			</div>
 		</div>

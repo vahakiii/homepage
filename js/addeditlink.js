@@ -286,6 +286,83 @@ function closeModal() {
 
 
 let emojiPopoverOpen = false;
+let emojiDetailTip = null;
+let emojiDetailSourceBtn = null;
+let emojiDetailJustOpened = false;
+let emojiDetailHideTimer = null;
+
+function stripEmojiHoverName(fullName) {
+    return String(fullName || '').replace(/\s*\(.*?\)\s*/g, '').trim();
+}
+
+function hideEmojiDetailTip() {
+    if (emojiDetailHideTimer) {
+        clearTimeout(emojiDetailHideTimer);
+        emojiDetailHideTimer = null;
+    }
+    if (emojiDetailTip) {
+        emojiDetailTip.remove();
+        emojiDetailTip = null;
+    }
+    if (emojiDetailSourceBtn) {
+        const hoverName = emojiDetailSourceBtn.dataset.hoverName;
+        if (hoverName) emojiDetailSourceBtn.title = hoverName;
+        emojiDetailSourceBtn = null;
+    }
+    emojiDetailJustOpened = false;
+}
+
+function clampEmojiDetailPosition(left, top, width, height) {
+    const pad = 8;
+    return {
+        left: Math.max(pad, Math.min(left, window.innerWidth - width - pad)),
+        top: Math.max(pad, Math.min(top, window.innerHeight - height - pad))
+    };
+}
+
+function showEmojiDetailTip(btn, fullName) {
+    hideEmojiDetailTip();
+    if (!btn || !fullName) return;
+
+    const tip = document.createElement('div');
+    tip.className = 'emoji-picker__detail';
+    tip.setAttribute('role', 'tooltip');
+    tip.textContent = fullName;
+    document.body.appendChild(tip);
+
+    const rect = btn.getBoundingClientRect();
+    const tw = tip.offsetWidth;
+    const th = tip.offsetHeight;
+    const popover = document.getElementById('emoji-picker-popover');
+    const popRect = popover ? popover.getBoundingClientRect() : null;
+    const grid = document.getElementById('emoji-grid');
+    const gridRect = grid ? grid.getBoundingClientRect() : null;
+
+    let left = rect.left + (rect.width / 2) - (tw / 2);
+    let top = rect.top - th - 8;
+    const minTop = gridRect ? gridRect.top + 4 : 8;
+    if (top < minTop) top = rect.bottom + 8;
+    if (popRect) {
+        left = Math.max(popRect.left + 8, Math.min(left, popRect.right - tw - 8));
+    }
+    const clamped = clampEmojiDetailPosition(left, top, tw, th);
+    tip.style.left = `${clamped.left}px`;
+    tip.style.top = `${clamped.top}px`;
+
+    emojiDetailTip = tip;
+    emojiDetailSourceBtn = btn;
+    btn.dataset.hoverName = btn.dataset.hoverName || stripEmojiHoverName(fullName);
+    btn.title = '';
+    emojiDetailJustOpened = true;
+    setTimeout(() => {
+        emojiDetailJustOpened = false;
+    }, 0);
+    emojiDetailHideTimer = setTimeout(() => {
+        emojiDetailHideTimer = null;
+        hideEmojiDetailTip();
+    }, 4000);
+}
+
 function initEmojiPicker() {
     const dropdownBtn = document.getElementById('emoji-dropdown-btn');
     const popover = document.getElementById('emoji-picker-popover');
@@ -296,6 +373,7 @@ function initEmojiPicker() {
     if (!dropdownBtn || !popover || !grid || !emojiInput) return;
 
     function renderEmojiGrid(filterTerm = '') {
+        hideEmojiDetailTip();
         grid.innerHTML = '';
         grid.classList.remove('empty');
         const term = filterTerm.toLowerCase().trim();
@@ -326,12 +404,11 @@ function initEmojiPicker() {
                 btn.className = 'emoji-picker__cell';
                 btn.textContent = emoji;
                 const fullName = EMOJI_NAMES[emoji] || emoji;
-                const displayName = fullName.replace(/\s*\(.*?\)\s*/g, '').trim();
+                const displayName = stripEmojiHoverName(fullName) || emoji;
+                btn.dataset.emoji = emoji;
+                btn.dataset.fullName = fullName;
+                btn.dataset.hoverName = displayName;
                 btn.title = displayName;
-                btn.onclick = () => {
-                    emojiInput.value = emoji;
-                    closeEmojiPopover();
-                };
                 grid.appendChild(btn);
             });
         });
@@ -344,6 +421,50 @@ function initEmojiPicker() {
             grid.classList.add('empty');
         }
     }
+
+    function isMiddleClick(e) {
+        return e.button === 1;
+    }
+
+    function onEmojiMiddleClick(e) {
+        if (!isMiddleClick(e)) return;
+        const cell = e.target.closest('.emoji-picker__cell');
+        if (!cell || !grid.contains(cell)) return;
+        e.preventDefault();
+        e.stopPropagation();
+        const fullName = cell.dataset.fullName || cell.textContent;
+        showEmojiDetailTip(cell, fullName);
+    }
+
+    grid.addEventListener('mousedown', (e) => {
+        if (!isMiddleClick(e)) return;
+        if (!e.target.closest('.emoji-picker__cell')) return;
+        e.preventDefault();
+    }, true);
+
+    grid.addEventListener('auxclick', onEmojiMiddleClick, true);
+    grid.addEventListener('click', (e) => {
+        const cell = e.target.closest('.emoji-picker__cell');
+        if (!cell || !grid.contains(cell)) return;
+        if (isMiddleClick(e)) {
+            onEmojiMiddleClick(e);
+            return;
+        }
+        if (e.button !== 0) return;
+        const glyph = cell.dataset.emoji || cell.textContent;
+        emojiInput.value = glyph;
+        closeEmojiPopover();
+    });
+    grid.addEventListener('scroll', hideEmojiDetailTip);
+    document.addEventListener('click', (e) => {
+        if (!emojiDetailTip) return;
+        if (emojiDetailJustOpened) {
+            emojiDetailJustOpened = false;
+            return;
+        }
+        if (isMiddleClick(e)) return;
+        hideEmojiDetailTip();
+    });
 
     renderEmojiGrid();
     if (searchInput) {
@@ -406,6 +527,7 @@ function setModalEmoji(emoji) {
 
 
 function closeEmojiPopover() {
+    hideEmojiDetailTip();
     const popover = document.getElementById('emoji-picker-popover');
     const searchInput = document.getElementById('emoji-search-input');
     if (popover) popover.classList.remove('is-open');
