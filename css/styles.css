@@ -86,7 +86,9 @@ html.is-mobile.is-landscape body>:not(#landscape-lock),html.is-mobile.is-landsca
 #other-options-modal .other-options-modal__checks{width:max-content;max-width:100%}
 #other-options-modal .settings-modal__check-row{width:max-content;max-width:100%}
 #other-options-modal .settings-modal__check-label{white-space:nowrap}
+.list-perspective-block{display:flex;flex-direction:column;align-items:flex-start;row-gap:0.2rem;margin-top:0.5rem}
 .list-perspective{display:inline-flex;align-items:center;column-gap:0.5rem;color:var(--text-color);font-weight:400}
+#drag-reorder-text{font-style:italic}
 .list-perspective__name{font-weight:700;color:var(--text-color)}
 .list-perspective__value{display:inline-flex;align-items:center;padding:0.2rem 0.75rem;border:0;border-radius:9999px;background-color:var(--category-bg);color:var(--text-color);font-weight:600;font-size:calc(0.75rem * var(--font-scale,1));line-height:1.3;cursor:pointer}
 .list-perspective__value:hover{background-color:color-mix(in srgb,var(--category-bg) 82%,var(--hover-blend))}
