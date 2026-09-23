@@ -347,6 +347,18 @@ function closeAttributionModal() {
     openSettingsModal();
 }
 
+function openAboutModal() {
+    closeSettingsModal(false);
+    openUiModal('about-modal');
+    const body = document.querySelector('#about-modal .about-modal__body');
+    if (body) body.scrollTop = 0;
+}
+
+function closeAboutModal() {
+    closeUiModal('about-modal');
+    openSettingsModal();
+}
+
 function applyColors(colors) {
     const textColor = colors.text || COLOR_DEFAULTS.text;
     document.body.style.backgroundColor = colors.bg || COLOR_DEFAULTS.bg;
