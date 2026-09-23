@@ -94,4 +94,5 @@ html.is-mobile.is-landscape body>:not(#landscape-lock),html.is-mobile.is-landsca
 .list-perspective__value:hover{background-color:color-mix(in srgb,var(--category-bg) 82%,var(--hover-blend))}
 #other-options-modal.is-open{display:flex !important;z-index:220}
 .emoji-picker__detail{position:fixed;z-index:300;max-width:22rem;padding:0.5rem 0.75rem;border-radius:0.75rem;border:1px solid var(--color-border);background-color:var(--card-bg);color:var(--text-color);font-size:0.8125rem;line-height:1.4;box-shadow:var(--app-elevation-2);pointer-events:none;white-space:normal;overflow-wrap:anywhere}
+html.is-mobile .link-card,html.is-mobile .emoji-picker__cell{-webkit-touch-callout:none}
 
