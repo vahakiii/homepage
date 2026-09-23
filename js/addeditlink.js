@@ -328,9 +328,18 @@ function showEmojiDetailTip(btn, fullName) {
     const rect = btn.getBoundingClientRect();
     const tw = tip.offsetWidth;
     const th = tip.offsetHeight;
+    const popover = document.getElementById('emoji-picker-popover');
+    const popRect = popover ? popover.getBoundingClientRect() : null;
+    const grid = document.getElementById('emoji-grid');
+    const gridRect = grid ? grid.getBoundingClientRect() : null;
+
     let left = rect.left + (rect.width / 2) - (tw / 2);
     let top = rect.top - th - 8;
-    if (top < 8) top = rect.bottom + 8;
+    const minTop = gridRect ? gridRect.top + 4 : 8;
+    if (top < minTop) top = rect.bottom + 8;
+    if (popRect) {
+        left = Math.max(popRect.left + 8, Math.min(left, popRect.right - tw - 8));
+    }
     const clamped = clampEmojiDetailPosition(left, top, tw, th);
     tip.style.left = `${clamped.left}px`;
     tip.style.top = `${clamped.top}px`;
