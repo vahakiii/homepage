@@ -493,6 +493,10 @@ function renderLinks() {
                         clearTimeout(card._tooltipTimeout);
                         card._tooltipTimeout = null;
                     }
+                    if (card._tooltipLifeTimer) {
+                        clearTimeout(card._tooltipLifeTimer);
+                        card._tooltipLifeTimer = null;
+                    }
                     if (card._tooltipEl) {
                         card._tooltipEl.remove();
                         card._tooltipEl = null;
@@ -521,7 +525,8 @@ function renderLinks() {
 
         grid.appendChild(card);
 
-        // Compact tooltip: 1s delay, follows mouse; hide if cursor enters tooltip
+        // Compact tooltip: 1s delay, follows mouse; hide if cursor enters tooltip.
+        // Mobile: once shown, it stays for 4s, then closes. Leaving the card does not dismiss it early.
         if (isCompact && link.description) {
             card._tooltipTimeout = null;
             card._tooltipEl = null;
@@ -536,11 +541,19 @@ function renderLinks() {
                 return { left, top };
             };
 
+            const clearTooltipLife = () => {
+                if (card._tooltipLifeTimer) {
+                    clearTimeout(card._tooltipLifeTimer);
+                    card._tooltipLifeTimer = null;
+                }
+            };
+
             const hideTooltipNow = () => {
                 if (hideTimeout) {
                     clearTimeout(hideTimeout);
                     hideTimeout = null;
                 }
+                clearTooltipLife();
                 if (card._tooltipEl) {
                     card._tooltipEl.remove();
                     card._tooltipEl = null;
@@ -589,7 +602,16 @@ function renderLinks() {
                 card._tooltipEl.style.top = `${clamped.top}px`;
                 card._tooltipEl.style.visibility = 'visible';
 
+                if (typeof isMobileBrowser === 'function' && isMobileBrowser()) {
+                    clearTooltipLife();
+                    card._tooltipLifeTimer = setTimeout(() => {
+                        card._tooltipLifeTimer = null;
+                        hideTooltipNow();
+                    }, 4000);
+                }
+
                 card._tooltipEl.addEventListener('mouseenter', () => {
+                    if (typeof isMobileBrowser === 'function' && isMobileBrowser()) return;
                     hideTooltipNow();
                 });
             };
@@ -618,6 +640,7 @@ function renderLinks() {
                     clearTimeout(card._tooltipTimeout);
                     card._tooltipTimeout = null;
                 }
+                if (typeof isMobileBrowser === 'function' && isMobileBrowser()) return;
                 if (card._tooltipEl) {
                     if (hideTimeout) clearTimeout(hideTimeout);
                     hideTimeout = setTimeout(() => {
