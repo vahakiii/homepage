@@ -372,11 +372,12 @@ function initEmojiPicker() {
         }
     };
 
-    document.addEventListener('click', (e) => {
-        if (!popover.contains(e.target) && !dropdownBtn.contains(e.target)) {
+    const closeBtn = document.getElementById('emoji-picker-close');
+    if (closeBtn) {
+        closeBtn.onclick = () => {
             closeEmojiPopover();
-        }
-    });
+        };
+    }
 
     const cancelBtn = document.getElementById('emoji-picker-cancel');
     if (cancelBtn) {
