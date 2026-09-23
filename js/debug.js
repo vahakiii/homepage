@@ -196,7 +196,7 @@ function updateDebugInfo() {
     content.innerHTML = `
         <div class="debug-panel__row">
             <span class="debug-panel__key">PR</span>
-            <span class="debug-panel__val">${prNumber}</span>
+            <span class="debug-panel__val debug-panel__val--pr">${prNumber}</span>
         </div>
         <div class="debug-panel__row">
             <span class="debug-panel__key">Window Width</span>
