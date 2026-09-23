@@ -1257,7 +1257,7 @@ Link cards are the primary presentation of `links[]` on the Landing Screen. Rend
 | **REQ-LC-011** | Drag reorder shall be enabled only when sort ≠ date | `card.draggable`; handle opacity in date mode | *TBD* |
 | **REQ-LC-012** | Drop on another card shall splice order and persist | `reorderLinks` | *TBD* |
 | **REQ-LC-013** | If drag occurs while date sort, mode shall switch to default | `reorderLinks` UI chrome reset | *TBD* |
-| **REQ-LC-014** | Compact mode shall show description via delayed tooltip | 1000 ms delay; `.link-card-tooltip` | *TBD* |
+| **REQ-LC-014** | Compact mode shall show description via delayed tooltip | 1000 ms delay; `.link-card-tooltip`; mobile auto-hide **5000** ms | *TBD* |
 | **REQ-LC-015** | Tooltips shall follow mouse and clamp to viewport | 8px pad clamp | *TBD* |
 | **REQ-LC-016** | Drag start shall dismiss active compact tooltips | Cleanup in `dragstart` | *TBD* |
 
