@@ -83,6 +83,9 @@ html.is-mobile.is-landscape body>:not(#landscape-lock),html.is-mobile.is-landsca
 #other-options-modal .list-controls{flex-direction:column;align-items:flex-start;row-gap:0.875rem;margin-top:0;width:max-content;max-width:100%}
 #other-options-modal .list-controls__group{flex-wrap:wrap;row-gap:0.375rem;max-width:100%}
 #other-options-modal #sort-note{white-space:normal;width:0;min-width:100%}
+#other-options-modal .other-options-modal__checks{width:max-content;max-width:100%}
+#other-options-modal .settings-modal__check-row{width:max-content;max-width:100%}
+#other-options-modal .settings-modal__check-label{white-space:nowrap}
 .list-perspective{display:inline-flex;align-items:center;column-gap:0.5rem;color:var(--text-color);font-weight:400}
 .list-perspective__name{font-weight:700;color:var(--text-color)}
 .list-perspective__value{display:inline-flex;align-items:center;padding:0.2rem 0.75rem;border-radius:9999px;background-color:var(--category-bg);color:var(--text-color);font-weight:600;font-size:calc(0.75rem * var(--font-scale,1));line-height:1.3}
