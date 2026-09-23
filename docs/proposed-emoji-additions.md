@@ -1,8 +1,8 @@
 # Proposed emoji additions
 
-Review list only. `js/config.js` is unchanged.
+These 75 glyphs are now in `js/config.js` (`COMMON_EMOJIS` and `EMOJI_NAMES`). Existing glyphs and category order are unchanged; each group is appended, and `Symbols & Signs` is inserted between Sports and Tech & Development.
 
-75 glyphs that are not in `COMMON_EMOJIS` or `EMOJI_NAMES`, grouped into the category each one should join. Descriptors follow the comment at the top of the emoji block in `js/config.js`:
+The 75 glyphs below were missing from `COMMON_EMOJIS` and `EMOJI_NAMES` when this list was written. They are grouped into the category each one joined. Descriptors follow the comment at the top of the emoji block in `js/config.js`:
 
 > Emoji picker: format Name (keywords); parens hidden in tooltips but searchable.
 > Keep EMOJI_NAMES ↔ COMMON_EMOJIS in sync; categories alphabetical; General last resort; new category needs ≥5.

@@ -167,24 +167,29 @@ function importedColorMap(c) {
 var COMMON_EMOJIS = {
     "Animals": [
         '🐶', '🐱', '🐭', '🐹', '🐰', '🐻', '🐼', '🐨', '🐯', '🦁', '🐸', '🐍',
-        '🐔', '🐵', '🙈', '🙉', '🙊', '🪿', '🫎', '🐝', '🦐', '🐬', '🐳', '🐪', '🐘', '🐈', '🐾'
+        '🐔', '🐵', '🙈', '🙉', '🙊', '🪿', '🫎', '🐝', '🦐', '🐬', '🐳', '🐪', '🐘', '🐈', '🐾',
+        '🐧', '🦉', '🦋', '🐢'
     ],
     "Celestial": [
-        '⭐', '🌟', '🌞', '🌝', '🌛', '🌜', '🌠'
+        '⭐', '🌟', '🌞', '🌝', '🌛', '🌜', '🌠',
+        '🪐', '🌌'
     ],
     "Celebration & Explosions": [
-        '🎆', '🎇', '🧨', '🎉', '🎊', '💥'
+        '🎆', '🎇', '🧨', '🎉', '🎊', '💥',
+        '🎈', '🎀'
     ],
     "Communication": [
         '📧', '💬', '☎️', '👤', '✉️', '💌'
     ],
     "Education & Learning": [
-        '🎓', '📖', '✏️', '➕', '➖', '✖️', '➗', '🟰', '🧑‍🏫'
+        '🎓', '📖', '✏️', '➕', '➖', '✖️', '➗', '🟰', '🧑‍🏫',
+        '🏫', '🎒'
     ],
     "Faces & Emotions": [
         '😀', '😃', '😄', '😁', '😂', '🙂', '😊', '😉', '😐', '😕', '🙁',
         '😠', '😢', '😭', '😴', '😎', '🥳', '🤯', '😇', '😏', '😈',
-        '🤩', '😍', '🥸', '🥶', '🫠', '🫥'
+        '🤩', '😍', '🥸', '🥶', '🫠', '🫥',
+        '🤔', '🙄', '🥺', '🤓', '🤗', '👻'
     ],
     "Finance & Money": [
         '💰', '💵', '💲', '💳', '🪙', '💎', '🏦', '🏧',
@@ -196,10 +201,12 @@ var COMMON_EMOJIS = {
         '🥓', '🫙', '🌹', '🎄',
         '🍕', '🍟', '🍔', '🍗', '🥚', '🍋', '🥥', '🍤', '🥟',
         '🍦', '🍢', '🍰', '🎂', '🍼', '🍺', '🍻', '🍷', '🥂', '🍽️',
-        '🍹', '🍸', '🥢', '🥡'
+        '🍹', '🍸', '🥢', '🥡',
+        '🍳', '🍜', '🍣', '🌮', '🍿', '🍩', '🍵', '🧋'
     ],
     "Gaming & Retro": [
-        '🎮', '🕹️', '👾', '🏴‍☠️', '🗡️', '🛡️', '🎲', '♟️'
+        '🎮', '🕹️', '👾', '🏴‍☠️', '🗡️', '🛡️', '🎲', '♟️',
+        '🎰'
     ],
     "General": [
         '🔗', '🏠', '❤️', '🔥', '✨', '✅', '❌', '⚠️', '💡', '⏰',
@@ -209,7 +216,8 @@ var COMMON_EMOJIS = {
     ],
     "Hand Gestures": [
         '👍', '👎', '👏', '🙌', '🙏', '👋', '🤝', '👌', '✌️',
-        '👈', '👉', '👆', '👇', '🤟', '🤘', '🤌', '🤏'
+        '👈', '👉', '👆', '👇', '🤟', '🤘', '🤌', '🤏',
+        '🤞', '✋', '🤙'
     ],
     "Hearts": [
         '🧡', '💛', '💚', '💙', '💜', '🖤', '🤍', '🤎',
@@ -218,69 +226,100 @@ var COMMON_EMOJIS = {
     "Health & Lifestyle": [
         '🏥', '💪', '🧘', '🥗', '🧬', '🤰', '👨‍👩‍👧‍👦', '👶', '👨', '👩',
         '⚕️', '🩹', '💊', '🏃', '🩺', '🩻', '🔬', '👨‍⚕️', '👩‍⚕️', '🧖‍♂',
-        '💆‍♂️', '💆‍♀', '💇‍♂️', '🧖‍♀️', '💅', '🛌', '👗', '💄', '🧴', '🫁', '🧘‍♂'
+        '💆‍♂️', '💆‍♀', '💇‍♂️', '🧖‍♀️', '💅', '🛌', '👗', '💄', '🧴', '🫁', '🧘‍♂',
+        '🦷', '💉', '👁️', '♿'
     ],
     "Media & Entertainment": [
         '🖼️', '🖌️', '🎨', '🎵', '📺', '🎬', '🧩', '🎧', '📚',
         '🎞️', '📽️', '🎥', '📷', '🦸', '📰',
-        '🎁', '🎪', '🎸', '🥁', '📀', '📱', '🤹‍♂️', '📹'
+        '🎁', '🎪', '🎸', '🥁', '📀', '📱', '🤹‍♂️', '📹',
+        '🎤', '🎹', '🎭'
     ],
     "Plants & Nature": [
         '🌵', '🌲', '🌳', '🌴', '🌱', '🌿', '🍀', '🌸', '🏞️',
-        '🪴', '🌻', '🧑‍🌾', '🪷'
+        '🪴', '🌻', '🧑‍🌾', '🪷',
+        '🍁', '🍄', '🌾'
     ],
     "Parks": [
-        '⛺', '🏕️'
+        '⛺', '🏕️',
+        '🎡', '🎠', '⛲', '🏰', '🗽'
     ],
     "Playing Cards": [
         '🃏', '♠️', '♥️', '♦️', '♣️'
     ],
     "Religious & Spiritual": [
-        '✝️', '☪️', '🕉️', '☸️', '🛐'
+        '✝️', '☪️', '🕉️', '☸️', '🛐',
+        '✡️', '☯️', '☮️', '🕌', '⛪', '🛕'
     ],
     "Sports": [
         '⚽', '🏀', '🏈', '⚾', '🎾', '🏐', '🏉', '🏓',
         '🏸', '🏒', '🏑', '🥊', '🥋', '🏏', '🏹', '🎱',
         '🏊', '🏄', '🚴', '🏋️', '🤺', '🧗',
         '⛳', '⛹️‍♂️', '🛝', '🥇', '🥎',
-        '🏋️‍♂️', '🏃‍♂️', '🧘‍♀️'
+        '🏋️‍♂️', '🏃‍♂️', '🧘‍♀️',
+        '🎯', '🎳', '🥈', '🥉'
+    ],
+    "Symbols & Signs": [
+        '♻️', '♾️', '💯', '❓', '©️', 'ℹ️'
     ],
     "Tech & Development": [
         '💻', '🖥️', '⌨️', '🖱️', '🔧', '⚙️', '🛠️', '🔌',
         '☁️', '🔒', '🔐', '🌐', '🔍', '🧠', '💾', '🧮',
         '🚀', '🐛', '🤖', '🧑‍💻', '🐙', '🦊', '📄',
-        '🧪', '🧑‍🔬', '⚡', '🔠', '🪟', '📶', '🛰️', '📡'
+        '🧪', '🧑‍🔬', '⚡', '🔠', '🪟', '📶', '🛰️', '📡',
+        '🦀', '🛜', '🔋', '🪫'
     ],
     "Tools & Objects": [
         '🔨', '⛏️', '🪓', '🪛', '🧰', '🗃️', '🗄️',
         '⛑️', '🧯', '⛓️', '💣', '🔫', '🛟',
         '👠', '🦺', '🩴',
-        '🪜', '⚔️', '🧿', '🪬', '🔭', '🛁', '🗳️', '🧷', '🖇️'
+        '🪜', '⚔️', '🧿', '🪬', '🔭', '🛁', '🗳️', '🧷', '🖇️',
+        '✂️', '🔦'
     ],
     "Travel & Transportation": [
         '✈️', '🚗', '🏖️', '🗺️', '🌍', '🚕', '🚌', '🚎', '🚲', '🛵', '🚁',
         '🚤', '🛤️', '🛣️', '🏔️', '🏟️', '🎢', '🌏', '🏝️', '🏨', '🚢', '🛫', '🛳️', '🧳', '🚚',
-        '🥾', '🛴', '🚇', '🚄'
+        '🥾', '🛴', '🚇', '🚄',
+        '🧭', '⛽', '🚑'
     ],
     "Weather": [
         '☀️', '⛅', '⛈️', '🌤️', '🌥️', '🌦️', '🌧️', '🌨️', '🌩️', '❄️', '🌫️',
-        '🌊', '🌋', '🌡️', '⛄'
+        '🌊', '🌋', '🌡️', '⛄',
+        '🌈', '☂️', '🌪️'
     ],
     "Work & Productivity": [
         '💼', '📊', '📈', '📉', '📋', '🗓️', '🧾', '📅', '🗂️', '☕', '🔑', '🗒️',
         '📥', '📤', '🕒', '⏱️', '🧑‍💼', '📁', '📎', '📌', '📠', '⚖️', '⏳', '❎',
         '🗣️', '📣', '🎚️', '👥', '🏘️', '📢', '🔔',
-        '🤦‍♂️', '🙋‍♂️', '🤷‍♂️', '👯‍♀️', '🧑‍🧑‍🧒‍🧒', '🗑️', '⌚', '💈', '✍️', '📍', '📦'
+        '🤦‍♂️', '🙋‍♂️', '🤷‍♂️', '👯‍♀️', '🧑‍🧑‍🧒‍🧒', '🗑️', '⌚', '💈', '✍️', '📍', '📦',
+        '🖨️', '👔', '🔕'
     ],
     "Zodiac": [
-        '♈', '♉', '♊', '♋', '♌', '♍', '♎', '♏', '♐', '♑', '♒', '♓'
+        '♈', '♉', '♊', '♋', '♌', '♍', '♎', '♏', '♐', '♑', '♒', '♓',
+        '⛎'
     ]
 };
 
 var EMOJI_NAMES = {
+    '©️': 'Copyright (License, Rights, Intellectual Property, Legal, Author, All Rights Reserved, Copyleft, DMCA)',
     '‼️': 'Double Exclamation Mark (Emphasis, Surprise, Important, Wow)',
+    'ℹ️': 'Information (Info, About, Details, Help, Notice, Reference, Info Desk, Read Me)',
+    '☂️': 'Umbrella (Rain, Cover, Shade, Weather, Parasol, Dry, Rainy Day, Storm)',
+    '☮️': 'Peace Symbol (Harmony, Pacifism, Nonviolence, Calm, Hippie, Anti-War, Peaceful, Truce)',
+    '☯️': 'Yin Yang (Balance, Taoism, Tao, Harmony, Opposite, Duality, Yang, Dao)',
+    '♻️': 'Recycling Symbol (Eco, Reuse, Sustainability, Green, Environment, Waste, Recycle Bin, Conservation)',
+    '♾️': 'Infinity (Endless, Limitless, Forever, Loop, Math, Boundless, Infinite, Eternity)',
+    '♿': 'Wheelchair Symbol (Accessibility, Accessible, Disability, Inclusive, Mobility, Access, Wheelchair, Ramp)',
     '⚾': 'Baseball (Ball, Bat, Sport, Throw, Catch)',
     '₿': 'Bitcoin Symbol (Crypto, Cryptocurrency, BTC, Digital Currency, Blockchain, Bitcoin, Satoshi)',
+    '⛎': 'Ophiuchus (Serpent Bearer, Zodiac, Astrology, Thirteenth Sign, Constellation, 13th Sign, Horoscope, Star Sign)',
+    '⛪': 'Church (Christian, Worship, Chapel, Faith, Congregation, Steeple, Sunday, Parish)',
+    '⛲': 'Fountain (Park, Water, Plaza, Spray, Landmark, Garden, Wish, Courtyard)',
+    '⛽': 'Fuel Pump (Gas, Gasoline, Petrol, Diesel, Gas Station, Refuel, Fill Up, Pump)',
+    '✂️': 'Scissors (Cut, Snip, Craft, Trim, Paper, Shears, Clip, Stationery)',
+    '✋': 'Raised Hand (Stop, Wait, High Five, Halt, Pause, Hold, Hand Up, Attention)',
+    '✡️': 'Star of David (Judaism, Jewish, Faith, Israel, Religion, Hebrew, Jewish Star, Magen David)',
+    '❓': 'Question Mark (Help, FAQ, Ask, Unknown, Doubt, Query, Huh, Support)',
     '➗': 'Divide (Math, Split, Separate)',
     '➖': 'Minus (Remove, Subtract, Negative, Math)',
     '➕': 'Plus (Add, New, Positive, Math, Create)',
@@ -352,8 +391,10 @@ var EMOJI_NAMES = {
     '🆔': 'ID Button (Identity, Badge, Name, Card, Profile, User)',
     '🆕': 'NEW Button (New, Fresh, Latest, Update, Brand New)',
     '🇺🇸': 'Flag: United States (USA, America)',
+    '🌈': 'Rainbow (Colorful, Pride, LGBTQ, Hope, Sky, Arc, Spectrum, After Rain)',
     '🌊': 'Water Wave (Ocean, Wave, Sea, Tsunami, Powerful)',
     '🌋': 'Volcano (Eruption, Lava)',
+    '🌌': 'Milky Way (Galaxy, Space, Stars, Night Sky, Cosmos, Universe, Astronomy, Starfield)',
     '🌍': 'Globe Showing Americas (World, International, Earth, Global, Planet)',
     '🌏': 'Globe Showing Asia-Australia (World, Earth, Global, International, Planet, Asia)',
     '🌐': 'Globe (World, Internet, Global, Connected, Online, Network, Web)',
@@ -370,7 +411,9 @@ var EMOJI_NAMES = {
     '🌧️': 'Cloud with Rain (Rainy, Shower, Wet, Stormy)',
     '🌨️': 'Cloud with Snow (Snowy, Winter, Flurries, Cold)',
     '🌩️': 'Cloud with Lightning (Thunderstorm, Storm, Dramatic, Powerful)',
+    '🌪️': 'Tornado (Twister, Storm, Cyclone, Wind, Funnel, Severe, Hurricane, Waterspout)',
     '🌫️': 'Fog (Misty, Hazy, Mysterious, Low Visibility)',
+    '🌮': 'Taco (Mexican, Tortilla, Spicy, Shell, Crispy, Tasty, Street Food, Salsa)',
     '🌱': 'Seedling (Green, Small, Growth, New, Plant, Sprout)',
     '🌲': 'Pine Tree (Green, Tall, Forest, Needle, Christmas)',
     '🌳': 'Tree (Green, Tall, Leaf, Forest, Nature, Big)',
@@ -379,8 +422,11 @@ var EMOJI_NAMES = {
     '🌸': 'Flower (Pink, Petal, Bloom, Spring, Pretty)',
     '🌹': 'Rose (Flower, Love)',
     '🌻': 'Sunflower (Yellow Flower, Summer, Bright, Happy, Tall Flower, Garden, Sun, Cheerful)',
+    '🌾': 'Sheaf of Rice (Grain, Harvest, Farm, Wheat, Agriculture, Crop, Rice, Barley)',
     '🌿': 'Leaf (Green, Plant, Herb, Nature, Fresh)',
     '🍀': 'Clover (Green, Lucky, Four, Leaf, Plant)',
+    '🍁': 'Maple Leaf (Autumn, Fall, Canada, Foliage, Red, Leaf, Canadian, October)',
+    '🍄': 'Mushroom (Fungi, Forest, Toadstool, Cap, Forage, Woodland, Fungus, Mycelium)',
     '🍇': 'Grapes (Purple, Sweet, Round, Bunch, Small)',
     '🍉': 'Watermelon (Big, Red, Sweet, Juicy, Summer)',
     '🍋': 'Lemon (Yellow, Sour, Citrus, Small, Fresh)',
@@ -392,11 +438,16 @@ var EMOJI_NAMES = {
     '🍔': 'Burger (Beef, Bun, Cheese, Juicy, Fast Food)',
     '🍕': 'Pizza (Hot, Cheesy, Slice, Round, Tasty)',
     '🍗': 'Chicken Leg (Meat, Crispy, Protein, Brown, Tasty)',
+    '🍜': 'Steaming Bowl (Ramen, Noodles, Soup, Hot, Asian, Tasty, Pho, Noodle Soup)',
     '🍟': 'Fries (Potato, Salty, Crispy, Yellow, Fast Food)',
     '🍢': 'Skewer (Food, Stick, Warm, Street, Tasty)',
+    '🍣': 'Sushi (Japanese, Fish, Rice, Roll, Seafood, Fresh, Sashimi, Nigiri)',
     '🍤': 'Shrimp (Pink, Curved, Seafood, Small, Tasty)',
     '🍦': 'Ice Cream (Cold, Sweet, Creamy, Cone, Dessert)',
+    '🍩': 'Doughnut (Donut, Sweet, Dessert, Sprinkles, Soft, Round, Pastry, Glaze)',
     '🍰': 'Cake (Sweet, Slice, Dessert, Strawberry, Soft)',
+    '🍳': 'Cooking (Frying Pan, Breakfast, Egg, Skillet, Fried, Cook, Pan, Sunny Side Up)',
+    '🍵': 'Teacup (Tea, Hot, Drink, Calm, Cup, Green, Kettle, Steep)',
     '🍷': 'Wine (Red, Glass, Drink, Alcohol, Elegant)',
     '🍸': 'Martini (Glass, Drink, Olive, Elegant, Alcohol)',
     '🍹': 'Cocktail (Drink, Colorful, Sweet, Glass, Vacation)',
@@ -404,28 +455,40 @@ var EMOJI_NAMES = {
     '🍻': 'Beer Mugs (Cheers, Cold, Drink, Glass, Friends)',
     '🍼': 'Baby Bottle (Milk, Baby, Drink, White, Small)',
     '🍽️': 'Plate (Food, Eat, Fork, Knife, Meal)',
+    '🍿': 'Popcorn (Movie, Snack, Cinema, Salty, Corn, Butter, Theater, Film Night)',
+    '🎀': 'Ribbon (Bow, Gift, Cute, Decoration, Present, Wrap, Craft, Pink)',
     '🎁': 'Wrapped Gift (Present, Birthday)',
     '🎂': 'Birthday Cake (Sweet, Candle, Celebration, Dessert, Big)',
     '🎄': 'Christmas Tree (Holiday, Xmas)',
     '🎆': 'Fireworks (Loud, Bright, Colorful, Explosive, Celebration, Joy, Night)',
     '🎇': 'Sparkler (Bright, Sparkling, Hot, Festive, Fun, Light, Magic)',
+    '🎈': 'Balloon (Party, Birthday, Celebration, Float, Colorful, Helium, Inflated, Festive)',
     '🎉': 'Party Popper (Colorful, Surprise, Celebration, Confetti, Fun, Joy, Pop)',
     '🎊': 'Confetti Ball (Round, Colorful, Celebration, Joy, Party, Festive, Bright)',
+    '🎒': 'Backpack (School, Bag, Student, Books, Rucksack, Supplies, Carry, Daypack)',
     '🎓': 'Graduation Cap (School, Success, Achievement, Degree, Smart, Proud)',
     '🎚️': 'Level Slider (Gauge, Control, Slider, Settings, Adjustment)',
     '🎞️': 'Film (Movie, Camera, Old, Strip, Cinema)',
+    '🎠': 'Carousel Horse (Merry-Go-Round, Carousel, Amusement, Ride, Fair, Park, Carnival, Horse)',
+    '🎡': 'Ferris Wheel (Amusement Park, Fair, Carnival, Ride, Funfair, Wheel, Theme Park, County Fair)',
     '🎢': 'Roller Coaster (Amusement, Thrill)',
+    '🎤': 'Microphone (Sing, Podcast, Karaoke, Voice, Audio, Mic, Vocal, Speak)',
     '🎥': 'Camera (Movie, Film, Video, Record, Cinema)',
     '🎧': 'Headphones (Music, Listen, Sound, Ear, Audio)',
     '🎨': 'Palette (Art, Color, Paint, Mix, Creative)',
     '🎪': 'Circus Tent (Entertainment, Show, Fun, Performance)',
     '🎫': 'Ticket (Event, Movie, Travel, Admission, Show, Pass, Entry)',
     '🎬': 'Clapper (Movie, Film, Video, Shoot, Cinema)',
+    '🎭': 'Performing Arts (Theater, Drama, Masks, Acting, Stage, Broadway, Comedy, Tragedy)',
     '🎮': 'Game Controller (Gaming, Play, Fun, Buttons, Console, Video)',
+    '🎯': 'Direct Hit (Target, Bullseye, Goal, Aim, Accuracy, Focus, Bulls Eye, On Target)',
+    '🎰': 'Slot Machine (Casino, Gamble, Jackpot, Luck, Vegas, Betting, Slots, Cherry)',
     '🎱': 'Billiards (Ball, Table, Cue, Game, Pool)',
     '🎲': 'Dice (Game, Random, Luck, Roll, Chance)',
+    '🎳': 'Bowling (Pins, Strike, Alley, Ball, Spare, Tenpin, Bowling Ball, Lane)',
     '🎵': 'Music Note (Song, Sound, Melody, Listen, Audio)',
     '🎸': 'Guitar (Music, Instrument)',
+    '🎹': 'Musical Keyboard (Piano, Keys, Music, Instrument, Melody, Synth, Organ, Play)',
     '🎾': 'Tennis (Ball, Racket, Sport, Court, Hit)',
     '🏀': 'Basketball (Ball, Sport, Hoop, Dunk, Orange)',
     '🏃': 'Running (Sport, Exercise, Fast, Cardio, Healthy)',
@@ -454,6 +517,8 @@ var EMOJI_NAMES = {
     '🏦': 'Bank (Money, Safe, Building, Rich, Vault, Cash)',
     '🏧': 'ATM (Cash, Machine, Bank, Withdraw, Money, Pin, Transaction)',
     '🏨': 'Hotel (Accommodation, Stay, Travel, Building, Vacation, Service)',
+    '🏫': 'School (Students, Class, Campus, Learn, Academy, Building, Classroom, Education)',
+    '🏰': 'Castle (Fortress, Fairy Tale, Kingdom, Historic, Landmark, Medieval, Palace, Royalty)',
     '🏴‍☠️': 'Pirate Flag (Adventure, Skull, Bold, Danger, Treasure)',
     '🏷️': 'Tag (Label, Price, Name, Category, Organize)',
     '🏸': 'Badminton (Shuttle, Racket, Sport, Fast, Outdoor)',
@@ -466,7 +531,9 @@ var EMOJI_NAMES = {
     '🐙': 'Octopus (GitHub, Octocat, DevOps, Flexible, Multi-tasking)',
     '🐛': 'Bug (Issue, Debug, Error, Problem, Glitch)',
     '🐝': 'Honeybee (Busy, Yellow, Flying, Sweet, Small, Important)',
+    '🐢': 'Turtle (Slow, Steady, Shell, Patient, Reptile, Ocean, Tortoise, Sea)',
     '🐦‍🔥': 'Phoenix (Rebirth, Mythical)',
+    '🐧': 'Penguin (Linux, Tux, Bird, Cold, Antarctic, Waddle, Cute, Ice)',
     '🐨': 'Koala (Sleepy, Calm, Cute, Peaceful, Tree, Australian)',
     '🐪': 'Camel (Desert, Hump, Dry, Tough, Calm, Walking)',
     '🐬': 'Dolphin (Smart, Playful, Swimming, Friendly, Gray, Ocean)',
@@ -482,6 +549,7 @@ var EMOJI_NAMES = {
     '🐻': 'Bear (Strong, Powerful, Protective, Big, Wild, Calm)',
     '🐼': 'Panda (Cute, Peaceful, Gentle, Calm, Round, Rare)',
     '🐾': 'Paw Prints (Animal, Dog, Cat, Track, Footprint, Pet, Nature)',
+    '👁️': 'Eye (Vision, See, Sight, Look, Optometry, Gaze, Eyeball, Iris)',
     '👆': 'Backhand Index Pointing Up (Point Up, Look Up, Important)',
     '👇': 'Backhand Index Pointing Down (Point Down, Look Down, Important)',
     '👈': 'Backhand Index Pointing Left (Point Left, This Way, Attention)',
@@ -491,6 +559,7 @@ var EMOJI_NAMES = {
     '👍': 'Thumbs Up (Good, Approve, Like, Positive, Support)',
     '👎': 'Thumbs Down (Bad, Disapprove, Dislike, Negative, Reject)',
     '👏': 'Clapping Hands (Applause, Good Job, Praise, Celebration)',
+    '👔': 'Necktie (Business, Formal, Suit, Professional, Corporate, Dress Code, Interview, White Collar)',
     '👗': 'Dress (Clothes, Fashion, Woman, Skirt, Elegant, Shopping)',
     '👠': 'High-Heeled Shoe (Fashion, Feminine, Elegant, Stylish)',
     '👤': 'Person (Human, Profile, User, Identity, Face, Individual)',
@@ -503,6 +572,7 @@ var EMOJI_NAMES = {
     '👩‍⚕️': 'Doctor (Woman, Medical, Health, Hospital, Care)',
     '👯‍♀️': 'Women with Bunny Ears (Dancing, Party, Fun, Celebration)',
     '👶': 'Baby (Small, Cute, Child, New, Innocent)',
+    '👻': 'Ghost (Halloween, Spooky, Spirit, Boo, Phantom, Haunted, Scary, October)',
     '👾': 'Alien (Gaming, Retro, Pixel, Enemy, Space)',
     '💄': 'Lipstick (Makeup, Beauty, Lips, Fashion, Red, Cosmetic)',
     '💅': 'Nail Polish (Manicure, Beauty, Self-Care, Glam)',
@@ -510,6 +580,7 @@ var EMOJI_NAMES = {
     '💆‍♂️': 'Man Getting Massage (Relax, Spa, Wellness, Self-Care)',
     '💇‍♂️': 'Man Getting Haircut (Barber, Hair, Grooming, Style)',
     '💈': 'Barber Pole (Haircut, Barber)',
+    '💉': 'Syringe (Vaccine, Shot, Injection, Needle, Medical, Immunization, Dose, Booster)',
     '💊': 'Pill (Medicine, Drug, Health, Take, Cure)',
     '💌': 'Love Letter (Heart, Romance, Message, Valentine, Send, Affection)',
     '💍': 'Ring (Marriage, Engagement, Jewelry, Commitment, Love)',
@@ -534,6 +605,7 @@ var EMOJI_NAMES = {
     '💩': 'Pile of Poo (Poop, Bad, Funny, Shit, Silly)',
     '💪': 'Arm (Muscle, Strong, Gym, Fitness, Power, Training)',
     '💬': 'Chat (Talking, Message, Conversation, Text, Reply, Bubble)',
+    '💯': 'Hundred Points (Perfect, Score, 100, Excellent, Full Marks, Ace, One Hundred, A+)',
     '💰': 'Money Bag (Cash, Rich, Wealth, Dollar, Green, Full)',
     '💱': 'Currency Exchange (Money Exchange, Forex, Convert Currency, Travel, International Money, Rate)',
     '💲': 'Dollar Sign (Money, Price, Cost, Rich, Value, Cash)',
@@ -577,17 +649,20 @@ var EMOJI_NAMES = {
     '📺': 'TV (Watch, Screen, Show, Entertainment, Remote)',
     '📽️': 'Projector (Movie, Film, Screen, Old, Cinema)',
     '🔄': 'Refresh (Reload, Update, Sync, Restart, Cycle)',
+    '🔋': 'Battery (Power, Charge, Energy, Full, Device, Charged, Power Level, Cells)',
     '🔌': 'Plug (Power, Electric, Connect, Cord, Energy)',
     '🔍': 'Magnifying Glass (Search, Find, Zoom, Look, Glass)',
     '🔐': 'Lock (Secure, Key, Safe, Private, Access)',
     '🔑': 'Key (Access, Password, Secure, Important, Solution)',
     '🔒': 'Lock (Secure, Safe, Key, Private, Password)',
     '🔔': 'Bell (Notification, Alert, Reminder, Ping, Alarm, Attention)',
+    '🔕': 'Bell with Slash (Mute, Silent, Notifications Off, Quiet, Do Not Disturb, DND, No Bell, Silence)',
     '🔖': 'Bookmark (Save, Favorite, Page, Read, Mark)',
     '🔗': 'Link (Chain, Connection, URL, Connect, Website)',
     '🔝': 'TOP Arrow (Top, Best, Highest, Go to Top, Up)',
     '🔠': 'Input Letters (ABC, Uppercase, Typing, Text, Keyboard, Latin)',
     '🔥': 'Fire (Hot, Heat, Blaze, Lit, Burning)',
+    '🔦': 'Flashlight (Torch, Light, Beam, Dark, Flash, Handheld, Spotlight, Headlamp)',
     '🔧': 'Wrench (Tool, Fix, Repair, Mechanic, Turn)',
     '🔨': 'Hammer (Tool, Build, Repair, Construction, Powerful)',
     '🔫': 'Water Pistol (Toy Gun, Fun)',
@@ -595,12 +670,14 @@ var EMOJI_NAMES = {
     '🔭': 'Telescope (Astronomy, Space, Observation, Science, Wonder)',
     '🔱': 'Trident Emblem (Poseidon, Power)',
     '🕉️': 'Om Symbol (Hinduism, Meditation, Spirituality, Peace, Mantra, Yoga, Sound of Universe, Spirit, Hindu)',
+    '🕌': 'Mosque (Islam, Muslim, Worship, Prayer, Masjid, Minaret, Salah, Islamic)',
     '🕒': 'Clock (Time, Schedule, Deadline, Punctuality)',
     '🕹️': 'Joystick (Retro, Arcade, Gaming, Classic, Old School)',
     '🖇️': 'Linked Paperclips (Chain, Connection, Office, Linked, Strong)',
     '🖌️': 'Paintbrush (Art, Paint, Color, Creative, Artist)',
     '🖤': 'Black Heart (Dark, Gothic, Strong, Serious, Edgy, Deep Love, Mystery)',
     '🖥️': 'Desktop (Computer, Monitor, Screen, Work, Big)',
+    '🖨️': 'Printer (Document, Paper, Office, Inkjet, Hardware, Hard Copy, Laser Printer, Printout)',
     '🖱️': 'Mouse (Click, Pointer, Computer, Scroll, Cursor)',
     '🖼️': 'Picture (Photo, Art, Frame, Wall, Memory)',
     '🗂️': 'Card Index (Organization, Files, Archive, System)',
@@ -613,6 +690,7 @@ var EMOJI_NAMES = {
     '🗣️': 'Speaking Head (Advocate, Talk, Communication, Speech, Voice)',
     '🗳️': 'Ballot Box (Voting, Election, Democracy, Civic Duty, Choice)',
     '🗺️': 'World Map (Location, Navigation, Travel, Exploration, Discovery)',
+    '🗽': 'Statue of Liberty (New York, NYC, Freedom, Landmark, Monument, USA, Liberty, America)',
     '😀': 'Grinning Face (Happy, Joyful, Big Smile, Cheerful, Radiant)',
     '😁': 'Beaming Face with Smiling Eyes (Happy, Proud, Confident, Grinning)',
     '😂': 'Face with Tears of Joy (Laughing Hard, Hilarious, Comedy Gold, Emotional Release)',
@@ -633,6 +711,7 @@ var EMOJI_NAMES = {
     '😴': 'Sleeping Face (Tired, Asleep, Exhausted, Peaceful Rest)',
     '🙁': 'Slightly Frowning Face (Mild Sad, Disappointed, Concerned)',
     '🙂': 'Slightly Smiling Face (Mild Happy, Polite, Gentle, Friendly)',
+    '🙄': 'Face with Rolling Eyes (Annoyed, Sarcasm, Whatever, Unimpressed, Eye Roll, Skeptical, Ugh, Bored)',
     '🙈': 'See-No-Evil Monkey (Hiding, Embarrassed, Cute, Playful, Silly)',
     '🙉': 'Hear-No-Evil Monkey (Ignoring, Quiet, Peaceful, Selective, Calm)',
     '🙊': 'Speak-No-Evil Monkey (Silent, Quiet, Secret, Mysterious, Calm)',
@@ -645,6 +724,7 @@ var EMOJI_NAMES = {
     '🚇': 'Metro (Subway, Underground, Train, Commute, City Transport)',
     '🚌': 'Bus (Public Transport, Travel, Commuting, Affordable)',
     '🚎': 'Trolleybus (Public Transport, Electric, City)',
+    '🚑': 'Ambulance (Emergency, Medical, Siren, Rescue, Hospital, EMS, Paramedic, First Response)',
     '🚕': 'Taxi (Cab, Ride, Transportation, Urban, Convenient)',
     '🚗': 'Car (Driving, Vehicle, Automobile, Road Trip, Freedom)',
     '🚚': 'Delivery Truck (Truck, Shipping, Logistics, Transport, Cargo, Van, Deliver)',
@@ -657,6 +737,8 @@ var EMOJI_NAMES = {
     '🛍️': 'Shopping Bags (Buy, Store, Shop, Carry, Retail)',
     '🛐': 'Worship (Pray, Religion, Holy, Faith, Temple)',
     '🛒': 'Shopping Cart (Groceries, Shopping, Buy, Consumer, Convenient, Store, Food, Push)',
+    '🛕': 'Hindu Temple (Hinduism, Hindu, Mandir, Worship, Faith, Shrine, Puja, Deity)',
+    '🛜': 'Wireless (Wi-Fi, WiFi, Network, Internet, Signal, Router, WLAN, Hotspot)',
     '🛝': 'Playground Slide (Play, Fun)',
     '🛟': 'Ring Buoy (Life Saver, Safety)',
     '🛠️': 'Tools (Fix, Repair, Hammer, Wrench, Work)',
@@ -674,9 +756,14 @@ var EMOJI_NAMES = {
     '🤎': 'Brown Heart (Warmth, Earthy, Stability, Comfort, Natural, Grounded, Reliable)',
     '🤏': 'Pinching Hand (Small Amount, Tiny, Little Bit, Precise)',
     '🤑': 'Money-Mouth Face (Rich, Wealthy, Greedy, Cash, Money Face, Excited about Money, Dollar Signs)',
+    '🤓': 'Nerd Face (Geek, Smart, Glasses, Study, Clever, Bookish, Dork, Intelligent)',
+    '🤔': 'Thinking Face (Think, Hmm, Consider, Ponder, Question, Curious, Wondering, Idea)',
     '🤖': 'Robot (AI, Automation, Bot, Machine, Future)',
+    '🤗': 'Hugging Face (Hug, Welcome, Open Hands, Care, Warm, Embrace, Friendly, Affection)',
     '🤘': 'Sign of the Horns (Rock On, Metal, Concert, Devil Horns)',
+    '🤙': 'Call Me Hand (Shaka, Hang Loose, Call, Surf, Cool, Aloha, Phone, Relax)',
     '🤝': 'Handshake (Agreement, Deal, Partnership, Trust, Business)',
+    '🤞': 'Crossed Fingers (Luck, Hope, Wish, Good Luck, Fingers Crossed, Hoping, Anxious, Please)',
     '🤟': 'Love-You Gesture (I Love You, ILY, Affection, Rock On)',
     '🤦‍♂️': 'Man Facepalming (Frustrated, Embarrassed, Disappointed, Oh No)',
     '🤩': 'Star-Struck Face (Amazed, Excited, Celebrity Crush, Wow, Starstruck)',
@@ -688,6 +775,8 @@ var EMOJI_NAMES = {
     '🥁': 'Drum (Music, Percussion)',
     '🥂': 'Champagne (Glass, Toast, Drink, Celebration, Bubbly)',
     '🥇': '1st Place Medal (Gold, First, Winner, Champion, Best)',
+    '🥈': '2nd Place Medal (Silver, Second, Runner-Up, Medal, Award, Podium, Second Place, Silver Medal)',
+    '🥉': '3rd Place Medal (Bronze, Third, Medal, Award, Prize, Podium, Third Place, Bronze Medal)',
     '🥊': 'Boxing (Glove, Fight, Sport, Punch, Strong)',
     '🥋': 'Karate (Uniform, Belt, Sport, Fight, Discipline)',
     '🥎': 'Softball',
@@ -708,16 +797,22 @@ var EMOJI_NAMES = {
     '🥳': 'Partying Face (Celebration, Birthday, Festive, Joyful, Party Time)',
     '🥶': 'Cold Face (Freezing, Chilly, Blue Lips, Shivering, Frosty)',
     '🥸': 'Disguised Face (Incognito, Spy, Funny Disguise, Undercover, Silly)',
+    '🥺': 'Pleading Face (Please, Puppy Eyes, Beg, Cute, Emotional, Sad, Pretty Please, Soft)',
     '🥾': 'Hiking Boot (Hiking, Trekking, Outdoor Adventure, Trail Walking, Sturdy Shoes, Nature, Mountain)',
+    '🦀': 'Crab (Rust, Cargo, Programming Language, Code, Development, Claws, Shellfish, Crustacean)',
     '🦁': 'Lion (Strong, Fierce, Majestic, Leader, Powerful, Proud)',
     '🦄': 'Unicorn (Mythical, Fantasy)',
+    '🦉': 'Owl (Wise, Night, Knowledge, Bird, Hoot, Nocturnal, Study, Lookout)',
     '🦊': 'Fox (Firefox, Browser, Clever, Fast, Mozilla)',
+    '🦋': 'Butterfly (Change, Transform, Wings, Insect, Metamorphosis, Spring, Pretty, Flutter)',
     '🦐': 'Shrimp (Small, Pink, Curved, Swimming, Soft, Edible)',
+    '🦷': 'Tooth (Dental, Dentist, Teeth, Hygiene, Toothbrush, Enamel, Smile, Oral)',
     '🦸': 'Superhero (Hero, Strong, Cape, Power, Comic)',
     '🦺': 'Safety Vest (Construction, High Visibility, Safety, Worker)',
     '🧀': 'Cheese (Yellow, Creamy, Dairy, Tasty, Slice)',
     '🧃': 'Juice Box (Drink, Sweet, Box, Kid, Liquid)',
     '🧈': 'Butter (Yellow, Creamy, Soft, Dairy, Spread)',
+    '🧋': 'Bubble Tea (Boba, Milk Tea, Sweet, Drink, Straw, Tapioca, Pearl, Taiwan)',
     '🧑‍🌾': 'Farmer (Gardener, Agriculture, Plants, Harvest, Rural Life, Growing Food, Field Work, Nature)',
     '🧑‍🏫': 'Teacher (School, Class, Learning, Smart, Help, Lesson)',
     '🧑‍💻': 'Technologist (Developer, Coder, Programmer, Tech Professional)',
@@ -737,6 +832,7 @@ var EMOJI_NAMES = {
     '🧩': 'Puzzle (Game, Piece, Solve, Connect, Missing)',
     '🧪': 'Test Tube (Experiment, Test, Science, Lab, Research)',
     '🧬': 'DNA (Science, Gene, Biology, Life, Helix)',
+    '🧭': 'Compass (Navigation, Direction, North, Explore, Orienteering, Bearing, Navigate, Compass Rose)',
     '🧮': 'Abacus (Calculator, Math, Count, Ancient Tech, Calculation)',
     '🧯': 'Fire Extinguisher (Safety, Emergency)',
     '🧰': 'Toolbox (Tools, Repair, Kit, Handy, Organized)',
@@ -749,11 +845,13 @@ var EMOJI_NAMES = {
     '🩹': 'Bandage (Injury, Hurt, Heal, First Aid, Cover)',
     '🩺': 'Stethoscope (Doctor, Listen, Heart, Medical, Check)',
     '🩻': 'X-Ray (Bone, Doctor, Scan, Medical, See)',
+    '🪐': 'Ringed Planet (Saturn, Planet, Space, Astronomy, Orbit, Solar System, Rings, Cosmos)',
     '🪓': 'Axe (Tool, Chop, Wood, Strong, Survival)',
     '🪙': 'Coin (Money, Round, Metal, Small, Rich, Currency)',
     '🪛': 'Screwdriver (Tool, Fix, Repair, Precision, Handy)',
     '🪜': 'Ladder (Climb, Height, Tool, Reach, Access)',
     '🪟': 'Window (App, GUI, View, Glass, Frame, Screen, Browser)',
+    '🪫': 'Low Battery (Drain, Empty, Recharge, Low Power, Dying, Depleted, Charge Me, Battery Low)',
     '🪬': 'Hamsa Hand (Protection, Good Fortune, Spiritual Shield, Luck)',
     '🪴': 'Potted Plant (Houseplant, Indoor Plant, Green Decor, Home Gardening, House Plant, Decorative Plant)',
     '🪷': 'Lotus Flower (Meditation, Peace, Buddhism, Purity, Spiritual, Calm, Enlightenment, Yoga)',
