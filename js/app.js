@@ -158,13 +158,16 @@ function updateSortModeUI() {
     }
 
     if (dragReorderText) {
-        dragReorderText.textContent = getManualSortLockMessage();
-        if (isManualSortLocked()) {
-            dragReorderText.classList.add('date-warning');
+        if (sortMode === 'default') {
+            dragReorderText.textContent = 'Drag reorder enabled';
+            dragReorderText.classList.remove('is-hidden');
         } else {
-            dragReorderText.classList.remove('date-warning');
+            dragReorderText.textContent = '';
+            dragReorderText.classList.add('is-hidden');
         }
+        dragReorderText.classList.remove('date-warning');
     }
+    updatePerspectiveLabel();
 }
 
 function setSortMode(mode) {
@@ -193,6 +196,26 @@ function updateViewModeUI() {
     } else {
         viewFullBtn.classList.add('is-active');
     }
+    updatePerspectiveLabel();
+}
+
+function getViewModeLabel() {
+    return viewMode === 'compact' ? 'Compact' : 'Full';
+}
+
+function updatePerspectiveLabel() {
+    const el = document.getElementById('perspective-value');
+    if (!el) return;
+    const buttonId = sortMode === 'tally' ? 'sort-tally'
+        : sortMode === 'abc' ? 'sort-abc'
+        : sortMode === 'date' ? 'sort-date'
+        : 'sort-default';
+    const button = document.getElementById(buttonId);
+    const fromButton = button && button.textContent.trim();
+    const sortLabel = fromButton
+        || ((typeof getSortModeLabel === 'function') ? getSortModeLabel() : 'My Order');
+    const viewLabel = getViewModeLabel();
+    el.textContent = sortLabel + ' / ' + viewLabel;
 }
 
 function setViewMode(mode) {
@@ -347,6 +370,7 @@ function setupAppKeyboardShortcuts() {
         'color-theme-modal': closeColorThemeModal,
         'attribution-modal': closeAttributionModal,
         'about-modal': closeAboutModal,
+        'other-options-modal': closeOtherOptionsModal,
         'sync-modal': closeSyncModal,
         'sync-instructions-modal': closeSyncInstructionsModal,
         'github-credentials-modal': closeGitHubCredentialsModal,
@@ -1320,6 +1344,8 @@ window.openAttributionModal = openAttributionModal;
 window.closeAttributionModal = closeAttributionModal;
 window.openAboutModal = openAboutModal;
 window.closeAboutModal = closeAboutModal;
+window.openOtherOptionsModal = openOtherOptionsModal;
+window.closeOtherOptionsModal = closeOtherOptionsModal;
 window.addCategoryToModal = addCategoryToModal;
 window.moveLinkToTop = moveLinkToTop;
 window.moveLinkToBottom = moveLinkToBottom;

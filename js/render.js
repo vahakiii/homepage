@@ -289,6 +289,28 @@ function tallySectionOrderWouldChange(targetLink, oldTally, newTally) {
     return false;
 }
 
+function dismissOtherLinkCardTooltips(exceptCard) {
+    document.querySelectorAll('.link-card').forEach(function (other) {
+        if (exceptCard && other === exceptCard) return;
+        if (other._tooltipTimeout) {
+            clearTimeout(other._tooltipTimeout);
+            other._tooltipTimeout = null;
+        }
+        if (other._tooltipLifeTimer) {
+            clearTimeout(other._tooltipLifeTimer);
+            other._tooltipLifeTimer = null;
+        }
+        if (other._tooltipEl) {
+            other._tooltipEl.remove();
+            other._tooltipEl = null;
+        }
+    });
+    document.querySelectorAll('.link-card-tooltip').forEach(function (el) {
+        if (exceptCard && exceptCard._tooltipEl === el) return;
+        el.remove();
+    });
+}
+
 function renderLinks() {
     const grid = document.getElementById('links-grid');
 
@@ -526,6 +548,7 @@ function renderLinks() {
         grid.appendChild(card);
 
         // Compact tooltip: 1s delay, follows mouse; hide if cursor enters tooltip.
+        // Only one link-card description is visible at a time.
         // Mobile: once shown, it stays for 5s, then closes. Leaving the card does not dismiss it early.
         if (isCompact && link.description) {
             card._tooltipTimeout = null;
@@ -575,6 +598,7 @@ function renderLinks() {
             };
 
             const showTooltip = () => {
+                dismissOtherLinkCardTooltips(card);
                 if (card._tooltipEl) card._tooltipEl.remove();
                 if (hideTimeout) {
                     clearTimeout(hideTimeout);

@@ -129,8 +129,14 @@ function updateSettingsMobileInfo() {
     if (!info) return;
 
     var mobile = isMobileBrowser();
-    if (mobile) info.removeAttribute('hidden');
-    else info.setAttribute('hidden', '');
+    var field = info.closest('.settings-modal__field');
+    if (mobile) {
+        info.removeAttribute('hidden');
+        if (field) field.classList.remove('is-hidden');
+    } else {
+        info.setAttribute('hidden', '');
+        if (field) field.classList.add('is-hidden');
+    }
 }
 
 function isLandscapeOrientation() {
@@ -358,6 +364,37 @@ function closeAboutModal() {
     closeUiModal('about-modal');
     openSettingsModal();
 }
+
+var otherOptionsOpenedFromSettings = false;
+
+function openOtherOptionsModal() {
+    var modal = document.getElementById('other-options-modal');
+    if (!modal) return;
+    if (modal.parentElement !== document.body) document.body.appendChild(modal);
+    var settingsOpen = typeof isUiModalOpen === 'function' && isUiModalOpen('settings-modal');
+    otherOptionsOpenedFromSettings = !!settingsOpen;
+    if (settingsOpen) closeSettingsModal(false);
+    openUiModal('other-options-modal');
+    modal.style.display = 'flex';
+    var body = modal.querySelector('.other-options-modal__body');
+    if (body) body.scrollTop = 0;
+}
+
+function closeOtherOptionsModal() {
+    var modal = document.getElementById('other-options-modal');
+    closeUiModal('other-options-modal');
+    if (modal) modal.style.display = '';
+    if (otherOptionsOpenedFromSettings) openSettingsModal();
+    otherOptionsOpenedFromSettings = false;
+}
+
+document.addEventListener('click', function (e) {
+    var btn = e.target && e.target.closest && e.target.closest('#open-other-options-btn');
+    if (!btn) return;
+    e.preventDefault();
+    e.stopPropagation();
+    openOtherOptionsModal();
+}, true);
 
 function applyColors(colors) {
     const textColor = colors.text || COLOR_DEFAULTS.text;

@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<!-- AI: The Debug screen shows this pull request number. When a new PR starts, update content below to that PR number. -->
-		<meta name="homepage-pr" content="36">
+		<meta name="homepage-pr" content="37">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<script>
 		(function () {
@@ -199,31 +199,12 @@
 					<div id="links-header" class="links-header">
 						<div class="links-header__main">
 							<h2 class="links-heading">Your Links <span id="filter-indicator"></span></h2>
-							<div class="section-header links-kicker">
-								QUICK ACCESS
-								<span id="drag-reorder-text">(drag to reorder)</span>
-							</div>
-
-							<div id="list-controls" class="list-controls">
-
-								<div class="list-controls__group">
-									<span class="list-controls__label">Show by:</span>
-									<div class="list-toggle-group">
-										<button id="sort-default" class="list-toggle">Default</button>
-										<button id="sort-tally" class="list-toggle is-active">Tally</button>
-										<button id="sort-abc" class="list-toggle">ABC</button>
-										<button id="sort-date" class="list-toggle">Date Added</button>
-									</div>
-									<span id="sort-note" class="is-hidden">Unable to sort when viewing by "Date Added"</span>
-								</div>
-
-								<div class="list-controls__group">
-									<span class="list-controls__label">View:</span>
-									<div class="list-toggle-group">
-										<button id="view-full" class="list-toggle">Full</button>
-										<button id="view-compact" class="list-toggle is-active">Compact</button>
-									</div>
-								</div>
+							<div class="list-perspective-block">
+								<span class="list-perspective">
+									<strong class="list-perspective__name">Perspective:</strong>
+									<button type="button" id="perspective-value" class="list-perspective__value" title="Other Options" aria-haspopup="dialog" onclick="openOtherOptionsModal()">Tally / Compact</button>
+								</span>
+								<span id="drag-reorder-text" class="is-hidden"></span>
 							</div>
 
 							<!-- ABC jump links (visible sections) -->
@@ -307,23 +288,9 @@
 						placeholder="Enter your name">
 				</div>
 
-				<div class="settings-modal__field">
-					<div class="settings-modal__checks-grid">
-						<div class="settings-modal__checks-left">
-							<label class="settings-modal__check-row">
-								<input type="checkbox" id="hide-categories-checkbox" checked
-									class="settings-modal__checkbox">
-								<span class="settings-modal__check-label">Hide Categories</span>
-							</label>
-							<label class="settings-modal__check-row">
-								<input type="checkbox" id="debug-panel-checkbox"
-									class="settings-modal__checkbox">
-								<span class="settings-modal__check-label">Debug</span>
-							</label>
-						</div>
-						<div id="settings-mobile-info" class="settings-modal__mobile-info" hidden>
-							<span class="settings-modal__mobile-chip">Mobile Mode</span>
-						</div>
+				<div class="settings-modal__field is-hidden">
+					<div id="settings-mobile-info" class="settings-modal__mobile-info" hidden>
+						<span class="settings-modal__mobile-chip">Mobile Mode</span>
 					</div>
 				</div>
 
@@ -354,11 +321,16 @@
 					</div>
 				</div>
 
-				<div class="settings-modal__action-wrap">
-					<button onclick="openColorThemeModal()"
+				<div class="settings-modal__action-wrap settings-modal__action-wrap--pair">
+					<button type="button" onclick="openColorThemeModal()"
 						class="settings-modal__action">
 						<i class="settings-modal__action-icon fa-solid fa-palette"></i>
-						Edit Color Theme
+						Edit Colors
+					</button>
+					<button type="button" id="open-other-options-btn" onclick="openOtherOptionsModal()"
+						class="settings-modal__action">
+						<i class="settings-modal__action-icon fa-solid fa-list"></i>
+						Other Options
 					</button>
 				</div>
 
@@ -557,6 +529,68 @@
 			</div>
 		</div>
 
+		<!-- Other Options -->
+		<div id="other-options-modal"
+			class="ui-modal ui-modal--topmost other-options-modal"
+			role="dialog" aria-modal="true" aria-labelledby="other-options-modal-title">
+			<div onclick="event.stopImmediatePropagation()"
+				class="ui-modal__panel modal">
+
+				<div class="ui-modal__header">
+					<h3 id="other-options-modal-title" class="ui-modal__title ui-modal__title--row">
+						<i class="fa-solid fa-list"></i>
+						<span>Other Options</span>
+					</h3>
+					<button type="button" onclick="closeOtherOptionsModal()" class="ui-modal__close" aria-label="Close">
+						<i class="fa-solid fa-times"></i>
+					</button>
+				</div>
+
+				<div class="other-options-modal__body custom-scroll">
+					<div id="list-controls" class="list-controls">
+						<div class="list-controls__group">
+							<span class="list-controls__label">Show by:</span>
+							<div class="list-toggle-group">
+								<button id="sort-tally" class="list-toggle is-active">Tally</button>
+								<button id="sort-default" class="list-toggle">My Order</button>
+								<button id="sort-abc" class="list-toggle">ABC</button>
+								<button id="sort-date" class="list-toggle">Date Added</button>
+							</div>
+							<span id="sort-note" class="is-hidden">Unable to sort when viewing by "Date Added"</span>
+						</div>
+
+						<div class="list-controls__group">
+							<span class="list-controls__label">View:</span>
+							<div class="list-toggle-group">
+								<button id="view-compact" class="list-toggle is-active">Compact</button>
+								<button id="view-full" class="list-toggle">Full</button>
+							</div>
+						</div>
+					</div>
+
+					<div class="other-options-modal__checks">
+						<label class="settings-modal__check-row">
+							<input type="checkbox" id="hide-categories-checkbox" checked
+								class="settings-modal__checkbox">
+							<span class="settings-modal__check-label">Hide Categories (visible on wide screens)</span>
+						</label>
+						<label class="settings-modal__check-row">
+							<input type="checkbox" id="debug-panel-checkbox"
+								class="settings-modal__checkbox">
+							<span class="settings-modal__check-label">Show Debug window</span>
+						</label>
+					</div>
+				</div>
+
+				<div class="other-options-modal__footer">
+					<button type="button" onclick="closeOtherOptionsModal()"
+						class="other-options-modal__footer-close">
+						Close
+					</button>
+				</div>
+			</div>
+		</div>
+
 		<!-- Attribution -->
 		<div id="attribution-modal"
 			class="ui-modal ui-modal--topmost attribution-modal"
@@ -698,7 +732,7 @@
 					<div class="add-edit-modal__split">
 						<!-- Add-only; hidden in edit (move buttons instead) -->
 						<div id="position-options" class="add-edit-modal__position">
-							<span class="add-edit-modal__position-label">Position</span>
+							<span class="add-edit-modal__position-label">My Order Position</span>
 							<label class="add-edit-modal__radio-row">
 								<input type="radio" name="add-position" value="top" id="position-top" class="add-edit-modal__radio">
 								<span>Add to Top</span>
@@ -1098,7 +1132,7 @@
 
 		<!-- Defer JS (tag order = execute order) -->
 		<script defer src="js/config.js"></script>
-		<script defer src="js/state.js"></script>
+		<script defer src="js/state.js?v=my-order"></script>
 		<script defer src="js/storage.js"></script>
 		<script defer src="js/github.js"></script>
 		<script defer src="js/render.js"></script>
@@ -1106,7 +1140,7 @@
 		<script defer src="js/addeditlink.js"></script>
 		<script defer src="js/settingsmodal.js"></script>
 		<script defer src="js/gsmodal.js"></script>
-		<script defer src="js/app.js"></script>
+		<script defer src="js/app.js?v=my-order"></script>
 		<script defer src="js/script.js"></script>
 	</body>
 </html>
