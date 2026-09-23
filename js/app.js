@@ -158,12 +158,14 @@ function updateSortModeUI() {
     }
 
     if (dragReorderText) {
-        dragReorderText.textContent = getManualSortLockMessage();
-        if (isManualSortLocked()) {
-            dragReorderText.classList.add('date-warning');
+        if (sortMode === 'default') {
+            dragReorderText.textContent = 'Drag reorder enabled';
+            dragReorderText.classList.remove('is-hidden');
         } else {
-            dragReorderText.classList.remove('date-warning');
+            dragReorderText.textContent = '';
+            dragReorderText.classList.add('is-hidden');
         }
+        dragReorderText.classList.remove('date-warning');
     }
     updatePerspectiveLabel();
 }
