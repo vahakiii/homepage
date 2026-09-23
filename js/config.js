@@ -205,7 +205,8 @@ var COMMON_EMOJIS = {
         '🍕', '🍟', '🍔', '🍗', '🥚', '🍋', '🥥', '🍤', '🥟',
         '🍦', '🍢', '🍰', '🎂', '🍼', '🍺', '🍻', '🍷', '🥂', '🍽️',
         '🍹', '🍸', '🥢', '🥡',
-        '🍳', '🍜', '🍣', '🌮', '🍿', '🍩', '🍵', '🧋'
+        '🍳', '🍜', '🍣', '🌮', '🍿', '🍩', '🍵', '🧋',
+        '🍆'
     ],
     "Gaming & Retro": [
         '🎮', '🕹️', '👾', '🏴‍☠️', '🗡️', '🛡️', '🎲', '♟️',
@@ -831,6 +832,7 @@ var EMOJI_NAMES = {
     '🥢': 'Chopsticks (Asian, Eat, Wood, Pair, Food)',
     '🥥': 'Coconut (Brown, Hard, White, Tropical, Sweet)',
     '🥦': 'Broccoli (Green, Vegetable, Healthy, Tree, Crunchy)',
+    '🍆': 'Eggplant (Purple, Vegetable, Aubergine, Glossy, Food)',
     '🥩': 'Steak (Meat, Juicy, Grilled, Red, Protein)',
     '🥬': 'Lettuce (Green, Leafy, Salad, Fresh, Healthy)',
     '🥭': 'Mango (Orange, Sweet, Juicy, Tropical, Fruit)',
