@@ -206,7 +206,14 @@ function getViewModeLabel() {
 function updatePerspectiveLabel() {
     const el = document.getElementById('perspective-value');
     if (!el) return;
-    const sortLabel = (typeof getSortModeLabel === 'function') ? getSortModeLabel() : 'Tally';
+    const buttonId = sortMode === 'tally' ? 'sort-tally'
+        : sortMode === 'abc' ? 'sort-abc'
+        : sortMode === 'date' ? 'sort-date'
+        : 'sort-default';
+    const button = document.getElementById(buttonId);
+    const fromButton = button && button.textContent.trim();
+    const sortLabel = fromButton
+        || ((typeof getSortModeLabel === 'function') ? getSortModeLabel() : 'My Order');
     const viewLabel = getViewModeLabel();
     el.textContent = sortLabel + ' / ' + viewLabel;
 }

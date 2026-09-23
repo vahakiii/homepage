@@ -34,6 +34,7 @@ function getSortModeLabel() {
     if (sortMode === 'date') return 'Date Added';
     if (sortMode === 'abc') return 'ABC';
     if (sortMode === 'tally') return 'Tally';
+    if (sortMode === 'default') return 'My Order';
     return 'My Order';
 }
 
