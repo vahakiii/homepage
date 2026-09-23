@@ -365,11 +365,15 @@ function closeAboutModal() {
     openSettingsModal();
 }
 
+var otherOptionsOpenedFromSettings = false;
+
 function openOtherOptionsModal() {
     var modal = document.getElementById('other-options-modal');
     if (!modal) return;
     if (modal.parentElement !== document.body) document.body.appendChild(modal);
-    closeSettingsModal(false);
+    var settingsOpen = typeof isUiModalOpen === 'function' && isUiModalOpen('settings-modal');
+    otherOptionsOpenedFromSettings = !!settingsOpen;
+    if (settingsOpen) closeSettingsModal(false);
     openUiModal('other-options-modal');
     modal.style.display = 'flex';
     var body = modal.querySelector('.other-options-modal__body');
@@ -380,7 +384,8 @@ function closeOtherOptionsModal() {
     var modal = document.getElementById('other-options-modal');
     closeUiModal('other-options-modal');
     if (modal) modal.style.display = '';
-    openSettingsModal();
+    if (otherOptionsOpenedFromSettings) openSettingsModal();
+    otherOptionsOpenedFromSettings = false;
 }
 
 document.addEventListener('click', function (e) {
