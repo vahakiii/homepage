@@ -476,6 +476,7 @@ function updateWidthBasedLayout() {
     }
     updateSettingsHintsLayout();
     updatePageTitleSize();
+    positionBackupMenu();
 }
 
 function bindLayoutWidthListeners() {
@@ -950,6 +951,37 @@ function setupLinkKeyboardNavigation() {
     });
 }
 
+/** Keep the open backup menu inside the viewport. Centered until an edge would clip, then shifted so that edge sits 8px inside the screen. */
+function positionBackupMenu() {
+    const menu = document.querySelector('.backup-dropdown__menu');
+    const panel = document.querySelector('.backup-dropdown__panel');
+    if (!menu || !panel) return;
+
+    if (getComputedStyle(menu).display === 'none') {
+        menu.style.transform = '';
+        return;
+    }
+
+    menu.style.transform = '';
+    const rect = panel.getBoundingClientRect();
+    const view = window.visualViewport;
+    const viewLeft = view ? view.offsetLeft : 0;
+    const viewRight = view ? view.offsetLeft + view.width : window.innerWidth;
+    const margin = 8;
+    let shift = 0;
+
+    if (rect.right > viewRight - margin) {
+        shift -= rect.right - (viewRight - margin);
+    }
+    if (rect.left + shift < viewLeft + margin) {
+        shift += (viewLeft + margin) - (rect.left + shift);
+    }
+
+    if (shift) {
+        menu.style.transform = 'translateX(calc(-50% + ' + shift + 'px))';
+    }
+}
+
 /** Blur backup dropdown 1s after pointer leaves (closes :focus-within menu). */
 function setupBackupDropdownAutoHide() {
     const root = document.querySelector('.backup-dropdown');
@@ -975,8 +1007,16 @@ function setupBackupDropdownAutoHide() {
         }, 1000);
     }
 
-    root.addEventListener('mouseenter', clearHideTimer);
+    root.addEventListener('mouseenter', function () {
+        clearHideTimer();
+        positionBackupMenu();
+        requestAnimationFrame(positionBackupMenu);
+    });
+    root.addEventListener('focusin', positionBackupMenu);
     root.addEventListener('mouseleave', scheduleHide);
+    if (window.visualViewport) {
+        window.visualViewport.addEventListener('resize', positionBackupMenu);
+    }
 }
 
 function initializeApp() {
