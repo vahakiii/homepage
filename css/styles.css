@@ -59,7 +59,7 @@ html.is-mobile.is-landscape body>:not(#landscape-lock),html.is-mobile.is-landsca
 .about-modal__icon--success{color:var(--success-color)}
 .about-modal__icon--violet{color:#a78bfa}
 .about-modal__icon--orange{color:#fb923c}
-.about-modal__icon--github{color:#ffffff}
+.about-modal__icon--github{color:var(--text-color)}
 .about-modal__name{font-weight:600;color:var(--text-color)}
 .about-modal__text{line-height:1.625;color:var(--text-color)}
 .about-modal__emphasis{font-weight:500}
