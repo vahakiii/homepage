@@ -196,8 +196,6 @@ function ensureColorThemeFields() {
     const byKey = {};
     COLOR_FIELDS.forEach(function (f) { byKey[f.key] = f; });
 
-    // All fields first so 2-col auto-placement puts actions on the last row.
-    // 3-col still pins actions with CSS (col 3, rows 4–5).
     COLOR_EDITOR_KEYS.forEach(function (key) {
         const field = byKey[key];
         if (!field) return;
@@ -257,6 +255,8 @@ function openColorThemeModal() {
 
     updateColorThemeMobileLayout();
     openUiModal('color-theme-modal');
+    const themeGrid = modal.querySelector('.color-theme-modal__grid');
+    if (themeGrid) themeGrid.scrollTop = 0;
 }
 
 function closeColorThemeModal() {
