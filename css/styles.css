@@ -16,7 +16,7 @@ html.is-mobile.is-landscape body>:not(#landscape-lock),html.is-mobile.is-landsca
 .add-edit-modal--mobile .add-edit-modal__panel{width:100%;min-width:0;max-width:640px}
 #github-credentials-modal.github-credentials-modal--mobile .ui-modal__panel{width:100%;min-width:0;max-width:600px}
 @media (min-width:500px){.add-edit-modal--mobile .add-edit-modal__panel{width:80vw;min-width:500px;max-width:640px}#github-credentials-modal.github-credentials-modal--mobile .ui-modal__panel{width:80vw;min-width:500px;max-width:600px}}
-#settings-modal .ui-modal__panel--padded{padding:calc(1.5rem / var(--font-scale,1))}
+#settings-modal .ui-modal__panel--padded{padding:calc(1.25rem / var(--font-scale,1))}
 #settings-modal .ui-modal__header--plain{margin-bottom:calc(1rem / var(--font-scale,1))}
 #settings-modal .settings-modal__intro-wrap{margin-bottom:calc(1rem / var(--font-scale,1))}
 #settings-modal .settings-modal__field{margin-bottom:calc(1.25rem / var(--font-scale,1))}
