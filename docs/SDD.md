@@ -1735,7 +1735,7 @@ No external BRD / FRS / Jira linkage in-repo. Internal IDs below; map **External
 | **REQ-EMO-005** | Multi-word search shall require **all** tokens to match (AND) | `searchWords.every(...)` on descriptor + glyph | *TBD* |
 | **REQ-EMO-006** | Selecting an emoji shall populate the field and close Quick Pick | Button `onclick` → `emojiInput.value` + `closeEmojiPopover()` | *TBD* |
 | **REQ-EMO-007** | Hover tooltips shall show cleaned display names (no parentheticals) | `title` = descriptor with `\s*\(.*?\)\s*` stripped | *TBD* |
-| **REQ-EMO-016** | Middle-click on a catalog cell shall show the full descriptor including parentheticals without picking | `auxclick` / middle `click` (`button === 1`) → `.emoji-picker__detail`; `mousedown` preventDefault to block autoscroll | *TBD* |
+| **REQ-EMO-016** | Middle-click on a catalog cell shall show the full descriptor including parentheticals for 4 seconds without picking | `auxclick` / middle `click` (`button === 1`) → `.emoji-picker__detail` for **4000** ms; `mousedown` preventDefault to block autoscroll | *TBD* |
 | **REQ-EMO-008** | Search shall use full descriptors including parenthetical keywords | Match against full `EMOJI_NAMES[emoji]` | *TBD* |
 | **REQ-EMO-009** | Escape shall close Quick Pick without closing Add/Edit | Capture-phase `keydown` on Escape | *TBD* |
 | **REQ-EMO-010** | Outside click and Cancel shall close Quick Pick | Document click listener; `#emoji-picker-cancel` | *TBD* |
