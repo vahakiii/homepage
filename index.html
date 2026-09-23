@@ -435,7 +435,7 @@
 					</button>
 				</div>
 
-				<div class="color-theme-modal__grid">
+				<div class="color-theme-modal__grid custom-scroll">
 
 					<div class="color-theme-modal__actions">
 						<div class="color-theme-modal__modes">
@@ -459,7 +459,6 @@
 							Save Colors
 						</button>
 					</div>
-
 				</div>
 			</div>
 		</div>
@@ -481,7 +480,7 @@
 					</button>
 				</div>
 
-				<div class="attribution-modal__body">
+				<div class="attribution-modal__body custom-scroll">
 
 					<div class="attribution-modal__section">
 						<div class="attribution-modal__section-head">
@@ -913,14 +912,14 @@
 			<div onclick="event.stopImmediatePropagation()"
 				class="ui-modal__panel ui-modal__panel--lg ui-modal__panel--scroll sync-instructions-modal__panel modal">
 
-				<div class="sync-instructions-modal__scroll custom-scroll">
-					<div class="ui-modal__header sync-instructions-modal__header">
-						<h3 id="sync-instructions-modal-title" class="ui-modal__title"><i class="ui-modal__title-icon fa-solid fa-info-circle"></i>How to Set Up GitHub Gist Sync</h3>
-						<button type="button" onclick="closeSyncInstructionsModal()" class="ui-modal__close" aria-label="Close">
-							<i class="fa-solid fa-times"></i>
-						</button>
-					</div>
+				<div class="ui-modal__header sync-instructions-modal__header">
+					<h3 id="sync-instructions-modal-title" class="ui-modal__title"><i class="ui-modal__title-icon fa-solid fa-info-circle"></i>How to Set Up GitHub Gist Sync</h3>
+					<button type="button" onclick="closeSyncInstructionsModal()" class="ui-modal__close" aria-label="Close">
+						<i class="fa-solid fa-times"></i>
+					</button>
+				</div>
 
+				<div class="sync-instructions-modal__scroll custom-scroll">
 					<div class="sync-instructions-modal__body">
 						<div class="sync-instructions-modal__def">
 							<p>
@@ -975,14 +974,14 @@
 							<strong>Tip:</strong> Your Gist is private by default. Only people with the Gist ID + your token can read it. The Gist ID is saved in your browser after the first export.
 						</div>
 					</div>
+				</div>
 
-					<div class="sync-instructions-modal__footer">
-						<button onclick="closeSyncInstructionsModal()"
-							class="sync-instructions-modal__footer-close attribution-modal__footer-close ui-modal__btn ui-modal__btn--block ui-modal__btn--bordered">
-							Got it, close
-						</button>
-					</div>
-				</div> <!-- /scroll -->
+				<div class="sync-instructions-modal__footer">
+					<button onclick="closeSyncInstructionsModal()"
+						class="sync-instructions-modal__footer-close attribution-modal__footer-close ui-modal__btn ui-modal__btn--block ui-modal__btn--bordered">
+						Got it, close
+					</button>
+				</div>
 			</div>
 		</div>
 

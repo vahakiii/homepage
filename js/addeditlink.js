@@ -8,6 +8,8 @@ function syncAddEditModalLayout() {
     if (!modal) return;
     const mobile = isAddEditModalMobile();
     modal.classList.toggle('add-edit-modal--mobile', mobile);
+    const form = modal.querySelector('.add-edit-modal__form');
+    if (form) form.classList.toggle('custom-scroll', mobile);
     if (mobile) {
         modal.setAttribute('data-add-edit-layout', 'mobile');
         modal.setAttribute('aria-roledescription', 'Mobile add/edit Link');
@@ -16,6 +18,12 @@ function syncAddEditModalLayout() {
         modal.removeAttribute('aria-roledescription');
     }
     syncEmojiPickerLayout();
+}
+
+/** Keep the mobile form scrolled to the top when Add/Edit opens. */
+function resetAddEditModalScroll() {
+    const form = document.getElementById('modal-form');
+    if (form) form.scrollTop = 0;
 }
 
 /** Apply the Mobile Quick Pick Emojis layout in mobile mode; desktop stays unchanged. */
@@ -85,6 +93,7 @@ function openAddModal() {
     if (positionOptions) positionOptions.style.display = 'flex';
 
     openUiModal('modal');
+    resetAddEditModalScroll();
     setTimeout(() => document.getElementById('link-name').focus(), 80);
 }
 
@@ -121,6 +130,7 @@ function editLink(id) {
     }
 
     openUiModal('modal');
+    resetAddEditModalScroll();
     setTimeout(() => document.getElementById('link-name').focus(), 60);
 }
 

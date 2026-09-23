@@ -554,6 +554,8 @@ async function importFromGitHubWithGistId(gistId) {
 function showSyncInstructions() {
     closeSyncModal(false);
     openUiModal('sync-instructions-modal');
+    const scroller = document.querySelector('#sync-instructions-modal .sync-instructions-modal__scroll');
+    if (scroller) scroller.scrollTop = 0;
 }
 
 function closeSyncInstructionsModal() {
