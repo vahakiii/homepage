@@ -366,16 +366,30 @@ function closeAboutModal() {
 }
 
 function openOtherOptionsModal() {
+    var modal = document.getElementById('other-options-modal');
+    if (!modal) return;
+    if (modal.parentElement !== document.body) document.body.appendChild(modal);
     closeSettingsModal(false);
     openUiModal('other-options-modal');
-    const body = document.querySelector('#other-options-modal .other-options-modal__body');
+    modal.style.display = 'flex';
+    var body = modal.querySelector('.other-options-modal__body');
     if (body) body.scrollTop = 0;
 }
 
 function closeOtherOptionsModal() {
+    var modal = document.getElementById('other-options-modal');
     closeUiModal('other-options-modal');
+    if (modal) modal.style.display = '';
     openSettingsModal();
 }
+
+document.addEventListener('click', function (e) {
+    var btn = e.target && e.target.closest && e.target.closest('#open-other-options-btn');
+    if (!btn) return;
+    e.preventDefault();
+    e.stopPropagation();
+    openOtherOptionsModal();
+}, true);
 
 function applyColors(colors) {
     const textColor = colors.text || COLOR_DEFAULTS.text;

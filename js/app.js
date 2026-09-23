@@ -202,11 +202,11 @@ function getViewModeLabel() {
 }
 
 function updatePerspectiveLabel() {
-    const el = document.getElementById('perspective-label');
+    const el = document.getElementById('perspective-value');
     if (!el) return;
     const sortLabel = (typeof getSortModeLabel === 'function') ? getSortModeLabel() : 'Tally';
     const viewLabel = getViewModeLabel();
-    el.textContent = 'Perspective: ' + sortLabel + ' / ' + viewLabel;
+    el.textContent = sortLabel + ' / ' + viewLabel;
 }
 
 function setViewMode(mode) {

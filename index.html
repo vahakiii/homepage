@@ -205,7 +205,10 @@
 							</div>
 
 							<div class="list-controls">
-								<span id="perspective-label" class="list-perspective">Perspective: Tally / Compact</span>
+								<span class="list-perspective">
+									<strong class="list-perspective__name">Perspective:</strong>
+									<span id="perspective-value" class="list-perspective__value">Tally / Compact</span>
+								</span>
 							</div>
 
 							<!-- ABC jump links (visible sections) -->
@@ -328,7 +331,7 @@
 						<i class="settings-modal__action-icon fa-solid fa-palette"></i>
 						Edit Colors
 					</button>
-					<button type="button" onclick="openOtherOptionsModal()"
+					<button type="button" id="open-other-options-btn" onclick="openOtherOptionsModal()"
 						class="settings-modal__action">
 						<i class="settings-modal__action-icon fa-solid fa-list"></i>
 						Other Options
