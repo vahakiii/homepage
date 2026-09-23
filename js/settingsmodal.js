@@ -338,6 +338,8 @@ function applyColorMode(mode) {
 function openAttributionModal() {
     closeSettingsModal(false);
     openUiModal('attribution-modal');
+    const body = document.querySelector('#attribution-modal .attribution-modal__body');
+    if (body) body.scrollTop = 0;
 }
 
 function closeAttributionModal() {
