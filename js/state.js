@@ -34,7 +34,7 @@ function getSortModeLabel() {
     if (sortMode === 'date') return 'Date Added';
     if (sortMode === 'abc') return 'ABC';
     if (sortMode === 'tally') return 'Tally';
-    return 'Default';
+    return 'My Order';
 }
 
 /** ABC section key: first char (letter upper, digit as-is, else "#"). */
