@@ -1,22 +1,11 @@
-function isAddEditModalMobile() {
-    return typeof isMobileBrowser === 'function' && !!isMobileBrowser();
-}
-
-/** Apply the Mobile add/edit Link layout in mobile mode; desktop stays unchanged. */
+/** Add/Edit Link always uses the stacked mobile layout. */
 function syncAddEditModalLayout() {
     const modal = document.getElementById('modal');
     if (!modal) return;
-    const mobile = isAddEditModalMobile();
-    modal.classList.toggle('add-edit-modal--mobile', mobile);
     const form = modal.querySelector('.add-edit-modal__form');
-    if (form) form.classList.toggle('custom-scroll', mobile);
-    if (mobile) {
-        modal.setAttribute('data-add-edit-layout', 'mobile');
-        modal.setAttribute('aria-roledescription', 'Mobile add/edit Link');
-    } else {
-        modal.setAttribute('data-add-edit-layout', 'desktop');
-        modal.removeAttribute('aria-roledescription');
-    }
+    if (form) form.classList.add('custom-scroll');
+    modal.setAttribute('data-add-edit-layout', 'mobile');
+    modal.setAttribute('aria-roledescription', 'Mobile add/edit Link');
     syncEmojiPickerLayout();
 }
 
@@ -31,7 +20,7 @@ function syncEmojiPickerLayout() {
     const popover = document.getElementById('emoji-picker-popover');
     const grid = document.getElementById('emoji-grid');
     if (!popover) return;
-    const mobile = isAddEditModalMobile();
+    const mobile = typeof isMobileBrowser === 'function' && !!isMobileBrowser();
     popover.classList.toggle('emoji-picker--mobile', mobile);
     if (mobile) {
         popover.setAttribute('data-emoji-picker-layout', 'mobile');
@@ -442,7 +431,7 @@ function initEmojiPicker() {
     }
 
     grid.addEventListener('touchstart', (e) => {
-        if (!isAddEditModalMobile()) return;
+        if (!(typeof isMobileBrowser === 'function' && isMobileBrowser())) return;
         const cell = e.target.closest('.emoji-picker__cell');
         if (!cell || !grid.contains(cell)) return;
         const t = e.touches && e.touches[0];
@@ -476,7 +465,7 @@ function initEmojiPicker() {
     grid.addEventListener('touchend', endEmojiPress);
     grid.addEventListener('touchcancel', endEmojiPress);
     grid.addEventListener('contextmenu', (e) => {
-        if (isAddEditModalMobile() && e.target.closest('.emoji-picker__cell')) e.preventDefault();
+        if ((typeof isMobileBrowser === 'function' && isMobileBrowser()) && e.target.closest('.emoji-picker__cell')) e.preventDefault();
     });
 
     grid.addEventListener('click', (e) => {
@@ -650,7 +639,7 @@ function initCategoryAutocomplete() {
 
     if (addButton && (addButton.tagName === 'BUTTON' || addButton.onclick)) {
         wrapper.appendChild(addButton);
-        addButton.style.height = '42px';
+        addButton.style.height = '32px';
     }
 
     if (!categorySuggestionsBox) {
