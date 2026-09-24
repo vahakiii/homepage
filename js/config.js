@@ -290,7 +290,8 @@ var COMMON_EMOJIS = {
         '🚤', '🛤️', '🛣️', '🏔️', '🏟️', '🎢', '🌏', '🏝️', '🏨', '🚢', '🛫', '🛳️', '🧳', '🚚',
         '🥾', '🛴', '🚇', '🚄',
         '🧭', '⛽', '🚑',
-        '🚂', '🚒', '🚓', '🏍️', '⛵', '🛶', '🛬', '🚦', '🚜', '🗼'
+        '🚂', '🚒', '🚓', '🏍️', '⛵', '🛶', '🛬', '🚦', '🚜', '🗼',
+        '🏛'
     ],
     "Weather": [
         '☀️', '⛅', '⛈️', '🌤️', '🌥️', '🌦️', '🌧️', '🌨️', '🌩️', '❄️', '🌫️',
@@ -302,7 +303,8 @@ var COMMON_EMOJIS = {
         '📥', '📤', '🕒', '⏱️', '🧑‍💼', '📁', '📎', '📌', '📠', '⚖️', '⏳', '❎',
         '🗣️', '📣', '🎚️', '👥', '🏘️', '📢', '🔔',
         '🤦‍♂️', '🙋‍♂️', '🤷‍♂️', '👯‍♀️', '🧑‍🧑‍🧒‍🧒', '🗑️', '⌚', '💈', '✍️', '📍', '📦',
-        '🖨️', '👔', '🔕'
+        '🖨️', '👔', '🔕',
+        '📇', '👷'
     ],
     "Zodiac": [
         '♈', '♉', '♊', '♋', '♌', '♍', '♎', '♏', '♐', '♑', '♒', '♓',
@@ -530,6 +532,7 @@ var EMOJI_NAMES = {
     '🏝️': 'Desert Island (Tropical, Vacation, Beach, Paradise, Travel, Relax)',
     '🏞️': 'National Park (Nature Reserve, Scenery, Hiking, Mountains, Landscape, Protected Area, Outdoors, Wilderness)',
     '🏟️': 'Stadium (Sports, Arena)',
+    '🏛': 'Classical Building (Museum, Courthouse, Landmark, Columns, Government, Historic, Architecture, Monument)',
     '🏠': 'House (Home, Building, Shelter, Family, Roof)',
     '🏥': 'Hospital (Health, Doctor, Nurse, Sick, Emergency, Building)',
     '🏦': 'Bank (Money, Safe, Building, Rich, Vault, Cash)',
@@ -709,6 +712,7 @@ var EMOJI_NAMES = {
     '🖱️': 'Mouse (Click, Pointer, Computer, Scroll, Cursor)',
     '🖼️': 'Picture (Photo, Art, Frame, Wall, Memory)',
     '🗂️': 'Card Index (Organization, Files, Archive, System)',
+    '📇': 'Index Cards (Rolodex, Contacts, Address Book, Business Cards, Directory, Office, Organize, Names)',
     '🗃️': 'Box (Storage, Files, Archive, Organize, Card)',
     '🗄️': 'Cabinet (Storage, Files, Office, Drawers, Organize)',
     '🗑️': 'Wastebasket (Trash, Delete)',
@@ -866,6 +870,7 @@ var EMOJI_NAMES = {
     '🧑‍🏫': 'Teacher (School, Class, Learning, Smart, Help, Lesson)',
     '🧑‍💻': 'Technologist (Developer, Coder, Programmer, Tech Professional)',
     '🧑‍💼': 'Office Worker (Business, Professional, Corporate, Employee)',
+    '👷': 'Construction Worker (Builder, Hard Hat, Job Site, Labor, Repair, Contractor, Trade, Work)',
     '🧑‍🔬': 'Scientist (Research, Lab, Experiment, Discovery, Innovation)',
     '🧑‍🧑‍🧒‍🧒': 'Family: Adult, Adult, Child, Child',
     '🧖‍♀️': 'Woman in Steamy Room (Sauna, Spa, Relaxation, Wellness)',
