@@ -367,12 +367,31 @@ function closeAboutModal() {
 
 var otherOptionsOpenedFromSettings = false;
 
+function syncPopupDurationFields(fromSettings) {
+    var block = document.getElementById('popup-duration-settings');
+    if (!block) return;
+    if (typeof fromSettings === 'boolean') {
+        block.classList.toggle('is-hidden', !fromSettings);
+    }
+    var linkInput = document.getElementById('mobile-link-desc-seconds');
+    var emojiInput = document.getElementById('emoji-desc-seconds');
+    if (linkInput && typeof getMobileLinkDescriptionSeconds === 'function') {
+        linkInput.value = String(getMobileLinkDescriptionSeconds());
+    }
+    if (emojiInput && typeof getEmojiDescriptionSeconds === 'function') {
+        emojiInput.value = String(getEmojiDescriptionSeconds());
+    }
+}
+
 function openOtherOptionsModal() {
     var modal = document.getElementById('other-options-modal');
     if (!modal) return;
     if (modal.parentElement !== document.body) document.body.appendChild(modal);
     var settingsOpen = typeof isUiModalOpen === 'function' && isUiModalOpen('settings-modal');
     otherOptionsOpenedFromSettings = !!settingsOpen;
+    if (typeof syncPopupDurationFields === 'function') {
+        syncPopupDurationFields(otherOptionsOpenedFromSettings);
+    }
     if (settingsOpen) closeSettingsModal(false);
     openUiModal('other-options-modal');
     modal.style.display = 'flex';

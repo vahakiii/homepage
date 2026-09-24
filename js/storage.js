@@ -235,6 +235,12 @@ function buildBackupPayload(options) {
         viewMode: (typeof viewMode !== 'undefined' && viewMode)
             ? viewMode
             : (localStorage.getItem('startpage_view_mode') || 'compact'),
+        mobileLinkDescriptionSeconds: (typeof getMobileLinkDescriptionSeconds === 'function')
+            ? getMobileLinkDescriptionSeconds()
+            : 5,
+        emojiDescriptionSeconds: (typeof getEmojiDescriptionSeconds === 'function')
+            ? getEmojiDescriptionSeconds()
+            : 4,
         github: {
             username: username,
             token: maskToken(token),
@@ -307,6 +313,21 @@ function applyBackupPayload(imported, options) {
             if (typeof updateViewModeUI === 'function') updateViewModeUI();
         }
     }
+
+    // Popup durations are optional so older JSON files and Gists keep the saved values.
+    if (data.mobileLinkDescriptionSeconds !== undefined && typeof savePopupSeconds === 'function') {
+        var mobileSeconds = parsePopupSeconds(data.mobileLinkDescriptionSeconds);
+        if (mobileSeconds != null) {
+            savePopupSeconds(MOBILE_LINK_DESC_SECONDS_KEY, mobileSeconds, DEFAULT_MOBILE_LINK_DESC_SECONDS);
+        }
+    }
+    if (data.emojiDescriptionSeconds !== undefined && typeof savePopupSeconds === 'function') {
+        var emojiSeconds = parsePopupSeconds(data.emojiDescriptionSeconds);
+        if (emojiSeconds != null) {
+            savePopupSeconds(EMOJI_DESC_SECONDS_KEY, emojiSeconds, DEFAULT_EMOJI_DESC_SECONDS);
+        }
+    }
+    if (typeof syncPopupDurationFields === 'function') syncPopupDurationFields();
 
     if (data.github) {
         if (data.github.username) localStorage.setItem('github_username', data.github.username);
