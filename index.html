@@ -271,16 +271,14 @@
 			class="ui-modal settings-modal"
 			role="dialog" aria-modal="true" aria-labelledby="settings-modal-title">
 			<div onclick="event.stopImmediatePropagation()"
-				class="ui-modal__panel ui-modal__panel--lg ui-modal__panel--padded modal">
-				<div class="ui-modal__header ui-modal__header--plain">
+				class="ui-modal__panel ui-modal__panel--lg modal">
+				<div class="ui-modal__header">
 					<h3 id="settings-modal-title" class="ui-modal__title"><i class="ui-modal__title-icon fa-solid fa-gear"></i>Settings</h3>
 					<button type="button" onclick="closeSettingsModal()" class="ui-modal__close" aria-label="Close">
 						<i class="fa-solid fa-times"></i>
 					</button>
 				</div>
-				<div class="settings-modal__intro-wrap">
-					<p class="settings-modal__intro">General settings and preferences.</p>
-				</div>
+				<div class="settings-modal__body custom-scroll">
 				<div class="settings-modal__field">
 					<label class="settings-modal__label">Your Name</label>
 					<input type="text" id="theme-author-name"
@@ -354,6 +352,7 @@
 					<p class="settings-modal__hint">
 						• Press <span class="settings-modal__key key-hint">*</span> to focus link search • Press <span class="settings-modal__key key-hint">-</span> to clear filters •
 					</p>
+				</div>
 				</div>
 
 				<div class="settings-modal__footer">
