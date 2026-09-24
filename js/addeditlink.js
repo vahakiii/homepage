@@ -360,7 +360,7 @@ function showEmojiDetailTip(btn, fullName) {
     emojiDetailHideTimer = setTimeout(() => {
         emojiDetailHideTimer = null;
         hideEmojiDetailTip();
-    }, 4000);
+    }, getEmojiDescriptionSeconds() * 1000);
 }
 
 function initEmojiPicker() {

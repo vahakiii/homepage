@@ -1105,6 +1105,26 @@ function initializeApp() {
         });
     }
 
+    function bindPopupSecondsInput(inputId, storageKey, fallback) {
+        const input = document.getElementById(inputId);
+        if (!input) return;
+        const commit = () => {
+            const parsed = parsePopupSeconds(input.value);
+            const seconds = parsed == null
+                ? readPopupSeconds(storageKey, fallback)
+                : savePopupSeconds(storageKey, parsed, fallback);
+            input.value = String(seconds);
+        };
+        input.addEventListener('input', () => {
+            const parsed = parsePopupSeconds(input.value);
+            if (parsed != null) savePopupSeconds(storageKey, parsed, fallback);
+        });
+        input.addEventListener('change', commit);
+        input.addEventListener('blur', commit);
+    }
+    bindPopupSecondsInput('mobile-link-desc-seconds', MOBILE_LINK_DESC_SECONDS_KEY, DEFAULT_MOBILE_LINK_DESC_SECONDS);
+    bindPopupSecondsInput('emoji-desc-seconds', EMOJI_DESC_SECONDS_KEY, DEFAULT_EMOJI_DESC_SECONDS);
+
     const debugPanelCheckbox = document.getElementById('debug-panel-checkbox');
     if (debugPanelCheckbox) {
         debugPanelCheckbox.addEventListener('change', () => {
