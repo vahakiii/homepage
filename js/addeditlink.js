@@ -2,8 +2,8 @@
 function syncAddEditModalLayout() {
     const modal = document.getElementById('modal');
     if (!modal) return;
-    const form = modal.querySelector('.add-edit-modal__form');
-    if (form) form.classList.add('custom-scroll');
+    const body = modal.querySelector('.add-edit-modal__body');
+    if (body) body.classList.add('custom-scroll');
     modal.setAttribute('data-add-edit-layout', 'mobile');
     modal.setAttribute('aria-roledescription', 'Mobile add/edit Link');
     syncEmojiPickerLayout();
@@ -11,8 +11,8 @@ function syncAddEditModalLayout() {
 
 /** Keep the mobile form scrolled to the top when Add/Edit opens. */
 function resetAddEditModalScroll() {
-    const form = document.getElementById('modal-form');
-    if (form) form.scrollTop = 0;
+    const body = document.querySelector('#modal .add-edit-modal__body');
+    if (body) body.scrollTop = 0;
 }
 
 /** Apply the Mobile Quick Pick Emojis layout in mobile mode; desktop stays unchanged. */
