@@ -636,7 +636,7 @@ function renderLinks() {
                     card._tooltipLifeTimer = setTimeout(() => {
                         card._tooltipLifeTimer = null;
                         hideTooltipNow();
-                    }, 5000);
+                    }, getMobileLinkDescriptionSeconds() * 1000);
                 }
 
                 card._tooltipEl.addEventListener('mouseenter', () => {

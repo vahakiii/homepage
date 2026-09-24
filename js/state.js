@@ -91,3 +91,45 @@ var githubUsername = '';
 var githubToken = '';
 var githubGistId = '';
 var githubLastSync = null;
+
+var DEFAULT_MOBILE_LINK_DESC_SECONDS = 5;
+var DEFAULT_EMOJI_DESC_SECONDS = 4;
+var MOBILE_LINK_DESC_SECONDS_KEY = 'startpage_mobile_link_desc_seconds';
+var EMOJI_DESC_SECONDS_KEY = 'startpage_emoji_desc_seconds';
+
+/** Positive whole seconds, or null when the value cannot be used. */
+function parsePopupSeconds(value) {
+    var n = Number(value);
+    if (!isFinite(n)) return null;
+    n = Math.round(n);
+    if (n < 1 || n > 600) return null;
+    return n;
+}
+
+function readPopupSeconds(key, fallback) {
+    try {
+        var raw = localStorage.getItem(key);
+        if (raw == null || raw === '') return fallback;
+        var parsed = parsePopupSeconds(raw);
+        return parsed == null ? fallback : parsed;
+    } catch (e) {
+        return fallback;
+    }
+}
+
+function getMobileLinkDescriptionSeconds() {
+    return readPopupSeconds(MOBILE_LINK_DESC_SECONDS_KEY, DEFAULT_MOBILE_LINK_DESC_SECONDS);
+}
+
+function getEmojiDescriptionSeconds() {
+    return readPopupSeconds(EMOJI_DESC_SECONDS_KEY, DEFAULT_EMOJI_DESC_SECONDS);
+}
+
+function savePopupSeconds(key, value, fallback) {
+    var seconds = parsePopupSeconds(value);
+    if (seconds == null) seconds = fallback;
+    try {
+        localStorage.setItem(key, String(seconds));
+    } catch (e) { /* ignore quota */ }
+    return seconds;
+}
