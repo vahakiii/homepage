@@ -291,7 +291,7 @@ var COMMON_EMOJIS = {
         '🥾', '🛴', '🚇', '🚄',
         '🧭', '⛽', '🚑',
         '🚂', '🚒', '🚓', '🏍️', '⛵', '🛶', '🛬', '🚦', '🚜', '🗼',
-        '🏛'
+        '🏛️'
     ],
     "Weather": [
         '☀️', '⛅', '⛈️', '🌤️', '🌥️', '🌦️', '🌧️', '🌨️', '🌩️', '❄️', '🌫️',
@@ -532,7 +532,7 @@ var EMOJI_NAMES = {
     '🏝️': 'Desert Island (Tropical, Vacation, Beach, Paradise, Travel, Relax)',
     '🏞️': 'National Park (Nature Reserve, Scenery, Hiking, Mountains, Landscape, Protected Area, Outdoors, Wilderness)',
     '🏟️': 'Stadium (Sports, Arena)',
-    '🏛': 'Classical Building (Museum, Courthouse, Landmark, Columns, Government, Historic, Architecture, Monument)',
+    '🏛️': 'Classical Building (Museum, Courthouse, Landmark, Columns, Government, Historic, Architecture, Monument)',
     '🏠': 'House (Home, Building, Shelter, Family, Roof)',
     '🏥': 'Hospital (Health, Doctor, Nurse, Sick, Emergency, Building)',
     '🏦': 'Bank (Money, Safe, Building, Rich, Vault, Cash)',
