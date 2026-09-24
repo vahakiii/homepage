@@ -194,16 +194,13 @@ function syncDebugSettingsCheckbox() {
 function ensureColorThemeFields() {
     const grid = document.querySelector('#color-theme-modal .color-theme-modal__grid');
     if (!grid || grid.dataset.fieldsBuilt === 'true') return;
-    const actions = grid.querySelector('.color-theme-modal__actions');
-    if (!actions) return;
-
     const byKey = {};
     COLOR_FIELDS.forEach(function (f) { byKey[f.key] = f; });
 
     COLOR_EDITOR_KEYS.forEach(function (key) {
         const field = byKey[key];
         if (!field) return;
-        grid.insertBefore(buildColorThemeField(field), actions);
+        grid.appendChild(buildColorThemeField(field));
     });
     grid.dataset.fieldsBuilt = 'true';
 }

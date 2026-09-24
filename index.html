@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<!-- AI: The Debug screen shows this pull request number. When a new PR starts, update content below to that PR number. -->
-		<meta name="homepage-pr" content="42">
+		<meta name="homepage-pr" content="43">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<script>
 		(function () {
@@ -414,9 +414,9 @@
 					</button>
 				</div>
 
-				<div class="color-theme-modal__grid custom-scroll">
+				<div class="color-theme-modal__grid custom-scroll"></div>
 
-					<div class="color-theme-modal__actions">
+				<div class="color-theme-modal__actions">
 						<div class="color-theme-modal__modes">
 							<button type="button" onclick="applyColorMode('light')"
 								class="color-theme-modal__mode"
@@ -437,7 +437,6 @@
 							class="color-theme-modal__save">
 							Save Colors
 						</button>
-					</div>
 				</div>
 			</div>
 		</div>
@@ -701,7 +700,8 @@
 					</button>
 				</div>
 
-				<form id="modal-form" class="add-edit-modal__form custom-scroll">
+				<form id="modal-form" class="add-edit-modal__form">
+					<div class="add-edit-modal__body custom-scroll">
 					<div class="add-edit-modal__field">
 						<label class="add-edit-modal__label">NAME</label>
 						<input type="text" id="link-name" required
@@ -816,6 +816,7 @@
 					<!-- Edit warning when sort is Date Added -->
 					<div id="edit-date-warning" class="add-edit-modal__warning is-hidden">
 						Unable to sort when viewing by "Date Added"
+					</div>
 					</div>
 
 					<div class="add-edit-modal__footer">
