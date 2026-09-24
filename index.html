@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<!-- AI: The Debug screen shows this pull request number. When a new PR starts, update content below to that PR number. -->
-		<meta name="homepage-pr" content="41">
+		<meta name="homepage-pr" content="42">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<script>
 		(function () {
@@ -687,7 +687,7 @@
 			</div>
 		</div>
 
-		<!-- Add/Edit Link. Mobile mode uses the Mobile add/edit Link layout (.add-edit-modal--mobile). -->
+		<!-- Add/Edit Link. Stacked layout; the form scrolls and the footer stays put. -->
 		<div id="modal"
 			class="ui-modal add-edit-modal"
 			role="dialog" aria-modal="true" aria-labelledby="modal-title">
@@ -701,7 +701,7 @@
 					</button>
 				</div>
 
-				<form id="modal-form" class="add-edit-modal__form">
+				<form id="modal-form" class="add-edit-modal__form custom-scroll">
 					<div class="add-edit-modal__field">
 						<label class="add-edit-modal__label">NAME</label>
 						<input type="text" id="link-name" required
