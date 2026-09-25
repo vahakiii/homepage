@@ -734,6 +734,112 @@ function loadHideCategories() {
     applyHideCategories(raw === 'true');
 }
 
+var snowFlakesReady = false;
+
+function snowParticleCount() {
+    var w = window.innerWidth || 1280;
+    var h = window.innerHeight || 800;
+    var count = Math.round((w * h) / 14000);
+    if (count < 48) count = 48;
+    if (count > 96) count = 96;
+    return count;
+}
+
+function ensureSnowParticles() {
+    if (snowFlakesReady) return;
+    var layer = document.getElementById('snow-layer');
+    if (!layer) return;
+    var count = snowParticleCount();
+    var frag = document.createDocumentFragment();
+    for (var i = 0; i < count; i++) {
+        var flake = document.createElement('span');
+        var crystal = Math.random() < 0.34;
+        flake.className = crystal ? 'snow-flake snow-flake--crystal' : 'snow-flake';
+        var size = (crystal ? (12 + Math.random() * 8) : (4 + Math.random() * 5)) * 0.8;
+        var duration = 18 + Math.random() * 16;
+        var drift = (22 + Math.random() * 64) * (Math.random() < 0.5 ? -1 : 1);
+        flake.style.left = (Math.random() * 100) + '%';
+        flake.style.width = size + 'px';
+        flake.style.height = size + 'px';
+        flake.style.opacity = String(crystal ? (0.78 + Math.random() * 0.22) : (0.84 + Math.random() * 0.16));
+        flake.style.animationDuration = duration.toFixed(2) + 's';
+        flake.style.animationDelay = (-Math.random() * duration).toFixed(2) + 's';
+        flake.style.setProperty('--snow-drift', drift.toFixed(1) + 'px');
+        frag.appendChild(flake);
+    }
+    layer.appendChild(frag);
+    snowFlakesReady = true;
+}
+
+var SNOW_IDLE_MS = 5 * 60 * 1000;
+var snowIdleTimer = null;
+var snowIdlePaused = false;
+var snowLastActivityMark = 0;
+
+function snowTabIsHidden() {
+    return document.visibilityState === 'hidden';
+}
+
+function scheduleSnowIdlePause() {
+    if (snowIdleTimer) clearTimeout(snowIdleTimer);
+    snowIdleTimer = setTimeout(function () {
+        snowIdleTimer = null;
+        snowIdlePaused = true;
+        syncSnowPlayback();
+    }, SNOW_IDLE_MS);
+}
+
+function clearSnowIdlePause() {
+    if (snowIdleTimer) {
+        clearTimeout(snowIdleTimer);
+        snowIdleTimer = null;
+    }
+    snowIdlePaused = false;
+}
+
+function syncSnowPlayback() {
+    var layer = document.getElementById('snow-layer');
+    if (!layer) return;
+    var pause = !snowEffect || snowIdlePaused || snowTabIsHidden() || layer.classList.contains('is-covered');
+    layer.classList.toggle('is-paused', !!pause);
+}
+
+function markSnowActivity() {
+    if (!snowEffect) return;
+    var now = Date.now();
+    if (!snowIdlePaused && now - snowLastActivityMark < 1000) return;
+    snowLastActivityMark = now;
+    snowIdlePaused = false;
+    scheduleSnowIdlePause();
+    syncSnowPlayback();
+}
+
+document.addEventListener('mousemove', markSnowActivity);
+document.addEventListener('visibilitychange', syncSnowPlayback);
+
+function applySnowEffect(enabled) {
+    snowEffect = !!enabled;
+    var checkbox = document.getElementById('snow-effect-checkbox');
+    if (checkbox) checkbox.checked = snowEffect;
+    var layer = document.getElementById('snow-layer');
+    if (!layer) return;
+    if (snowEffect) {
+        ensureSnowParticles();
+        layer.classList.add('is-on');
+        if (!snowIdleTimer && !snowIdlePaused) scheduleSnowIdlePause();
+    } else {
+        layer.classList.remove('is-on');
+        clearSnowIdlePause();
+    }
+    if (typeof syncSnowLayerForPage === 'function') syncSnowLayerForPage();
+}
+
+function loadSnowEffect() {
+    var enabled = (typeof readSnowEffectEnabled === 'function') ? readSnowEffectEnabled() : true;
+    if (typeof setSnowEffectEnabled === 'function') setSnowEffectEnabled(enabled);
+    else applySnowEffect(enabled);
+}
+
 function updateClock() {
     const clockEl = document.getElementById('clock');
     if (clockEl) clockEl.textContent = new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
@@ -1064,6 +1170,7 @@ function initializeApp() {
     }
 
     loadHideCategories();
+    loadSnowEffect();
     loadLinks();
 
     loadColorSettings();
@@ -1103,6 +1210,13 @@ function initializeApp() {
         hideCategoriesCheckbox.addEventListener('change', () => {
             localStorage.setItem('startpage_hide_categories', hideCategoriesCheckbox.checked ? 'true' : 'false');
             applyHideCategories(hideCategoriesCheckbox.checked);
+        });
+    }
+
+    const snowEffectCheckbox = document.getElementById('snow-effect-checkbox');
+    if (snowEffectCheckbox) {
+        snowEffectCheckbox.addEventListener('change', () => {
+            setSnowEffectEnabled(snowEffectCheckbox.checked);
         });
     }
 

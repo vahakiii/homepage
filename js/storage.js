@@ -241,6 +241,10 @@ function buildBackupPayload(options) {
         emojiDescriptionSeconds: (typeof getEmojiDescriptionSeconds === 'function')
             ? getEmojiDescriptionSeconds()
             : 4,
+        // Optional on older JSON files and Gists; missing values keep the saved setting.
+        snowEffect: (typeof readSnowEffectEnabled === 'function')
+            ? readSnowEffectEnabled()
+            : true,
         github: {
             username: username,
             token: maskToken(token),
@@ -328,6 +332,14 @@ function applyBackupPayload(imported, options) {
         }
     }
     if (typeof syncPopupDurationFields === 'function') syncPopupDurationFields();
+
+    // snowEffect is optional so older JSON files and Gists keep the saved value.
+    if (data.snowEffect !== undefined && typeof parseSnowEffectFlag === 'function') {
+        var snowFlag = parseSnowEffectFlag(data.snowEffect);
+        if (snowFlag !== null && typeof setSnowEffectEnabled === 'function') {
+            setSnowEffectEnabled(snowFlag);
+        }
+    }
 
     if (data.github) {
         if (data.github.username) localStorage.setItem('github_username', data.github.username);
