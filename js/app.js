@@ -771,6 +771,52 @@ function ensureSnowParticles() {
     snowFlakesReady = true;
 }
 
+var SNOW_IDLE_MS = 5 * 60 * 1000;
+var snowIdleTimer = null;
+var snowIdlePaused = false;
+var snowLastActivityMark = 0;
+
+function snowTabIsHidden() {
+    return document.visibilityState === 'hidden';
+}
+
+function scheduleSnowIdlePause() {
+    if (snowIdleTimer) clearTimeout(snowIdleTimer);
+    snowIdleTimer = setTimeout(function () {
+        snowIdleTimer = null;
+        snowIdlePaused = true;
+        syncSnowPlayback();
+    }, SNOW_IDLE_MS);
+}
+
+function clearSnowIdlePause() {
+    if (snowIdleTimer) {
+        clearTimeout(snowIdleTimer);
+        snowIdleTimer = null;
+    }
+    snowIdlePaused = false;
+}
+
+function syncSnowPlayback() {
+    var layer = document.getElementById('snow-layer');
+    if (!layer) return;
+    var pause = !snowEffect || snowIdlePaused || snowTabIsHidden() || layer.classList.contains('is-covered');
+    layer.classList.toggle('is-paused', !!pause);
+}
+
+function markSnowActivity() {
+    if (!snowEffect) return;
+    var now = Date.now();
+    if (!snowIdlePaused && now - snowLastActivityMark < 1000) return;
+    snowLastActivityMark = now;
+    snowIdlePaused = false;
+    scheduleSnowIdlePause();
+    syncSnowPlayback();
+}
+
+document.addEventListener('mousemove', markSnowActivity);
+document.addEventListener('visibilitychange', syncSnowPlayback);
+
 function applySnowEffect(enabled) {
     snowEffect = !!enabled;
     var checkbox = document.getElementById('snow-effect-checkbox');
@@ -780,8 +826,10 @@ function applySnowEffect(enabled) {
     if (snowEffect) {
         ensureSnowParticles();
         layer.classList.add('is-on');
+        if (!snowIdleTimer && !snowIdlePaused) scheduleSnowIdlePause();
     } else {
         layer.classList.remove('is-on');
+        clearSnowIdlePause();
     }
     if (typeof syncSnowLayerForPage === 'function') syncSnowLayerForPage();
 }

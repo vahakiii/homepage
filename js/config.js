@@ -35,6 +35,7 @@ function syncSnowLayerForPage() {
     if (!layer) return;
     // Snow stays on the main page; dialogs cover the screen with a translucent backdrop.
     layer.classList.toggle('is-covered', isAnyUiModalOpen());
+    if (typeof syncSnowPlayback === 'function') syncSnowPlayback();
 }
 
 function openUiModal(modalId) {
