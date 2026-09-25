@@ -372,7 +372,12 @@ function hideOtherOptionsResetSection() {
 
 function submitResetPhrase() {
     var phrase = document.getElementById('reset-confirm-phrase');
-    if (phrase && phrase.value === RESET_PHRASE) setResetConfirmStep('sure');
+    if (phrase && phrase.value === RESET_PHRASE) {
+        setResetConfirmStep('sure');
+        return;
+    }
+    window.alert('Rest Failed!');
+    closeUiModal('reset-confirm-modal');
 }
 
 function showOtherOptionsResetSection() {
@@ -448,12 +453,6 @@ function bindResetConfirmControls() {
     if (submit) submit.addEventListener('click', submitResetPhrase);
     var yes = document.getElementById('reset-yes');
     if (yes) yes.addEventListener('click', clearAllAppData);
-    var modal = document.getElementById('reset-confirm-modal');
-    if (modal) {
-        modal.addEventListener('click', function (e) {
-            if (e.target === modal) cancelResetConfirm();
-        });
-    }
 }
 
 function syncPopupDurationFields(fromSettings) {
