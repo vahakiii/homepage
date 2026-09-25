@@ -420,13 +420,20 @@ function submitResetPhrase() {
     hideOtherOptionsResetSection();
 }
 
+function scrollOtherOptionsBodyToEnd() {
+    var body = document.querySelector('#other-options-modal .other-options-modal__body');
+    if (!body) return;
+    body.scrollTop = body.scrollHeight;
+}
+
 function showOtherOptionsResetSection() {
     var more = document.getElementById('other-options-show-more');
     var rest = document.getElementById('other-options-reset');
     if (more) more.classList.add('is-hidden');
     if (rest) rest.classList.remove('is-hidden');
     startResetHideTimer();
-    if (rest && rest.scrollIntoView) rest.scrollIntoView({ block: 'nearest' });
+    scrollOtherOptionsBodyToEnd();
+    requestAnimationFrame(scrollOtherOptionsBodyToEnd);
 }
 
 function setResetConfirmStep(step) {
