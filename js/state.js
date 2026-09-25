@@ -135,13 +135,15 @@ function savePopupSeconds(key, value, fallback) {
 }
 
 var SNOW_EFFECT_KEY = 'startpage_snow_effect';
-var snowEffect = false;
+var snowEffect = true;
 
 function readSnowEffectEnabled() {
     try {
-        return localStorage.getItem(SNOW_EFFECT_KEY) === 'true';
+        var raw = localStorage.getItem(SNOW_EFFECT_KEY);
+        if (raw == null || raw === '') return true;
+        return raw === 'true';
     } catch (e) {
-        return false;
+        return true;
     }
 }
 

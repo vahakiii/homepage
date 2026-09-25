@@ -244,7 +244,7 @@ function buildBackupPayload(options) {
         // Optional on older JSON files and Gists; missing values keep the saved setting.
         snowEffect: (typeof readSnowEffectEnabled === 'function')
             ? readSnowEffectEnabled()
-            : false,
+            : true,
         github: {
             username: username,
             token: maskToken(token),

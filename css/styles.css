@@ -106,7 +106,7 @@ body{position:relative;z-index:0}
 .snow-layer{--snow-color:color-mix(in srgb,var(--text-color) 80%,var(--hover-blend) 20%);position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none;display:none}
 .snow-layer.is-on{display:block}
 .snow-layer.is-covered{visibility:hidden}
-.snow-flake{position:absolute;top:-12px;border-radius:50%;background-color:var(--snow-color);box-shadow:0 0 4px color-mix(in srgb,var(--snow-color) 70%,transparent);animation-name:snow-fall;animation-timing-function:linear;animation-iteration-count:infinite;will-change:transform}
+.snow-flake{position:absolute;top:-12px;border-radius:50%;background-color:var(--snow-color);box-shadow:0 0 3.2px color-mix(in srgb,var(--snow-color) 70%,transparent);animation-name:snow-fall;animation-timing-function:linear;animation-iteration-count:infinite;will-change:transform}
 .snow-flake--crystal{background-color:transparent;box-shadow:none;border-radius:0;animation-name:snow-fall-spin}
 .snow-flake--crystal::before,.snow-flake--crystal::after{content:"";position:absolute;left:50%;top:50%;background-color:var(--snow-color);border-radius:1px}
 .snow-flake--crystal::before{width:100%;height:28%;transform:translate(-50%,-50%)}

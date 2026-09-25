@@ -755,7 +755,7 @@ function ensureSnowParticles() {
         var flake = document.createElement('span');
         var crystal = Math.random() < 0.34;
         flake.className = crystal ? 'snow-flake snow-flake--crystal' : 'snow-flake';
-        var size = crystal ? (12 + Math.random() * 8) : (4 + Math.random() * 5);
+        var size = (crystal ? (12 + Math.random() * 8) : (4 + Math.random() * 5)) * 0.8;
         var duration = 18 + Math.random() * 16;
         var drift = (22 + Math.random() * 64) * (Math.random() < 0.5 ? -1 : 1);
         flake.style.left = (Math.random() * 100) + '%';
@@ -787,7 +787,9 @@ function applySnowEffect(enabled) {
 }
 
 function loadSnowEffect() {
-    applySnowEffect(typeof readSnowEffectEnabled === 'function' ? readSnowEffectEnabled() : false);
+    var enabled = (typeof readSnowEffectEnabled === 'function') ? readSnowEffectEnabled() : true;
+    if (typeof setSnowEffectEnabled === 'function') setSnowEffectEnabled(enabled);
+    else applySnowEffect(enabled);
 }
 
 function updateClock() {
