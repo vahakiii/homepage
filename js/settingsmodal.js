@@ -366,8 +366,13 @@ var RESET_PHRASE = 'CLEAR EVERYTHING!';
 function hideOtherOptionsResetSection() {
     var more = document.getElementById('other-options-show-more');
     var rest = document.getElementById('other-options-reset');
-    if (more) more.classList.remove('is-hidden');
     if (rest) rest.classList.add('is-hidden');
+    if (more) more.classList.toggle('is-hidden', !otherOptionsOpenedFromSettings);
+}
+
+function submitResetPhrase() {
+    var phrase = document.getElementById('reset-confirm-phrase');
+    if (phrase && phrase.value === RESET_PHRASE) setResetConfirmStep('sure');
 }
 
 function showOtherOptionsResetSection() {
@@ -432,10 +437,15 @@ function bindResetConfirmControls() {
     if (cont) cont.addEventListener('click', function () { setResetConfirmStep('type'); });
     var phrase = document.getElementById('reset-confirm-phrase');
     if (phrase) {
-        phrase.addEventListener('input', function () {
-            if (phrase.value === RESET_PHRASE) setResetConfirmStep('sure');
+        phrase.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                submitResetPhrase();
+            }
         });
     }
+    var submit = document.getElementById('reset-submit');
+    if (submit) submit.addEventListener('click', submitResetPhrase);
     var yes = document.getElementById('reset-yes');
     if (yes) yes.addEventListener('click', clearAllAppData);
     var modal = document.getElementById('reset-confirm-modal');

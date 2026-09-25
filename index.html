@@ -617,7 +617,8 @@
 					<button type="button" id="other-options-show-more" class="other-options-modal__show-more">show more...</button>
 
 					<div id="other-options-reset" class="other-options-modal__reset is-hidden">
-						<span class="other-options-modal__section-title">Rest:</span>
+						<div class="other-options-modal__section-rule" aria-hidden="true"></div>
+						<span class="other-options-modal__section-title">Reset:</span>
 						<button type="button" id="other-options-clear-all" class="other-options-modal__clear">Clear All!</button>
 					</div>
 				</div>
@@ -677,6 +678,7 @@
 						<button type="button" id="reset-cancel-warn" class="reset-confirm-modal__stop">Cancel!</button>
 					</div>
 					<div data-reset-actions="type" class="reset-confirm-modal__actions is-hidden">
+						<button type="button" id="reset-submit" class="reset-confirm-modal__go">Submit</button>
 						<button type="button" id="reset-cancel-type" class="reset-confirm-modal__stop">Cancel!</button>
 					</div>
 					<div data-reset-actions="sure" class="reset-confirm-modal__actions is-hidden">
