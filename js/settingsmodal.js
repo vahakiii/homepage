@@ -378,6 +378,7 @@ function submitResetPhrase() {
     }
     window.alert('Rest Failed!');
     closeUiModal('reset-confirm-modal');
+    hideOtherOptionsResetSection();
 }
 
 function showOtherOptionsResetSection() {
