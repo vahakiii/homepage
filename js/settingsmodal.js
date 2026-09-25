@@ -361,6 +361,100 @@ function closeAboutModal() {
 }
 
 var otherOptionsOpenedFromSettings = false;
+var RESET_PHRASE = 'CLEAR EVERYTHING!';
+
+function hideOtherOptionsResetSection() {
+    var more = document.getElementById('other-options-show-more');
+    var rest = document.getElementById('other-options-reset');
+    if (rest) rest.classList.add('is-hidden');
+    if (more) more.classList.toggle('is-hidden', !otherOptionsOpenedFromSettings);
+}
+
+function submitResetPhrase() {
+    var phrase = document.getElementById('reset-confirm-phrase');
+    if (phrase && phrase.value === RESET_PHRASE) {
+        setResetConfirmStep('sure');
+        return;
+    }
+    window.alert('Rest Failed!');
+    closeUiModal('reset-confirm-modal');
+    hideOtherOptionsResetSection();
+}
+
+function showOtherOptionsResetSection() {
+    var more = document.getElementById('other-options-show-more');
+    var rest = document.getElementById('other-options-reset');
+    if (more) more.classList.add('is-hidden');
+    if (rest) rest.classList.remove('is-hidden');
+    if (rest && rest.scrollIntoView) rest.scrollIntoView({ block: 'nearest' });
+}
+
+function setResetConfirmStep(step) {
+    var modal = document.getElementById('reset-confirm-modal');
+    if (!modal) return;
+    modal.querySelectorAll('[data-reset-step]').forEach(function (el) {
+        el.classList.toggle('is-hidden', el.getAttribute('data-reset-step') !== step);
+    });
+    modal.querySelectorAll('[data-reset-actions]').forEach(function (el) {
+        el.classList.toggle('is-hidden', el.getAttribute('data-reset-actions') !== step);
+    });
+    if (step === 'type') {
+        var input = document.getElementById('reset-confirm-phrase');
+        if (input) {
+            input.value = '';
+            setTimeout(function () { input.focus(); }, 0);
+        }
+    }
+}
+
+function openResetConfirmModal() {
+    setResetConfirmStep('warn');
+    openUiModal('reset-confirm-modal');
+}
+
+function cancelResetConfirm() {
+    closeUiModal('reset-confirm-modal');
+    hideOtherOptionsResetSection();
+    var options = document.getElementById('other-options-modal');
+    if (options && !options.classList.contains('is-open')) {
+        openUiModal('other-options-modal');
+        options.style.display = 'flex';
+    }
+}
+
+function clearAllAppData() {
+    try {
+        localStorage.clear();
+        localStorage.setItem('startpage_links', '[]');
+    } catch (e) { /* ignore */ }
+    window.location.reload();
+}
+
+function bindResetConfirmControls() {
+    var more = document.getElementById('other-options-show-more');
+    if (more) more.addEventListener('click', showOtherOptionsResetSection);
+    var clearBtn = document.getElementById('other-options-clear-all');
+    if (clearBtn) clearBtn.addEventListener('click', openResetConfirmModal);
+    ['reset-confirm-close', 'reset-cancel-warn', 'reset-cancel-type', 'reset-no'].forEach(function (id) {
+        var el = document.getElementById(id);
+        if (el) el.addEventListener('click', cancelResetConfirm);
+    });
+    var cont = document.getElementById('reset-continue');
+    if (cont) cont.addEventListener('click', function () { setResetConfirmStep('type'); });
+    var phrase = document.getElementById('reset-confirm-phrase');
+    if (phrase) {
+        phrase.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                submitResetPhrase();
+            }
+        });
+    }
+    var submit = document.getElementById('reset-submit');
+    if (submit) submit.addEventListener('click', submitResetPhrase);
+    var yes = document.getElementById('reset-yes');
+    if (yes) yes.addEventListener('click', clearAllAppData);
+}
 
 function syncPopupDurationFields(fromSettings) {
     var block = document.getElementById('popup-duration-settings');
@@ -388,6 +482,7 @@ function openOtherOptionsModal() {
         syncPopupDurationFields(otherOptionsOpenedFromSettings);
     }
     if (settingsOpen) closeSettingsModal(false);
+    hideOtherOptionsResetSection();
     openUiModal('other-options-modal');
     modal.style.display = 'flex';
     var body = modal.querySelector('.other-options-modal__body');
@@ -396,6 +491,7 @@ function openOtherOptionsModal() {
 
 function closeOtherOptionsModal() {
     var modal = document.getElementById('other-options-modal');
+    hideOtherOptionsResetSection();
     closeUiModal('other-options-modal');
     if (modal) modal.style.display = '';
     if (otherOptionsOpenedFromSettings) openSettingsModal();
@@ -457,6 +553,7 @@ function saveColorSettings(colors) {
 }
 
 ensureColorThemeFields();
+bindResetConfirmControls();
 updateColorThemeMobileLayout();
 window.addEventListener('resize', updateColorThemeMobileLayout);
 window.addEventListener('orientationchange', updateColorThemeMobileLayout);

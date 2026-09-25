@@ -371,6 +371,7 @@ function setupAppKeyboardShortcuts() {
         'attribution-modal': closeAttributionModal,
         'about-modal': closeAboutModal,
         'other-options-modal': closeOtherOptionsModal,
+        'reset-confirm-modal': cancelResetConfirm,
         'sync-modal': closeSyncModal,
         'sync-instructions-modal': closeSyncInstructionsModal,
         'github-credentials-modal': closeGitHubCredentialsModal,

@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<!-- AI: The Debug screen shows this pull request number. When a new PR starts, update content below to that PR number. -->
-		<meta name="homepage-pr" content="46">
+		<meta name="homepage-pr" content="47">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<script>
 		(function () {
@@ -613,6 +613,16 @@
 							</span>
 						</label>
 					</div>
+
+					<button type="button" id="other-options-show-more" class="other-options-modal__show-more">show more...</button>
+
+					<div id="other-options-reset" class="is-hidden">
+						<div class="other-options-modal__section-rule" aria-hidden="true"></div>
+						<div class="other-options-modal__reset">
+							<span class="other-options-modal__section-title">Reset:</span>
+							<button type="button" id="other-options-clear-all" class="other-options-modal__clear">Clear All!</button>
+						</div>
+					</div>
 				</div>
 
 				<div class="other-options-modal__footer">
@@ -620,6 +630,64 @@
 						class="other-options-modal__footer-close">
 						Close
 					</button>
+				</div>
+			</div>
+		</div>
+
+		<!-- Clear everything -->
+		<div id="reset-confirm-modal"
+			class="ui-modal ui-modal--topmost reset-confirm-modal"
+			role="dialog" aria-modal="true" aria-labelledby="reset-confirm-title">
+			<div onclick="event.stopImmediatePropagation()"
+				class="ui-modal__panel modal reset-confirm-modal__panel">
+
+				<div class="ui-modal__header">
+					<h3 id="reset-confirm-title" class="ui-modal__title ui-modal__title--row">
+						<i class="fa-solid fa-trash"></i>
+						<span>Clear everything</span>
+					</h3>
+					<button type="button" id="reset-confirm-close" class="ui-modal__close" aria-label="Cancel">
+						<i class="fa-solid fa-times"></i>
+					</button>
+				</div>
+
+				<div class="reset-confirm-modal__body">
+					<div data-reset-step="warn">
+						<div class="reset-confirm-modal__graphic" aria-hidden="true">
+							<span class="reset-confirm-modal__ring"></span>
+							<i class="fa-solid fa-trash reset-confirm-modal__icon"></i>
+						</div>
+						<p class="reset-confirm-modal__warning">
+							This clears every link and every setting. The start page will be empty, and this cannot be undone.
+						</p>
+					</div>
+					<div data-reset-step="type" class="is-hidden">
+						<label class="reset-confirm-modal__type-label" for="reset-confirm-phrase">
+							Type <strong>CLEAR EVERYTHING!</strong> to continue. This is case sensitive.
+						</label>
+						<input type="text" id="reset-confirm-phrase" class="reset-confirm-modal__phrase"
+							autocomplete="off" autocapitalize="off" spellcheck="false"
+							aria-label="Type CLEAR EVERYTHING!">
+					</div>
+					<div data-reset-step="sure" class="is-hidden">
+						<p class="reset-confirm-modal__sure">Are you sure?</p>
+						<p class="reset-confirm-modal__backout">Last chance to back out!</p>
+					</div>
+				</div>
+
+				<div class="reset-confirm-modal__footer">
+					<div data-reset-actions="warn" class="reset-confirm-modal__actions">
+						<button type="button" id="reset-continue" class="reset-confirm-modal__go">Continue to Reset</button>
+						<button type="button" id="reset-cancel-warn" class="reset-confirm-modal__stop">Cancel!</button>
+					</div>
+					<div data-reset-actions="type" class="reset-confirm-modal__actions is-hidden">
+						<button type="button" id="reset-submit" class="reset-confirm-modal__go">Submit</button>
+						<button type="button" id="reset-cancel-type" class="reset-confirm-modal__stop">Cancel!</button>
+					</div>
+					<div data-reset-actions="sure" class="reset-confirm-modal__actions is-hidden">
+						<button type="button" id="reset-yes" class="reset-confirm-modal__go">Yes</button>
+						<button type="button" id="reset-no" class="reset-confirm-modal__stop">No</button>
+					</div>
 				</div>
 			</div>
 		</div>
