@@ -739,9 +739,9 @@ var snowFlakesReady = false;
 function snowParticleCount() {
     var w = window.innerWidth || 1280;
     var h = window.innerHeight || 800;
-    var count = Math.round((w * h) / 24000);
-    if (count < 32) count = 32;
-    if (count > 70) count = 70;
+    var count = Math.round((w * h) / 14000);
+    if (count < 48) count = 48;
+    if (count > 96) count = 96;
     return count;
 }
 
@@ -753,15 +753,15 @@ function ensureSnowParticles() {
     var frag = document.createDocumentFragment();
     for (var i = 0; i < count; i++) {
         var flake = document.createElement('span');
-        var crystal = Math.random() < 0.38;
+        var crystal = Math.random() < 0.34;
         flake.className = crystal ? 'snow-flake snow-flake--crystal' : 'snow-flake';
-        var size = crystal ? (5 + Math.random() * 6) : (2.5 + Math.random() * 3.5);
-        var duration = 16 + Math.random() * 18;
-        var drift = (18 + Math.random() * 56) * (Math.random() < 0.5 ? -1 : 1);
+        var size = crystal ? (12 + Math.random() * 8) : (4 + Math.random() * 5);
+        var duration = 18 + Math.random() * 16;
+        var drift = (22 + Math.random() * 64) * (Math.random() < 0.5 ? -1 : 1);
         flake.style.left = (Math.random() * 100) + '%';
         flake.style.width = size + 'px';
         flake.style.height = size + 'px';
-        flake.style.opacity = String(0.45 + Math.random() * 0.5);
+        flake.style.opacity = String(crystal ? (0.78 + Math.random() * 0.22) : (0.84 + Math.random() * 0.16));
         flake.style.animationDuration = duration.toFixed(2) + 's';
         flake.style.animationDelay = (-Math.random() * duration).toFixed(2) + 's';
         flake.style.setProperty('--snow-drift', drift.toFixed(1) + 'px');
