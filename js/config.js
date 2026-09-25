@@ -1,5 +1,6 @@
 // UI_MODAL_IDS: Escape close order (topmost first); modals use .is-open
 var UI_MODAL_IDS = [
+    'reset-confirm-modal',
     'github-credentials-modal',
     'attribution-modal',
     'about-modal',
