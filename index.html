@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<!-- AI: The Debug screen shows this pull request number. When a new PR starts, update content below to that PR number. -->
-		<meta name="homepage-pr" content="47">
+		<meta name="homepage-pr" content="48">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<script>
 		(function () {
@@ -578,9 +578,9 @@
 						</div>
 					</div>
 
-					<div class="other-options-modal__section-rule" aria-hidden="true"></div>
+					<div id="other-options-sight-rule" class="other-options-modal__section-rule" aria-hidden="true"></div>
 
-					<div class="other-options-modal__checks">
+					<div id="other-options-sight" class="other-options-modal__checks">
 						<span class="other-options-modal__section-title">Sight:</span>
 						<label class="settings-modal__check-row">
 							<input type="checkbox" id="hide-categories-checkbox" checked
@@ -620,6 +620,7 @@
 						<div class="other-options-modal__section-rule" aria-hidden="true"></div>
 						<div class="other-options-modal__reset">
 							<span class="other-options-modal__section-title">Reset:</span>
+							<span id="other-options-reset-timer" class="other-options-modal__reset-timer">(hides in 5 seconds)</span>
 							<button type="button" id="other-options-clear-all" class="other-options-modal__clear">Clear All!</button>
 						</div>
 					</div>
@@ -663,7 +664,7 @@
 					</div>
 					<div data-reset-step="type" class="is-hidden">
 						<label class="reset-confirm-modal__type-label" for="reset-confirm-phrase">
-							Type <strong>CLEAR EVERYTHING!</strong> to continue. This is case sensitive.
+							Type "CLEAR EVERYTHING!" to continue. This is case sensitive.
 						</label>
 						<input type="text" id="reset-confirm-phrase" class="reset-confirm-modal__phrase"
 							autocomplete="off" autocapitalize="off" spellcheck="false"
