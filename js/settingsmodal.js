@@ -362,8 +362,47 @@ function closeAboutModal() {
 
 var otherOptionsOpenedFromSettings = false;
 var RESET_PHRASE = 'CLEAR EVERYTHING!';
+var RESET_HIDE_SECONDS = 5;
+var resetHideTimer = null;
+var resetHideRemaining = RESET_HIDE_SECONDS;
+
+function stopResetHideTimer() {
+    if (resetHideTimer) {
+        clearInterval(resetHideTimer);
+        resetHideTimer = null;
+    }
+}
+
+function updateResetHideLabel() {
+    var el = document.getElementById('other-options-reset-timer');
+    if (el) el.textContent = '(hides in ' + resetHideRemaining + ' seconds)';
+}
+
+function startResetHideTimer() {
+    stopResetHideTimer();
+    resetHideRemaining = RESET_HIDE_SECONDS;
+    updateResetHideLabel();
+    resetHideTimer = setInterval(function () {
+        resetHideRemaining -= 1;
+        if (resetHideRemaining <= 0) {
+            stopResetHideTimer();
+            hideOtherOptionsResetSection();
+            return;
+        }
+        updateResetHideLabel();
+    }, 1000);
+}
+
+function syncOtherOptionsSightSection() {
+    var hidden = !otherOptionsOpenedFromSettings;
+    var sight = document.getElementById('other-options-sight');
+    var rule = document.getElementById('other-options-sight-rule');
+    if (sight) sight.classList.toggle('is-hidden', hidden);
+    if (rule) rule.classList.toggle('is-hidden', hidden);
+}
 
 function hideOtherOptionsResetSection() {
+    stopResetHideTimer();
     var more = document.getElementById('other-options-show-more');
     var rest = document.getElementById('other-options-reset');
     if (rest) rest.classList.add('is-hidden');
@@ -386,6 +425,7 @@ function showOtherOptionsResetSection() {
     var rest = document.getElementById('other-options-reset');
     if (more) more.classList.add('is-hidden');
     if (rest) rest.classList.remove('is-hidden');
+    startResetHideTimer();
     if (rest && rest.scrollIntoView) rest.scrollIntoView({ block: 'nearest' });
 }
 
@@ -482,6 +522,7 @@ function openOtherOptionsModal() {
         syncPopupDurationFields(otherOptionsOpenedFromSettings);
     }
     if (settingsOpen) closeSettingsModal(false);
+    syncOtherOptionsSightSection();
     hideOtherOptionsResetSection();
     openUiModal('other-options-modal');
     modal.style.display = 'flex';
