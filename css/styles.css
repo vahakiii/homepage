@@ -70,11 +70,11 @@ html.is-mobile.is-landscape body>:not(#landscape-lock),html.is-mobile.is-landsca
 #about-modal .about-modal__footer-close:hover{background-color:var(--btn-hover-bg) !important;color:var(--active-text-color,#ffffff) !important}
 #about-modal .about-modal__icon--success{color:var(--success-color)}
 #about-modal .about-modal__lead{background-color:var(--card-bg)}
-.other-options-modal .ui-modal__panel{display:flex;flex-direction:column;width:max-content;max-width:calc(100vw - 2rem);min-height:0;max-height:calc(100vh - 2rem);max-height:calc(100dvh - 2rem);overflow:hidden}
-.other-options-modal .ui-modal__header{flex-shrink:0;z-index:2;border-bottom:1px solid var(--color-border);background-color:var(--background-color)}
-.other-options-modal__body{padding:1.5rem 1.5rem 1rem;font-size:0.875rem;line-height:1.25rem;flex:1 1 auto;min-height:0;overflow-x:hidden;overflow-y:auto;overscroll-behavior:contain}
+.other-options-modal{padding-left:8px;padding-right:8px}.other-options-modal .ui-modal__panel{display:flex;flex-direction:column;width:max-content;max-width:calc(100vw - 16px);min-height:0;max-height:calc(100vh - 2rem);max-height:calc(100dvh - 2rem);overflow:hidden}
+.other-options-modal .ui-modal__header{flex-shrink:0;z-index:2;padding-left:18px;padding-right:18px;border-bottom:1px solid var(--color-border);background-color:var(--background-color)}
+.other-options-modal__body{padding:1.5rem 18px 1rem;font-size:0.875rem;line-height:1.25rem;flex:1 1 auto;min-height:0;overflow-x:hidden;overflow-y:auto;overscroll-behavior:contain}
 .other-options-modal__checks{display:flex;flex-direction:column;align-items:flex-start;row-gap:0.625rem;margin-top:1.25rem}
-.other-options-modal__footer{flex-shrink:0;padding:1.25rem 1.5rem 1.5rem;border-top:1px solid var(--color-border);background-color:var(--background-color)}
+.other-options-modal__footer{flex-shrink:0;padding:1.25rem 18px 1.5rem;border-top:1px solid var(--color-border);background-color:var(--background-color)}
 .other-options-modal__footer-close{width:100%;padding-top:0.625rem;padding-bottom:0.625rem;font-size:0.875rem;line-height:1.25rem;font-weight:600;border-radius:1rem;border:1px solid var(--color-border-strong);cursor:pointer;background-color:var(--button-bg,#27251f);color:var(--text-color);transition:background-color 0.15s ease,color 0.15s ease}
 #other-options-modal .ui-modal__title,#other-options-modal .list-controls__label,#other-options-modal .settings-modal__check-label,#other-options-modal #sort-note{color:var(--text-color)}
 #other-options-modal .other-options-modal__footer-close{background-color:var(--button-bg,#27251f) !important;color:var(--text-color) !important}
