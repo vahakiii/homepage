@@ -30,16 +30,25 @@ function isAnyUiModalOpen() {
     return false;
 }
 
+function syncSnowLayerForPage() {
+    var layer = document.getElementById('snow-layer');
+    if (!layer) return;
+    // Snow stays on the main page; dialogs cover the screen with a translucent backdrop.
+    layer.classList.toggle('is-covered', isAnyUiModalOpen());
+}
+
 function openUiModal(modalId) {
     if (typeof landscapeLockActive !== 'undefined' && landscapeLockActive) return;
     var m = document.getElementById(modalId);
     if (!m) return;
     m.classList.add('is-open');
+    syncSnowLayerForPage();
 }
 
 function closeUiModal(modalId) {
     var m = document.getElementById(modalId);
     if (m) m.classList.remove('is-open');
+    syncSnowLayerForPage();
     // Blur header btn to avoid :focus-visible ring after close
     var active = document.activeElement;
     if (active && active.classList && active.classList.contains('header-action-btn')) {

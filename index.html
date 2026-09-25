@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<!-- AI: The Debug screen shows this pull request number. When a new PR starts, update content below to that PR number. -->
-		<meta name="homepage-pr" content="48">
+		<meta name="homepage-pr" content="49">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<script>
 		(function () {
@@ -250,6 +250,7 @@
 			</div>
 		</div>
 
+		<div id="snow-layer" class="snow-layer" aria-hidden="true"></div>
 
 		<div id="floating-actions" class="floating-goto">
 			<button id="go-to-top"
@@ -586,6 +587,11 @@
 							<input type="checkbox" id="hide-categories-checkbox" checked
 								class="settings-modal__checkbox">
 							<span class="settings-modal__check-label">Hide Categories (visible on wide screens)</span>
+						</label>
+						<label class="settings-modal__check-row">
+							<input type="checkbox" id="snow-effect-checkbox"
+								class="settings-modal__checkbox">
+							<span class="settings-modal__check-label">Enable Snow Effect</span>
 						</label>
 						<label class="settings-modal__check-row">
 							<input type="checkbox" id="debug-panel-checkbox"
