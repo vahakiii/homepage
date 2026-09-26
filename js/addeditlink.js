@@ -260,7 +260,14 @@ function submitUrlSuggestions(event) {
     var input = document.getElementById('url-suggest-input');
     var url = input ? input.value.trim() : '';
     var query = URL_SUGGEST_PROMPT + url;
-    window.open('https://www.google.com/search?q=' + encodeURIComponent(query), '_blank');
+    var popup = window.open(
+        'https://www.google.com/search?q=' + encodeURIComponent(query),
+        '_blank',
+        'popup=yes,width=1100,height=800,resizable=yes,scrollbars=yes'
+    );
+    if (popup) {
+        try { popup.opener = null; } catch (e) { /* ignore */ }
+    }
     closeUrlSuggestModal();
 }
 

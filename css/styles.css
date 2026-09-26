@@ -144,7 +144,8 @@ body{position:relative;z-index:0}
 .add-edit-modal__url-suggest-tip{position:absolute;right:0;bottom:calc(100% + 0.35rem);z-index:3;padding:0.25rem 0.5rem;border:1px solid var(--color-border-strong);border-radius:0.5rem;background-color:var(--card-bg);color:var(--text-color);font-size:calc(0.75rem * var(--font-scale, 1));font-weight:500;line-height:1rem;white-space:nowrap;box-shadow:var(--app-elevation-2);opacity:0;visibility:hidden;pointer-events:none}
 .add-edit-modal__url-suggest:hover .add-edit-modal__url-suggest-tip,.add-edit-modal__url-suggest:focus-visible .add-edit-modal__url-suggest-tip{opacity:1;visibility:visible}
 .url-suggest-modal{z-index:160}
-.url-suggest-modal__panel{width:min(32rem,100%);display:flex;flex-direction:column;max-height:calc(100vh - 2rem);max-height:calc(100dvh - 2rem);overflow:hidden;background-color:var(--background-color)}
+#url-suggest-modal.is-open{display:block !important;padding-top:20vh;font-size:0;line-height:0}
+.url-suggest-modal__panel{width:min(32rem,100%);margin-left:auto;margin-right:auto;display:flex;flex-direction:column;max-height:calc(80vh - 1rem);max-height:calc(80dvh - 1rem);overflow:hidden;background-color:var(--background-color);font-size:1rem;line-height:1.5}
 .url-suggest-modal__form{display:flex;flex-direction:column;min-height:0}
 .url-suggest-modal__body{padding:1.25rem 1.25rem 1rem;display:flex;flex-direction:column;gap:0.75rem}
 .url-suggest-modal__text{margin:0;color:var(--text-color);font-size:calc(0.95rem * var(--font-scale, 1));line-height:1.4}
