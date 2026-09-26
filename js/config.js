@@ -11,6 +11,7 @@ var UI_MODAL_IDS = [
     'sync-instructions-modal',
     'sync-modal',
     'settings-modal',
+    'url-suggest-modal',
     'modal'
 ];
 
