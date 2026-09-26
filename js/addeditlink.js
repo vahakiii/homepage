@@ -239,7 +239,32 @@ function setModalTally(value) {
 }
 
 
+var URL_SUGGEST_PROMPT = 'Broken up in sections, give me a concise summary for the URL given at the end of this prompt, with this exact format: (1) Website Name, (2) the URL, (3) a short 1-sentence Description, (4) relevant Tags (separated only by commas, no hashtags), and (5) 4 Emojis that would represent the Website.';
+
+function openUrlSuggestModal() {
+    var input = document.getElementById('url-suggest-input');
+    if (input) input.value = '';
+    openUiModal('url-suggest-modal');
+    setTimeout(function () {
+        if (input) input.focus();
+    }, 50);
+}
+
+/** Close the suggestions dialog only. The Add/Edit form stays as it was. */
+function closeUrlSuggestModal() {
+    closeUiModal('url-suggest-modal');
+}
+
+function submitUrlSuggestions(event) {
+    if (event && event.preventDefault) event.preventDefault();
+    var input = document.getElementById('url-suggest-input');
+    var url = input ? input.value.trim() : '';
+    var query = URL_SUGGEST_PROMPT + '\n' + url;
+    window.open('https://www.google.com/search?q=' + encodeURIComponent(query), '_blank');
+}
+
 function closeModal() {
+    closeUrlSuggestModal();
     closeUiModal('modal');
     currentEditId = null;
     modalCurrentCategories = [];

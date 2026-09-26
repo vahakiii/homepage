@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<!-- AI: The Debug screen shows this pull request number. When a new PR starts, update content below to that PR number. -->
-		<meta name="homepage-pr" content="51">
+		<meta name="homepage-pr" content="52">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<script>
 		(function () {
@@ -805,10 +805,20 @@
 					</div>
 
 					<div class="add-edit-modal__field">
-						<label class="add-edit-modal__label">URL</label>
-						<input type="text" id="link-url" required
-							class="add-edit-modal__input"
-							placeholder="example.com or https://example.com">
+						<label class="add-edit-modal__label" for="link-url">URL</label>
+						<div class="add-edit-modal__url-row">
+							<input type="text" id="link-url" required
+								class="add-edit-modal__input"
+								placeholder="example.com or https://example.com">
+							<button type="button" id="url-suggest-btn"
+								class="add-edit-modal__url-suggest"
+								title="Suggestions for the URL"
+								aria-label="Suggestions for the URL"
+								onclick="openUrlSuggestModal()">
+								<i class="fa-solid fa-lightbulb" aria-hidden="true"></i>
+								<span class="add-edit-modal__url-suggest-tip" role="tooltip">Suggestions for the URL</span>
+							</button>
+						</div>
 					</div>
 
 					<div class="add-edit-modal__field">
@@ -923,6 +933,36 @@
 							class="add-edit-modal__save">
 							Save Link
 						</button>
+					</div>
+				</form>
+			</div>
+		</div>
+
+		<!-- URL suggestions. Opens above Add/Edit Link and sends a Google search. -->
+		<div id="url-suggest-modal"
+			class="ui-modal url-suggest-modal"
+			role="dialog" aria-modal="true" aria-labelledby="url-suggest-modal-title">
+			<div onclick="event.stopImmediatePropagation()"
+				class="ui-modal__panel url-suggest-modal__panel modal">
+				<div class="ui-modal__header">
+					<h3 id="url-suggest-modal-title" class="ui-modal__title">
+						<i class="ui-modal__title-icon fa-solid fa-lightbulb"></i>Suggestions for the URL
+					</h3>
+					<button type="button" onclick="closeUrlSuggestModal()" class="ui-modal__close" aria-label="Close">
+						<i class="fa-solid fa-times"></i>
+					</button>
+				</div>
+				<form id="url-suggest-form" class="url-suggest-modal__form" onsubmit="submitUrlSuggestions(event)">
+					<div class="url-suggest-modal__body">
+						<p class="url-suggest-modal__text">Need help and suggestions on the URL? Type in the URL in the text box below and hit submit! This will use Google to help generate suggestions for the Link Card!</p>
+						<input type="text" id="url-suggest-input"
+							class="add-edit-modal__input url-suggest-modal__input"
+							placeholder="example.com or https://example.com"
+							autocomplete="off">
+					</div>
+					<div class="url-suggest-modal__footer">
+						<button type="button" class="url-suggest-modal__close" onclick="closeUrlSuggestModal()">Close</button>
+						<button type="submit" class="url-suggest-modal__submit">Submit</button>
 					</div>
 				</form>
 			</div>
