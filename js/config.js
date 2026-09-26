@@ -105,14 +105,15 @@ var COLOR_FIELDS = [
     { key: 'button', label: 'Button', storage: 'startpage_button_color', prefix: 'button', dark: APP_THEME_HEX.card, light: '#999999', saveIfSet: true },
     { key: 'saveButton', label: 'Submit Button & Links', storage: 'startpage_save_button_color', prefix: 'save-button', dark: APP_THEME_HEX.save, light: '#7973e8', saveIfSet: true },
     { key: 'success', label: 'Interfaces / Headers', storage: 'startpage_success_color', prefix: 'success', dark: APP_THEME_HEX.success, light: '#0a6647', importAliases: ['connection'], legacyStorage: 'startpage_connection_color', saveIfSet: true },
-    { key: 'caution', label: 'Caution', storage: 'startpage_caution_color', prefix: 'caution', dark: APP_THEME_HEX.caution, light: '#c0911b', saveIfSet: true }
+    { key: 'caution', label: 'Caution', storage: 'startpage_caution_color', prefix: 'caution', dark: APP_THEME_HEX.caution, light: '#c0911b', saveIfSet: true },
+    { key: 'snow', label: 'Snow', storage: 'startpage_snow_color', prefix: 'snow', dark: '#ffffff', light: '#ffffff', saveIfSet: true, keepStoredIfMissing: true }
 ];
 
 // Font size steps in Settings: Small, Normal, Large, XL (percentages are not shown in the UI).
 var FONT_SCALE_STEPS = [95, 100, 105, 110];
 
 // Color Theme grid order. Two columns; actions span both columns on the last row.
-var COLOR_EDITOR_KEYS = ['bg', 'text', 'textbox', 'activeCat', 'activeText', 'card', 'category', 'emojiBg', 'hoverBlend', 'button', 'saveButton', 'success', 'caution'];
+var COLOR_EDITOR_KEYS = ['bg', 'text', 'textbox', 'activeCat', 'activeText', 'card', 'category', 'emojiBg', 'hoverBlend', 'button', 'saveButton', 'success', 'caution', 'snow'];
 
 var COLOR_DEFAULTS = {};
 var COLOR_LIGHT_DEFAULTS = {};
@@ -167,6 +168,14 @@ function importedColorMap(c) {
                     val = c[f.importAliases[i]];
                     break;
                 }
+            }
+        }
+        // Optional on older JSON files and Gists: keep the color already saved in this browser.
+        if ((val == null || val === '') && f.keepStoredIfMissing) {
+            try {
+                val = localStorage.getItem(f.storage) || '';
+            } catch (e) {
+                val = '';
             }
         }
         colors[f.key] = val || f.dark;

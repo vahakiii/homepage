@@ -577,6 +577,7 @@ function applyColors(colors) {
     if (colors.saveButton) document.documentElement.style.setProperty('--save-button-bg', colors.saveButton);
     if (colors.success) document.documentElement.style.setProperty('--success-color', colors.success);
     if (colors.caution) document.documentElement.style.setProperty('--caution-color', colors.caution);
+    document.documentElement.style.setProperty('--snow-color', colors.snow || (COLOR_DEFAULTS && COLOR_DEFAULTS.snow) || '#ffffff');
 }
 
 

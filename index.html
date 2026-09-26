@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<!-- AI: The Debug screen shows this pull request number. When a new PR starts, update content below to that PR number. -->
-		<meta name="homepage-pr" content="50">
+		<meta name="homepage-pr" content="51">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<script>
 		(function () {
@@ -240,15 +240,14 @@
 					<!-- Scrolls under the fixed toolbar -->
 					<div id="links-scroll" class="links-scroll custom-scroll">
 						<div id="links-grid" class="links-grid is-compact"></div>
-
-						<!-- Privacy note: links column only -->
-						<div id="privacy-note" class="privacy-note">
-							Links, descriptions and categories are saved privately in your browser
-						</div>
 					</div>
 				</div>
 			</div>
 		</div>
+
+		<footer class="app-footer">
+			<p id="privacy-note" class="privacy-note">All links are saved privately in your browser</p>
+		</footer>
 
 		<div id="snow-layer" class="snow-layer" aria-hidden="true"></div>
 
@@ -692,8 +691,8 @@
 						<button type="button" id="reset-cancel-type" class="reset-confirm-modal__stop">Cancel!</button>
 					</div>
 					<div data-reset-actions="sure" class="reset-confirm-modal__actions is-hidden">
-						<button type="button" id="reset-yes" class="reset-confirm-modal__go">Yes</button>
-						<button type="button" id="reset-no" class="reset-confirm-modal__stop">No</button>
+						<button type="button" id="reset-yes" class="reset-confirm-modal__go">Yes: Reset!</button>
+						<button type="button" id="reset-no" class="reset-confirm-modal__stop">No: Back out!</button>
 					</div>
 				</div>
 			</div>
