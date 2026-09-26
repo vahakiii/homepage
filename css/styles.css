@@ -136,3 +136,10 @@ body{position:relative;z-index:0}
 @keyframes reset-warn-ring{0%{transform:scale(0.7);opacity:0.8}100%{transform:scale(1.25);opacity:0}}
 @media (prefers-reduced-motion:reduce){.reset-confirm-modal__icon,.reset-confirm-modal__ring{animation:none}}
 
+/* Page footer holds the privacy note. The links column scrolls above it. */
+.app-shell{padding-bottom:0}
+.app-footer{flex-shrink:0;border-top:1px solid var(--color-hairline);background-color:var(--background-color)}
+.app-footer .privacy-note{margin:0;padding:0.625rem 2rem}
+.links-scroll{padding-bottom:0.75rem}
+.floating-goto,#floating-actions.floating-goto{bottom:3.25rem}
+
