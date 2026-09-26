@@ -160,8 +160,8 @@ body{position:relative;z-index:0}
 
 /* Page footer holds the privacy note. The links column scrolls above it. */
 .app-shell{padding-bottom:0}
-.app-footer{flex-shrink:0;border-top:1px solid var(--color-hairline);background-color:var(--background-color)}
-.app-footer .privacy-note{margin:0;padding:0.625rem 2rem}
+.app-footer{flex-shrink:0;margin:0;padding:0;border-top:1px solid var(--color-hairline);background-color:var(--background-color)}
+.app-footer .privacy-note{margin:0;padding:calc(0.5rem / var(--font-scale, 1));font-size:calc(0.75rem / var(--font-scale, 1));line-height:calc(1rem / var(--font-scale, 1))}
 .links-scroll{padding-bottom:0.75rem}
 .floating-goto,#floating-actions.floating-goto{bottom:3.25rem}
 .attribution-modal__icon--google{color:#4285f4}
