@@ -277,7 +277,7 @@ function submitUrlSuggestions(event) {
 function openCategoryInfoModal() {
     openUiModal('category-info-modal');
     setTimeout(function () {
-        var closeBtn = document.querySelector('#category-info-modal .about-modal__footer-close');
+        var closeBtn = document.querySelector('#category-info-modal .category-info-modal__close');
         if (closeBtn) closeBtn.focus();
     }, 50);
 }
