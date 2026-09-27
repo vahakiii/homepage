@@ -841,9 +841,15 @@
 					</div>
 
 					<div class="add-edit-modal__field">
-						<label class="add-edit-modal__label">
-							CATEGORIES <span class="add-edit-modal__optional">(optional)</span>
-						</label>
+						<div class="add-edit-modal__label add-edit-modal__label--inline">
+							<span>CATEGORIES <span class="add-edit-modal__optional">(optional)</span></span>
+							<button type="button" class="add-edit-modal__info"
+								title="About categories"
+								aria-label="About categories"
+								onclick="openCategoryInfoModal()">
+								<i class="fa-solid fa-info-circle" aria-hidden="true"></i>
+							</button>
+						</div>
 						<div class="add-edit-modal__cat-row">
 							<input type="text" id="category-input"
 								class="add-edit-modal__input"
@@ -978,6 +984,29 @@
 						<button type="submit" class="url-suggest-modal__submit">Submit</button>
 					</div>
 				</form>
+			</div>
+		</div>
+
+		<!-- Category help. Opens above Add/Edit Link. -->
+		<div id="category-info-modal"
+			class="ui-modal category-info-modal"
+			role="dialog" aria-modal="true" aria-labelledby="category-info-modal-title">
+			<div onclick="event.stopImmediatePropagation()"
+				class="ui-modal__panel category-info-modal__panel modal">
+				<div class="ui-modal__header">
+					<h3 id="category-info-modal-title" class="ui-modal__title">
+						<i class="ui-modal__title-icon fa-solid fa-info-circle"></i>Categories
+					</h3>
+					<button type="button" onclick="closeCategoryInfoModal()" class="ui-modal__close" aria-label="Close">
+						<i class="fa-solid fa-times"></i>
+					</button>
+				</div>
+				<div class="category-info-modal__body">
+					<p class="category-info-modal__text">Categories can be entered as comma-separated values. Example: entering "Work, Capital, Finance" into the categories textbox and hitting "Add" will create three categories "Work", "Capital" and "Finance".</p>
+				</div>
+				<div class="category-info-modal__footer">
+					<button type="button" class="category-info-modal__close" onclick="closeCategoryInfoModal()">Close</button>
+				</div>
 			</div>
 		</div>
 

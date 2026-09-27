@@ -274,8 +274,21 @@ function submitUrlSuggestions(event) {
     closeUrlSuggestModal();
 }
 
+function openCategoryInfoModal() {
+    openUiModal('category-info-modal');
+    setTimeout(function () {
+        var closeBtn = document.querySelector('#category-info-modal .category-info-modal__close');
+        if (closeBtn) closeBtn.focus();
+    }, 50);
+}
+
+function closeCategoryInfoModal() {
+    closeUiModal('category-info-modal');
+}
+
 function closeModal() {
     closeUrlSuggestModal();
+    closeCategoryInfoModal();
     closeUiModal('modal');
     currentEditId = null;
     modalCurrentCategories = [];
