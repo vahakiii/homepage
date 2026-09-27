@@ -846,9 +846,7 @@
 							<button type="button" class="add-edit-modal__info"
 								title="About categories"
 								aria-label="About categories"
-								onclick="openCategoryInfoModal()">
-								<i class="fa-solid fa-info-circle" aria-hidden="true"></i>
-							</button>
+								onclick="openCategoryInfoModal()">i</button>
 						</div>
 						<div class="add-edit-modal__cat-row">
 							<input type="text" id="category-input"
@@ -987,25 +985,34 @@
 			</div>
 		</div>
 
-		<!-- Category help. Opens above Add/Edit Link. -->
+		<!-- Category help. Same chrome as About, opened above Add/Edit Link. -->
 		<div id="category-info-modal"
-			class="ui-modal category-info-modal"
+			class="ui-modal ui-modal--topmost about-modal"
 			role="dialog" aria-modal="true" aria-labelledby="category-info-modal-title">
 			<div onclick="event.stopImmediatePropagation()"
-				class="ui-modal__panel category-info-modal__panel modal">
+				class="ui-modal__panel ui-modal__panel--xl modal">
+
 				<div class="ui-modal__header">
-					<h3 id="category-info-modal-title" class="ui-modal__title">
-						<i class="ui-modal__title-icon fa-solid fa-info-circle"></i>Categories
+					<h3 id="category-info-modal-title" class="ui-modal__title ui-modal__title--row">
+						<i class="fa-solid fa-tag"></i>
+						<span>Categories</span>
 					</h3>
 					<button type="button" onclick="closeCategoryInfoModal()" class="ui-modal__close" aria-label="Close">
 						<i class="fa-solid fa-times"></i>
 					</button>
 				</div>
-				<div class="category-info-modal__body">
-					<p class="category-info-modal__text">Categories can be entered as comma-separated values. Example: entering "Work, Capital, Finance" into the categories textbox and hitting "Add" will create three categories "Work", "Capital" and "Finance".</p>
+
+				<div class="about-modal__body custom-scroll">
+					<div class="about-modal__lead">
+						<p>Categories can be entered as comma-separated values. Example: entering "Work, Capital, Finance" into the categories textbox and hitting "Add" will create three categories "Work", "Capital" and "Finance".</p>
+					</div>
 				</div>
-				<div class="category-info-modal__footer">
-					<button type="button" class="category-info-modal__close" onclick="closeCategoryInfoModal()">Close</button>
+
+				<div class="about-modal__footer ui-modal__footer">
+					<button type="button" onclick="closeCategoryInfoModal()"
+						class="about-modal__footer-close attribution-modal__footer-close ui-modal__btn ui-modal__btn--block ui-modal__btn--bordered">
+						Close
+					</button>
 				</div>
 			</div>
 		</div>
