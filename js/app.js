@@ -377,7 +377,8 @@ function setupAppKeyboardShortcuts() {
         'github-credentials-modal': closeGitHubCredentialsModal,
         'gists-list-modal': closeGistsListModal,
         'search-modal': closeSearchModal,
-        'url-suggest-modal': closeUrlSuggestModal
+        'url-suggest-modal': closeUrlSuggestModal,
+        'category-info-modal': closeCategoryInfoModal
     };
 
     Object.keys(uiModalCloseById).forEach(function (id) {
