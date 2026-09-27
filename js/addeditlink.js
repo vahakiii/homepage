@@ -243,7 +243,8 @@ var URL_SUGGEST_PROMPT = 'Broken up by sections, give me a concise summary for t
 
 function openUrlSuggestModal() {
     var input = document.getElementById('url-suggest-input');
-    if (input) input.value = '';
+    var linkUrl = document.getElementById('link-url');
+    if (input) input.value = linkUrl ? linkUrl.value : '';
     openUiModal('url-suggest-modal');
     setTimeout(function () {
         if (input) input.focus();
@@ -259,6 +260,8 @@ function submitUrlSuggestions(event) {
     if (event && event.preventDefault) event.preventDefault();
     var input = document.getElementById('url-suggest-input');
     var url = input ? input.value.trim() : '';
+    var linkUrl = document.getElementById('link-url');
+    if (linkUrl) linkUrl.value = url;
     var query = URL_SUGGEST_PROMPT + url;
     var popup = window.open(
         'https://www.google.com/search?q=' + encodeURIComponent(query),
