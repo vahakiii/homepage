@@ -48,6 +48,52 @@ function applyEmojiPickerChrome(popover, grid) {
 }
 
 /** Open Add Link modal (position radios; move buttons hidden). */
+function setPositionExpanded(open) {
+    var choices = document.getElementById('position-choices');
+    var toggle = document.getElementById('position-toggle');
+    if (choices) choices.hidden = !open;
+    if (toggle) {
+        toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+        toggle.title = open ? 'Hide position options' : 'Show position options';
+    }
+    if (!open || !choices) return;
+    var body = document.querySelector('#modal .add-edit-modal__body');
+    if (!body) return;
+    var bodyRect = body.getBoundingClientRect();
+    var choiceRect = choices.getBoundingClientRect();
+    if (choiceRect.bottom > bodyRect.bottom - 4) {
+        body.scrollTop += choiceRect.bottom - bodyRect.bottom + 8;
+    }
+}
+
+function resetPositionChoices() {
+    setPositionExpanded(false);
+}
+
+function togglePositionChoices() {
+    var choices = document.getElementById('position-choices');
+    setPositionExpanded(!choices || choices.hidden);
+}
+
+function bindPositionControls() {
+    var toggle = document.getElementById('position-toggle');
+    if (toggle && toggle.getAttribute('data-position-bound') !== '1') {
+        toggle.setAttribute('data-position-bound', '1');
+        toggle.addEventListener('click', function (event) {
+            event.preventDefault();
+            togglePositionChoices();
+        });
+    }
+    var info = document.getElementById('position-info-btn');
+    if (info && info.getAttribute('data-position-bound') !== '1') {
+        info.setAttribute('data-position-bound', '1');
+        info.addEventListener('click', function (event) {
+            event.preventDefault();
+            openPositionInfoModal();
+        });
+    }
+}
+
 function openAddModal() {
     currentEditId = null;
     modalCurrentCategories = [];
@@ -60,6 +106,7 @@ function openAddModal() {
 
     const posBottom = document.getElementById('position-bottom');
     if (posBottom) posBottom.checked = true;
+    resetPositionChoices();
 
     const moveButtons = document.getElementById('move-buttons');
     const positionOptions = document.getElementById('position-options');
@@ -93,6 +140,7 @@ function editLink(id) {
 
     const positionOptions = document.getElementById('position-options');
     if (positionOptions) positionOptions.style.display = 'none';
+    resetPositionChoices();
 
     const moveButtons = document.getElementById('move-buttons');
     const dateWarning = document.getElementById('edit-date-warning');
@@ -286,9 +334,22 @@ function closeCategoryInfoModal() {
     closeUiModal('category-info-modal');
 }
 
+function openPositionInfoModal() {
+    openUiModal('position-info-modal');
+    setTimeout(function () {
+        var closeBtn = document.querySelector('#position-info-modal .position-info-modal__close');
+        if (closeBtn) closeBtn.focus();
+    }, 50);
+}
+
+function closePositionInfoModal() {
+    closeUiModal('position-info-modal');
+}
+
 function closeModal() {
     closeUrlSuggestModal();
     closeCategoryInfoModal();
+    closePositionInfoModal();
     closeUiModal('modal');
     currentEditId = null;
     modalCurrentCategories = [];
@@ -299,6 +360,7 @@ function closeModal() {
 
     const positionOptions = document.getElementById('position-options');
     if (positionOptions) positionOptions.style.display = 'none';
+    resetPositionChoices();
 
     const dateWarning = document.getElementById('edit-date-warning');
     if (dateWarning) dateWarning.classList.add('is-hidden');
@@ -853,5 +915,7 @@ function initCategoryAutocomplete() {
         observer.observe(modal, { attributes: true, attributeFilter: ['class'] });
     }
 }
+
+bindPositionControls();
 
 

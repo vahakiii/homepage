@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<!-- AI: The Debug screen shows this pull request number. When a new PR starts, update content below to that PR number. -->
-		<meta name="homepage-pr" content="60">
+		<meta name="homepage-pr" content="61">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<script>
 		(function () {
@@ -872,15 +872,43 @@
 					<div class="add-edit-modal__split">
 						<!-- Add-only; hidden in edit (move buttons instead) -->
 						<div id="position-options" class="add-edit-modal__position">
-							<span class="add-edit-modal__position-label">My Order Position</span>
-							<label class="add-edit-modal__radio-row">
-								<input type="radio" name="add-position" value="top" id="position-top" class="add-edit-modal__radio">
-								<span>Add to Top</span>
-							</label>
-							<label class="add-edit-modal__radio-row">
-								<input type="radio" name="add-position" value="bottom" id="position-bottom" class="add-edit-modal__radio" checked>
-								<span>Add to Bottom</span>
-							</label>
+							<div class="add-edit-modal__position-head">
+								<span class="add-edit-modal__position-label">POSITION</span>
+								<button type="button" id="position-info-btn"
+									class="add-edit-modal__info"
+									title="About position"
+									aria-label="About position">
+									<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+										<circle cx="12" cy="12" r="10.15" fill="none" stroke="currentColor" stroke-width="1.15"/>
+										<g fill="currentColor" transform="translate(12 12) skewX(-8) translate(-12 -12)">
+											<circle cx="12" cy="7.7" r="1.05"/>
+											<rect x="11.2" y="10.25" width="1.6" height="6.15" rx="0.7"/>
+										</g>
+									</svg>
+								</button>
+								<button type="button" id="position-toggle"
+									class="add-edit-modal__position-toggle"
+									aria-expanded="false"
+									aria-controls="position-choices"
+									title="Show position options">
+									<svg class="add-edit-modal__position-chevron add-edit-modal__position-chevron--down" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+										<path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+									</svg>
+									<svg class="add-edit-modal__position-chevron add-edit-modal__position-chevron--up" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+										<path d="M6 15l6-6 6 6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+									</svg>
+								</button>
+							</div>
+							<div id="position-choices" class="add-edit-modal__position-choices" hidden>
+								<label class="add-edit-modal__radio-row">
+									<input type="radio" name="add-position" value="top" id="position-top" class="add-edit-modal__radio">
+									<span>Add to Top</span>
+								</label>
+								<label class="add-edit-modal__radio-row">
+									<input type="radio" name="add-position" value="bottom" id="position-bottom" class="add-edit-modal__radio" checked>
+									<span>Add to Bottom</span>
+								</label>
+							</div>
 						</div>
 
 						<div class="add-edit-modal__emoji">
@@ -917,13 +945,13 @@
 								class="add-edit-modal__input add-edit-modal__tally-input"
 								value="0" title="Number of times this link has been opened" aria-label="Link open tally">
 						</div>
-					</div>
 
-					<div class="add-edit-modal__accent">
-						<label class="add-edit-modal__label">
-							ACCENT COLOR <span class="add-edit-modal__optional">(optional)</span>
-						</label>
-						<div id="accent-color-picker" class="add-edit-modal__accent-grid"></div>
+						<div class="add-edit-modal__accent">
+							<label class="add-edit-modal__label">
+								ACCENT COLOR <span class="add-edit-modal__optional">(optional)</span>
+							</label>
+							<div id="accent-color-picker" class="add-edit-modal__accent-grid"></div>
+						</div>
 					</div>
 
 					<!-- Edit-only; hidden for derived sorts -->
@@ -990,6 +1018,36 @@
 						<button type="submit" class="url-suggest-modal__submit">Submit</button>
 					</div>
 				</form>
+			</div>
+		</div>
+
+		<!-- Position help. Same chrome as the Categories note, opened above Add/Edit Link. -->
+		<div id="position-info-modal"
+			class="ui-modal ui-modal--topmost about-modal"
+			role="dialog" aria-modal="true" aria-labelledby="position-info-modal-title">
+			<div onclick="event.stopImmediatePropagation()"
+				class="ui-modal__panel ui-modal__panel--xl modal">
+
+				<div class="ui-modal__header">
+					<h3 id="position-info-modal-title" class="ui-modal__title ui-modal__title--row">
+						<i class="fa-solid fa-list"></i>
+						<span>Position</span>
+					</h3>
+					<button type="button" onclick="closePositionInfoModal()" class="ui-modal__close" aria-label="Close">
+						<i class="fa-solid fa-times"></i>
+					</button>
+				</div>
+
+				<div class="about-modal__body custom-scroll">
+					<p class="about-modal__text">The position of the link card is useful when editing a link and using the "My Order" view. These buttons immediately place the link card at the front or end of the list, making it easier to find and then reorder by drag and drop.</p>
+				</div>
+
+				<div class="about-modal__footer ui-modal__footer">
+					<button type="button" onclick="closePositionInfoModal()"
+						class="position-info-modal__close">
+						Close
+					</button>
+				</div>
 			</div>
 		</div>
 
