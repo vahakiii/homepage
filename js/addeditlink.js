@@ -58,7 +58,11 @@ function resetPositionChoices() {
 function showPositionChoices() {
     var choices = document.getElementById('position-choices');
     var toggle = document.getElementById('position-toggle');
-    if (choices) choices.hidden = false;
+    if (choices) {
+        choices.hidden = false;
+        // The radios open under the label, often past the form's visible bottom.
+        choices.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+    }
     if (toggle) toggle.setAttribute('aria-expanded', 'true');
 }
 
