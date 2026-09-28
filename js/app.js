@@ -379,7 +379,8 @@ function setupAppKeyboardShortcuts() {
         'search-modal': closeSearchModal,
         'url-suggest-modal': closeUrlSuggestModal,
         'category-info-modal': closeCategoryInfoModal,
-        'position-info-modal': closePositionInfoModal
+        'position-info-modal': closePositionInfoModal,
+        'tally-info-modal': closeTallyInfoModal
     };
 
     Object.keys(uiModalCloseById).forEach(function (id) {
