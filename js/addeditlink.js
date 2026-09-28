@@ -346,10 +346,23 @@ function closePositionInfoModal() {
     closeUiModal('position-info-modal');
 }
 
+function openTallyInfoModal() {
+    openUiModal('tally-info-modal');
+    setTimeout(function () {
+        var closeBtn = document.querySelector('#tally-info-modal .tally-info-modal__close');
+        if (closeBtn) closeBtn.focus();
+    }, 50);
+}
+
+function closeTallyInfoModal() {
+    closeUiModal('tally-info-modal');
+}
+
 function closeModal() {
     closeUrlSuggestModal();
     closeCategoryInfoModal();
     closePositionInfoModal();
+    closeTallyInfoModal();
     closeUiModal('modal');
     currentEditId = null;
     modalCurrentCategories = [];

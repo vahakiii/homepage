@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<!-- AI: The Debug screen shows this pull request number. When a new PR starts, update content below to that PR number. -->
-		<meta name="homepage-pr" content="62">
+		<meta name="homepage-pr" content="63">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<script>
 		(function () {
@@ -940,7 +940,22 @@
 						</div>
 
 						<div class="add-edit-modal__tally">
-							<label for="link-tally" class="add-edit-modal__label">TALLY</label>
+							<div class="add-edit-modal__label add-edit-modal__label--inline">
+								<label for="link-tally">TALLY</label>
+								<button type="button" id="tally-info-btn"
+									class="add-edit-modal__info"
+									title="About tally"
+									aria-label="About tally"
+									onclick="openTallyInfoModal()">
+									<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+										<circle cx="12" cy="12" r="10.15" fill="none" stroke="currentColor" stroke-width="1.15"/>
+										<g fill="currentColor" transform="translate(12 12) skewX(-8) translate(-12 -12)">
+											<circle cx="12" cy="7.7" r="1.05"/>
+											<rect x="11.2" y="10.25" width="1.6" height="6.15" rx="0.7"/>
+										</g>
+									</svg>
+								</button>
+							</div>
 							<input type="text" id="link-tally"
 								class="add-edit-modal__input add-edit-modal__tally-input"
 								value="0" title="Number of times this link has been opened" aria-label="Link open tally">
@@ -1018,6 +1033,36 @@
 						<button type="submit" class="url-suggest-modal__submit">Submit</button>
 					</div>
 				</form>
+			</div>
+		</div>
+
+		<!-- Tally help. Same chrome as the Categories note, opened above Add/Edit Link. -->
+		<div id="tally-info-modal"
+			class="ui-modal ui-modal--topmost about-modal"
+			role="dialog" aria-modal="true" aria-labelledby="tally-info-modal-title">
+			<div onclick="event.stopImmediatePropagation()"
+				class="ui-modal__panel ui-modal__panel--xl modal">
+
+				<div class="ui-modal__header">
+					<h3 id="tally-info-modal-title" class="ui-modal__title ui-modal__title--row">
+						<i class="fa-solid fa-hashtag"></i>
+						<span>Tally</span>
+					</h3>
+					<button type="button" onclick="closeTallyInfoModal()" class="ui-modal__close" aria-label="Close">
+						<i class="fa-solid fa-times"></i>
+					</button>
+				</div>
+
+				<div class="about-modal__body custom-scroll">
+					<p class="about-modal__text">Tally is the sort weight stored on each link. It increases by one whenever the link is opened. When the list is sorted by Tally, cards are shown from highest weight to lowest so frequently used links stay at the top.</p>
+				</div>
+
+				<div class="about-modal__footer ui-modal__footer">
+					<button type="button" onclick="closeTallyInfoModal()"
+						class="tally-info-modal__close">
+						Close
+					</button>
+				</div>
 			</div>
 		</div>
 
