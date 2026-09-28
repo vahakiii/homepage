@@ -48,6 +48,20 @@ function applyEmojiPickerChrome(popover, grid) {
 }
 
 /** Open Add Link modal (position radios; move buttons hidden). */
+function resetPositionChoices() {
+    var choices = document.getElementById('position-choices');
+    var toggle = document.getElementById('position-toggle');
+    if (choices) choices.hidden = true;
+    if (toggle) toggle.setAttribute('aria-expanded', 'false');
+}
+
+function showPositionChoices() {
+    var choices = document.getElementById('position-choices');
+    var toggle = document.getElementById('position-toggle');
+    if (choices) choices.hidden = false;
+    if (toggle) toggle.setAttribute('aria-expanded', 'true');
+}
+
 function openAddModal() {
     currentEditId = null;
     modalCurrentCategories = [];
@@ -60,6 +74,7 @@ function openAddModal() {
 
     const posBottom = document.getElementById('position-bottom');
     if (posBottom) posBottom.checked = true;
+    resetPositionChoices();
 
     const moveButtons = document.getElementById('move-buttons');
     const positionOptions = document.getElementById('position-options');
@@ -93,6 +108,7 @@ function editLink(id) {
 
     const positionOptions = document.getElementById('position-options');
     if (positionOptions) positionOptions.style.display = 'none';
+    resetPositionChoices();
 
     const moveButtons = document.getElementById('move-buttons');
     const dateWarning = document.getElementById('edit-date-warning');
@@ -299,6 +315,7 @@ function closeModal() {
 
     const positionOptions = document.getElementById('position-options');
     if (positionOptions) positionOptions.style.display = 'none';
+    resetPositionChoices();
 
     const dateWarning = document.getElementById('edit-date-warning');
     if (dateWarning) dateWarning.classList.add('is-hidden');

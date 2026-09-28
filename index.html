@@ -872,15 +872,27 @@
 					<div class="add-edit-modal__split">
 						<!-- Add-only; hidden in edit (move buttons instead) -->
 						<div id="position-options" class="add-edit-modal__position">
-							<span class="add-edit-modal__position-label">My Order Position</span>
-							<label class="add-edit-modal__radio-row">
-								<input type="radio" name="add-position" value="top" id="position-top" class="add-edit-modal__radio">
-								<span>Add to Top</span>
-							</label>
-							<label class="add-edit-modal__radio-row">
-								<input type="radio" name="add-position" value="bottom" id="position-bottom" class="add-edit-modal__radio" checked>
-								<span>Add to Bottom</span>
-							</label>
+							<div class="add-edit-modal__position-head">
+								<span class="add-edit-modal__position-label">Position (for My Order)</span>
+								<button type="button" id="position-toggle"
+									class="add-edit-modal__position-toggle"
+									aria-expanded="false"
+									aria-controls="position-choices"
+									title="Show position options"
+									onclick="showPositionChoices()">
+									<i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+								</button>
+							</div>
+							<div id="position-choices" class="add-edit-modal__position-choices" hidden>
+								<label class="add-edit-modal__radio-row">
+									<input type="radio" name="add-position" value="top" id="position-top" class="add-edit-modal__radio">
+									<span>Add to Top</span>
+								</label>
+								<label class="add-edit-modal__radio-row">
+									<input type="radio" name="add-position" value="bottom" id="position-bottom" class="add-edit-modal__radio" checked>
+									<span>Add to Bottom</span>
+								</label>
+							</div>
 						</div>
 
 						<div class="add-edit-modal__emoji">
