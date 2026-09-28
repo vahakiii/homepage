@@ -58,12 +58,26 @@ function resetPositionChoices() {
 function showPositionChoices() {
     var choices = document.getElementById('position-choices');
     var toggle = document.getElementById('position-toggle');
-    if (choices) {
-        choices.hidden = false;
-        // The radios open under the label, often past the form's visible bottom.
-        choices.scrollIntoView({ block: 'nearest', inline: 'nearest' });
-    }
+    if (!choices) return;
+    choices.hidden = false;
     if (toggle) toggle.setAttribute('aria-expanded', 'true');
+    var body = document.querySelector('#modal .add-edit-modal__body');
+    if (!body) return;
+    var bodyRect = body.getBoundingClientRect();
+    var choiceRect = choices.getBoundingClientRect();
+    if (choiceRect.bottom > bodyRect.bottom - 4) {
+        body.scrollTop += choiceRect.bottom - bodyRect.bottom + 8;
+    }
+}
+
+function bindPositionToggle() {
+    var toggle = document.getElementById('position-toggle');
+    if (!toggle || toggle.getAttribute('data-position-bound') === '1') return;
+    toggle.setAttribute('data-position-bound', '1');
+    toggle.addEventListener('click', function (event) {
+        event.preventDefault();
+        showPositionChoices();
+    });
 }
 
 function openAddModal() {
@@ -874,5 +888,7 @@ function initCategoryAutocomplete() {
         observer.observe(modal, { attributes: true, attributeFilter: ['class'] });
     }
 }
+
+bindPositionToggle();
 
 
