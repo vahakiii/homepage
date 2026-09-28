@@ -51,15 +51,10 @@ function applyEmojiPickerChrome(popover, grid) {
 function setPositionExpanded(open) {
     var choices = document.getElementById('position-choices');
     var toggle = document.getElementById('position-toggle');
-    var icon = toggle ? toggle.querySelector('i') : null;
     if (choices) choices.hidden = !open;
     if (toggle) {
         toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
         toggle.title = open ? 'Hide position options' : 'Show position options';
-    }
-    if (icon) {
-        icon.classList.toggle('fa-chevron-down', !open);
-        icon.classList.toggle('fa-chevron-up', !!open);
     }
     if (!open || !choices) return;
     var body = document.querySelector('#modal .add-edit-modal__body');
