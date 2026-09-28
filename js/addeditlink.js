@@ -48,19 +48,20 @@ function applyEmojiPickerChrome(popover, grid) {
 }
 
 /** Open Add Link modal (position radios; move buttons hidden). */
-function resetPositionChoices() {
+function setPositionExpanded(open) {
     var choices = document.getElementById('position-choices');
     var toggle = document.getElementById('position-toggle');
-    if (choices) choices.hidden = true;
-    if (toggle) toggle.setAttribute('aria-expanded', 'false');
-}
-
-function showPositionChoices() {
-    var choices = document.getElementById('position-choices');
-    var toggle = document.getElementById('position-toggle');
-    if (!choices) return;
-    choices.hidden = false;
-    if (toggle) toggle.setAttribute('aria-expanded', 'true');
+    var icon = toggle ? toggle.querySelector('i') : null;
+    if (choices) choices.hidden = !open;
+    if (toggle) {
+        toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+        toggle.title = open ? 'Hide position options' : 'Show position options';
+    }
+    if (icon) {
+        icon.classList.toggle('fa-chevron-down', !open);
+        icon.classList.toggle('fa-chevron-up', !!open);
+    }
+    if (!open || !choices) return;
     var body = document.querySelector('#modal .add-edit-modal__body');
     if (!body) return;
     var bodyRect = body.getBoundingClientRect();
@@ -70,14 +71,32 @@ function showPositionChoices() {
     }
 }
 
-function bindPositionToggle() {
+function resetPositionChoices() {
+    setPositionExpanded(false);
+}
+
+function togglePositionChoices() {
+    var choices = document.getElementById('position-choices');
+    setPositionExpanded(!choices || choices.hidden);
+}
+
+function bindPositionControls() {
     var toggle = document.getElementById('position-toggle');
-    if (!toggle || toggle.getAttribute('data-position-bound') === '1') return;
-    toggle.setAttribute('data-position-bound', '1');
-    toggle.addEventListener('click', function (event) {
-        event.preventDefault();
-        showPositionChoices();
-    });
+    if (toggle && toggle.getAttribute('data-position-bound') !== '1') {
+        toggle.setAttribute('data-position-bound', '1');
+        toggle.addEventListener('click', function (event) {
+            event.preventDefault();
+            togglePositionChoices();
+        });
+    }
+    var info = document.getElementById('position-info-btn');
+    if (info && info.getAttribute('data-position-bound') !== '1') {
+        info.setAttribute('data-position-bound', '1');
+        info.addEventListener('click', function (event) {
+            event.preventDefault();
+            openPositionInfoModal();
+        });
+    }
 }
 
 function openAddModal() {
@@ -320,9 +339,22 @@ function closeCategoryInfoModal() {
     closeUiModal('category-info-modal');
 }
 
+function openPositionInfoModal() {
+    openUiModal('position-info-modal');
+    setTimeout(function () {
+        var closeBtn = document.querySelector('#position-info-modal .position-info-modal__close');
+        if (closeBtn) closeBtn.focus();
+    }, 50);
+}
+
+function closePositionInfoModal() {
+    closeUiModal('position-info-modal');
+}
+
 function closeModal() {
     closeUrlSuggestModal();
     closeCategoryInfoModal();
+    closePositionInfoModal();
     closeUiModal('modal');
     currentEditId = null;
     modalCurrentCategories = [];
@@ -889,6 +921,6 @@ function initCategoryAutocomplete() {
     }
 }
 
-bindPositionToggle();
+bindPositionControls();
 
 
