@@ -188,4 +188,6 @@ body{position:relative;z-index:0}
 .add-edit-modal__position-choices{display:flex;flex-direction:column;align-items:flex-start;row-gap:0.25rem;margin-top:-0.322rem}
 .add-edit-modal__position-choices[hidden]{display:none}
 .add-edit-modal__position{order:5;margin-top:calc(0.28rem - 0.375rem);margin-bottom:0}
+.add-edit-modal__textarea{display:block}
+.add-edit-modal__body>.add-edit-modal__field:has(#category-input){margin-top:0.375rem}
 
