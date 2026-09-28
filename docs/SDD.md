@@ -3,8 +3,8 @@
 | Field | Value |
 |--------|--------|
 | **Project** | Startpage_NE |
-| **Version** | 3.0 |
-| **Date** | July 21, 2026 |
+| **Version** | 3.4 |
+| **Date** | September 28, 2026 |
 | **Author** | Vahak / Alan V. Terezian (with AI assistance) |
 | **Status** | Living document — reorganized for review readability |
 | **Primary code** | `index.html`, `js/*`, `css/*`, `default.json` |
@@ -67,6 +67,7 @@ This SDD is large because it doubles as both an architecture overview and a deta
    - [6.12 File Import/Export & First-Run](#612-file-import--export--local-persistence-bootstrap)
    - [6.13 Floating Actions](#613-floating-actions)
    - [6.14 Debug Panel](#614-debug-panel-developer)
+   - [6.15 Snow](#615-snow)
 
 ### Part III — Cross-Cutting
 7. [Keyboard Navigation & Shortcuts](#7-keyboard-navigation--shortcuts)
@@ -92,8 +93,8 @@ This SDD is large because it doubles as both an architecture overview and a deta
 
 ### Modules (load order)
 
-`config → state → storage → github → render → quotes → addeditlink → settingsmodal → gsmodal → debug → app → script`  
-(all `defer` — see [§2.3](#23-script-load-order))
+`config → state → storage → github → render → quotes → addeditlink → settingsmodal → gsmodal → app → script`  
+(`debug.js` loads the first time the debug panel opens — see [§2.3](#23-script-load-order))
 
 ### Persistence (primary keys)
 
@@ -101,7 +102,7 @@ This SDD is large because it doubles as both an architecture overview and a deta
 |-----|--------|
 | `startpage_links` | Link array |
 | `startpage_user_name` | Title name |
-| `startpage_font_scale` | 70–150 |
+| `startpage_font_scale` | `95` \| `100` \| `105` \| `110` |
 | `startpage_view_mode` | `full` \| `compact` |
 | `startpage_*_color` | Theme roles |
 | `github_*` | Sync credentials + gist id + last sync |
@@ -200,6 +201,7 @@ startpage_NE/
 │   ├── fontawesome-subset.min.css  # Used icons only
 │   └── fontawesome/webfonts/
 │       ├── fa-solid-900.woff2
+│       ├── fa-regular-400.woff2
 │       └── fa-brands-400.woff2
 │
 ├── js/
@@ -231,8 +233,10 @@ All scripts use **`defer`** (parallel download, ordered execution, non-blocking 
 
 ```
 config → state → storage → github → render → quotes →
-addeditlink → settingsmodal → gsmodal → debug → app → script
+addeditlink → settingsmodal → gsmodal → app → script
 ```
+
+`debug.js` is not in that list. `app.js` injects it the first time Debug is opened.
 
 | Module | Responsibility |
 |--------|----------------|
@@ -245,7 +249,7 @@ addeditlink → settingsmodal → gsmodal → debug → app → script
 | `addeditlink.js` | Add/Edit Link domain UI |
 | `settingsmodal.js` | Settings & theming domain UI |
 | `gsmodal.js` | Search modal domain UI |
-| `debug.js` | Developer debug panel + some shared UI state vars |
+| `debug.js` | Developer debug panel; lazy-loaded by `app.js` |
 | `app.js` | Controller: init, keyboard, clock, filters, FABs |
 | `script.js` | Post-boot helpers |
 
@@ -279,6 +283,13 @@ Primary shell after load. Full component design: **§6.0**.
 | `#github-credentials-modal` | Username, PAT, bound Gist ID (child of Sync; **§6.11**) |
 | `#gists-list-modal` | Pick among user’s JSON Gists for import (**§6.11**) |
 | `#sync-instructions-modal` | PAT / Gist setup guide (child of Sync; **§6.11**) |
+| `#about-modal` | About / project note |
+| `#other-options-modal` | Show by, View, Hide Categories, Snow, Show Debug |
+| `#reset-confirm-modal` | Confirm clearing stored data |
+| `#url-suggest-modal` | Google URL suggestions for the link URL field (**§6.1.1**) |
+| `#category-info-modal` | Categories help, opened above Add/Edit |
+| `#position-info-modal` | Position help, opened above Add/Edit |
+| `#tally-info-modal` | Tally help, opened above Add/Edit |
 
 **Created dynamically in JS (not in static HTML):**
 
@@ -292,11 +303,11 @@ Primary CRUD surface for link records (`#modal`). Full component design: **§6.1
 
 | Mode | Entry | Distinct UI |
 |------|--------|-------------|
-| **Add** | `#add-link-btn`, `#quick-add-btn`, keyboard **`+`** | Title “＋ Add New Link”; position radios (Top/Bottom, default Bottom); move controls hidden |
-| **Edit** | Card `data-action="edit"` | Title with edit icon; form prefilled; position radios hidden; Move Top/Bottom (or date-sort warning) |
+| **Add** | `#add-link-btn`, `#quick-add-btn`, keyboard **`+`** | Title “＋ Add New Link”; POSITION section collapsed (Add to Top / Add to Bottom, default Bottom); move controls hidden |
+| **Edit** | Card `data-action="edit"` | Title with edit icon; form prefilled; POSITION hidden; Move Top/Bottom only in My Order (otherwise a sort-lock warning) |
 
-**Fields:** Name*, URL*, Description, Categories (multi-chip), Icon/emoji, Favorite, Accent color.  
-**Actions:** Save Link, Close/Cancel, Escape; nested emoji Quick Pick and category autocomplete.
+**Fields, top to bottom:** Name*, URL* (Suggestions), Description, Categories (optional, info), Icon (emoji), Tally, Accent Color (optional), Add to favorites, POSITION (add mode only).  
+**Actions:** Save Link, Close/Cancel, Escape; nested emoji Quick Pick, category autocomplete, and help notes for Categories, Position, and Tally.
 
 ---
 
@@ -314,11 +325,12 @@ Primary CRUD surface for link records (`#modal`). Full component design: **§6.1
   emoji: string,              // default "🔗"; may be short text (e.g. "X", "FB")
   categories: string[],       // multi-tag; case-insensitive dedupe on add
   accentColor: string | null, // key into ACCENT_COLORS (not a raw hex)
-  isFavorite: boolean         // default false; pinned first in default sort
+  isFavorite: boolean,        // default false; pinned first in My Order, Tally, and ABC
+  tally: number               // non-negative integer; +1 each time the link is opened; invalid → 0
 }
 ```
 
-**Normalization** on create (and aligned load/import paths) via `normalizeLink()` in `addeditlink.js` ensures missing fields receive safe defaults. See **§6.1.1.6** for modal-owned schema rules.
+**Normalization** on create (and aligned load/import paths) via `normalizeLink()` in `storage.js` ensures missing fields receive safe defaults. See **§6.1.1.6** for the field rules.
 
 ### 4.2 Accent Color Keys (`config.js`)
 
@@ -340,10 +352,15 @@ Primary CRUD surface for link records (`#modal`). Full component design: **§6.1
   colors: {
     bg, text, card, search, activeCat, category,
     textbox, activeText, emojiBg, hoverBlend,
-    button, saveButton, success, caution
+    button, saveButton, success, caution, snow
   },
   userName: string,
-  fontScale: number,              // 70–150
+  fontScale: number,              // 95 | 100 | 105 | 110
+  sortMode: string,               // default | tally | abc | date
+  viewMode: string,               // full | compact
+  mobileLinkDescriptionSeconds: number,
+  emojiDescriptionSeconds: number,
+  snowEffect: boolean,
   lastSynced?: string,            // ISO — gist export only
   github: {
     username: string,
@@ -443,7 +460,13 @@ Starter link pack shipped with the repo. Used for first-run seed and as the file
 | `startpage_links` | JSON array of links |
 | `startpage_user_name` | Page title personalization |
 | `startpage_font_scale` | Font size percent (default 100) |
-| `startpage_view_mode` | `full` \| `compact` |
+| `startpage_view_mode` | `full` \| `compact` (default `compact`) |
+| `startpage_sort_mode` | `default` (My Order) \| `tally` \| `abc` \| `date` (default `tally`) |
+| `startpage_hide_categories` | Hide the category sidebar |
+| `startpage_snow_effect` | `true` \| `false` (missing = on) |
+| `startpage_snow_color` | Snowflake color (`--snow-color`) |
+| `startpage_mobile_link_desc_seconds` | Compact description tooltip seconds on mobile (default 5) |
+| `startpage_emoji_desc_seconds` | Emoji full-description tip seconds (default 4) |
 | `startpage_bg_color` | Background |
 | `startpage_text_color` | Primary text |
 | `startpage_card_color` | Card background |
@@ -475,9 +498,10 @@ Starter link pack shipped with the repo. Used for first-run seed and as the file
 | `modalCurrentCategories` | Categories being edited in modal |
 | `modalCurrentAccent` | Accent key in modal |
 | `categorySearchTerm` / `linkSearchTerm` | Filter strings |
-| `sortMode` | `default` \| `date` |
-| `currentFontScale` | 70–150 |
-| `viewMode` | `full` \| `compact` |
+| `sortMode` | `default` (My Order) \| `tally` \| `abc` \| `date`; persisted; default `tally` |
+| `currentFontScale` | `95` \| `100` \| `105` \| `110` |
+| `viewMode` | `full` \| `compact`; default `compact` |
+| `snowEffect` | Falling snow on/off |
 | `githubUsername` / `Token` / `GistId` / `LastSync` | Sync state |
 | `keyboardFocusedIndex` | Card keyboard nav index (`debug.js`) |
 | `listControlsStacked` | Layout flag for list controls (`debug.js`) |
@@ -570,10 +594,10 @@ Use this table for reviews. Open the deep section only when you need APIs, diagr
 | Link CRUD modal | Add/Edit form, categories, emoji, accent, favorite | [§6.1.1](#611-addedit-link-modal--component-design-specification) |
 | Link cards | Render, open, delete, drag-reorder, tooltips | [§6.1.2](#612-link-cards-drag-and-drop--delete--component-design-specification) |
 | View modes | Full vs Compact; compact description tooltips | [§6.2](#62-view-modes--compact-description-tooltips) |
-| Sort modes | Default (favorites + drag) vs Date Added | [§6.3](#63-sort-modes) |
+| Sort modes | Tally, My Order, ABC, Date Added; persisted | [§6.3](#63-sort-modes) |
 | Category sidebar | Filter, rename/delete tags, clear-filter IO | [§6.4](#64-category-sidebar--component-design-specification) |
 | Link search | In-page fuzzy match (AND tokens) | [§6.5](#65-link-search-fuzzy) |
-| Emoji Quick Pick | Catalog + nested picker + free-type | [§6.6](#66-emoji-system--quick-pick-selection-ui) |
+| Emoji Quick Pick | Catalog, search under the title, description tip, free-type | [§6.6](#66-emoji-system--quick-pick-selection-ui) |
 | Google Search | Draggable modal → Google `q=` new tab | [§6.7](#67-google-search-modal) |
 | Settings / theme | Name, font scale, color roles, attribution | [§6.8](#68-settings-hub--related-modals) |
 | Font scale layout | Header label collapse + list-controls stack | [§6.9](#69-font-scale-side-effects) |
@@ -581,7 +605,8 @@ Use this table for reviews. Open the deep section only when you need APIs, diagr
 | GitHub Gist sync | Private gist export/import + credentials | [§6.11](#611-github-gist-sync-hub--related-modals) |
 | File backup / first-run | JSON export/import; `default.json`; file:// welcome | [§6.12](#612-file-import--export--local-persistence-bootstrap) |
 | Floating actions | Quick Add / Top / Bottom visibility | [§6.13](#613-floating-actions) |
-| Debug panel | Ctrl+Shift+D live metrics | [§6.14](#614-debug-panel-developer) |
+| Debug panel | Ctrl+Shift+D live metrics, including the PR number | [§6.14](#614-debug-panel-developer) |
+| Snow | Optional falling snow; pauses when idle, hidden, or covered by a dialog | [§6.15](#615-snow) |
 | Keyboard | Global chords + card/category nav | [§7](#7-keyboard-navigation--shortcuts) |
 | CSS tooling | `optimize_css.py`, FA subset, class inventory | [§8](#8-performance-architecture) |
 
@@ -606,7 +631,7 @@ The **Landing Screen** is the default post-load surface: sticky header, optional
 | Item | Description |
 |------|-------------|
 | **Purpose** | Present a fast, keyboard-friendly start page: personal greeting and time context, categorized link access, local search/filter, and one-click entry to search, settings, backup, and sync. |
-| **In scope** | Header chrome (quote, brand/title, greeting/date/clock, action cluster); two-column body; category sidebar sticky stack; Quick Access toolbar (sort, view, link search, Add Link); links grid/cards empty states; privacy note; floating actions visibility; first paint/boot wiring that paints the shell; responsive menu-label and list-control stacking. |
+| **In scope** | Header chrome (quote, brand/title, greeting/date/clock, action cluster); two-column body; category sidebar sticky stack; Quick Access (Perspective, link search, Add Link) with Show by / View / Snow in Other Options; links grid/cards empty states; privacy note; optional snow; floating actions visibility; first paint/boot wiring that paints the shell; responsive menu-label and list-control stacking. |
 | **Out of scope** | Modal internals (documented in §6.1.1, §6.6–§6.8, §6.11, §6.14); Gist/file backup payload details (§4, §6.12); offline CSS tooling (§8). |
 | **Actors** | End user opening `index.html` (or hosted static start/new-tab page). |
 | **Primary artifacts** | `index.html` shell; `js/app.js` (`initializeApp`, clock/greeting, FABs, shortcuts); `js/render.js` (sidebar + grid); `js/storage.js` (load links / first-run); `js/quotes.js` (daily quote); theme CSS vars (§5). |
@@ -627,7 +652,7 @@ No external BRD / FRS / Jira linkage in-repo. Internal IDs below; map **External
 | **REQ-LS-008** | Body shall use two columns on large screens; links full width below | `.categories-column` (`width: 16rem`; shown at `min-width: 1024px`) | *TBD* |
 | **REQ-LS-009** | Sidebar shall list categories with counts and support filter | `renderCategoriesSidebar`, `#category-search` | *TBD* |
 | **REQ-LS-010** | Clear-filter affordance shall appear when list scrolls past first item | IO on sidebar + `#clear-filter-link` | *TBD* |
-| **REQ-LS-011** | Main column shall support Default / Date sort and Full / Compact view | `#list-controls` → `sortMode` / `viewMode` | *TBD* |
+| **REQ-LS-011** | Main column shall support Tally, My Order, ABC, and Date Added sorts, plus Full / Compact view | Other Options Show by / View → `sortMode` / `viewMode`; Perspective label on the main page | *TBD* |
 | **REQ-LS-012** | User shall filter links via fuzzy search field | `#link-search-input` (§6.5) | *TBD* |
 | **REQ-LS-013** | User shall open Add Link from main button and floating quick-add | `#add-link-btn`, `#quick-add-btn` | *TBD* |
 | **REQ-LS-014** | Links grid shall render cards or empty state | `renderLinks` | *TBD* |
@@ -738,7 +763,7 @@ Landing Screen **reads** shared app state (does not define a separate entity mod
 | Category search term | `categorySearchTerm` | Substring sidebar |
 | Sort | `sortMode` | `default` \| `date` (session; not in localStorage today) |
 | View | `viewMode` / `startpage_view_mode` | `full` \| `compact` |
-| Font scale | `currentFontScale` / `startpage_font_scale` | 70–150 |
+| Font scale | `currentFontScale` / `startpage_font_scale` | `95` \| `100` \| `105` \| `110` |
 | User name | `startpage_user_name` | Title personalization |
 | Colors | theme keys §4.6 / §5 | CSS variables |
 | Quote | `window.dailyQuotes` + day-of-year | Display only |
@@ -806,7 +831,7 @@ Landing Screen **reads** shared app state (does not define a separate entity mod
 | `#greeting`, `#date`, `#clock` | Time context |
 | `#category-search`, `#categories-sidebar`, `#clear-filter-link` | Sidebar |
 | `#YourLinkScroll`, `#filter-indicator`, `#drag-reorder-text` | Main headings |
-| `#list-controls`, `#sort-default`, `#sort-date`, `#view-full`, `#view-compact` | Toolbar |
+| `#perspective-value`, `#sort-tally`, `#sort-default`, `#sort-abc`, `#sort-date`, `#view-full`, `#view-compact` | Perspective summary and Other Options Show by / View |
 | `#link-search-input`, `#add-link-btn` | Search + add |
 | `#links-grid` | Cards host |
 | `#privacy-note` | Local-storage notice |
@@ -902,7 +927,8 @@ Until captured, reviewers use live `index.html` against this section and §12 in
 
 - **CRUD:** add and edit via **Add/Edit Link Modal** (§6.1.1); delete via card action + confirm (**§6.1.2**)
 - **Reorder:** drag-and-drop on cards (**§6.1.2**, default sort); Move Top/Bottom in edit modal
-- **Favorites:** `isFavorite` → sorted first in default mode
+- **Favorites:** `isFavorite` → sorted first in My Order, Tally, and ABC
+- **Tally:** non-negative open-count stored on the link; Tally sort shows the highest weight first (**§6.3**)
 - **Multi-categories:** chips in modal; rename/delete taxonomy in sidebar (**§6.4**)
 - **Accent colors:** optional border/emoji accent per card (`ACCENT_COLORS` key)
 - **URL display:** strip protocol/www, truncate ~23 chars with ellipsis (`render.js`)
@@ -916,7 +942,7 @@ Until captured, reviewers use live `index.html` against this section and §12 in
 | Item | Description |
 |------|-------------|
 | **Purpose** | Provide a single, consistent UI for creating and updating user link records (metadata, taxonomy, visual affordances, list placement) without a server-side form layer. |
-| **In scope** | Open/close lifecycle; form field capture and validation; multi-category entry and autocomplete; emoji free-type + Quick Pick; accent selection; favorite flag; add-position (create) and list move (edit); persist to `localStorage` via `saveLinks()`; re-render list/sidebar; keyboard-focus restoration after save. |
+| **In scope** | Open/close lifecycle; form field capture and validation; multi-category entry and autocomplete; category, position, and tally help notes; emoji free-type + Quick Pick; URL suggestions; accent selection; favorite flag; tally weight; collapsed add-position (create) and list move (edit, My Order only); persist to `localStorage` via `saveLinks()`; re-render list/sidebar; keyboard-focus restoration after save. |
 | **Out of scope** | Remote URL validation/fetch; malware scanning of destinations; multi-user ACL; server-side persistence; bulk edit; delete (handled on the card, not in this modal); Gist sync (separate modals). |
 | **Actors** | End user of the start page (local browser session). |
 | **Primary artifact** | `#modal` in `index.html`; logic in `js/addeditlink.js`; presentation helpers in `js/render.js`; shared state in `js/state.js`; show/hide and move actions in `js/app.js`. |
@@ -937,13 +963,16 @@ No external BRD, FRS, or Jira project is currently linked in-repo. Traceability 
 | **REQ-AEL-008** | User shall set emoji icon (type or Quick Pick) | `#link-emoji`, `initEmojiPicker` | *TBD* |
 | **REQ-AEL-009** | User shall optionally set accent color or None | `renderModalAccentColors`, `modalCurrentAccent` | *TBD* |
 | **REQ-AEL-010** | User shall mark link as favorite | `#link-is-favorite` | *TBD* |
-| **REQ-AEL-011** | On create, user shall choose Top or Bottom insert | `#position-options` / `add-position` radios | *TBD* |
-| **REQ-AEL-012** | On edit (default sort), user shall move link Top/Bottom | `moveLinkToTop` / `moveLinkToBottom` | *TBD* |
-| **REQ-AEL-013** | Move controls shall be unavailable under Date Added sort | Hide move buttons; show `#edit-date-warning` | *TBD* |
+| **REQ-AEL-011** | On create, Top/Bottom insert shall stay hidden until the user expands POSITION | `#position-toggle` reveals `#position-choices`; default `#position-bottom` | *TBD* |
+| **REQ-AEL-012** | On edit in My Order, user shall move link Top/Bottom | `moveLinkToTop` / `moveLinkToBottom` | *TBD* |
+| **REQ-AEL-013** | Move controls shall be unavailable for Tally, ABC, and Date Added | Hide move buttons; `#edit-date-warning` uses `getManualSortLockMessage()` | *TBD* |
 | **REQ-AEL-014** | Escape shall close emoji popover without closing modal when popover open | Capture-phase keydown in `initEmojiPicker` | *TBD* |
 | **REQ-AEL-015** | Escape shall close the Add/Edit modal when it is the top open modal | Global keydown modal stack in `app.js` → `closeModal` | *TBD* |
 | **REQ-AEL-016** | Save shall persist and refresh list + categories sidebar | `saveLinks`, `renderLinks`, `renderCategoriesSidebar` | *TBD* |
 | **REQ-AEL-017** | After save, keyboard card focus shall target the affected card when applicable | Index resolution + `applyLinkCardKeyboardFocus` | *TBD* |
+| **REQ-AEL-018** | User shall read and edit the link’s tally weight | `#link-tally`; `coerceTally`; +1 in `openLinkAndTally` when the card is opened | *TBD* |
+| **REQ-AEL-019** | Categories, Position, and Tally shall each open a help note above Add/Edit | `#category-info-modal`, `#position-info-modal`, `#tally-info-modal`; Esc closes the note and leaves Add/Edit open | *TBD* |
+| **REQ-AEL-020** | Suggestions shall copy the link URL in and write the edited suggestion back | `#url-suggest-btn` → `#url-suggest-modal`; Submit opens a Google search and copies `#url-suggest-input` into `#link-url` | *TBD* |
 
 **Related cross-cutting specs:** §6.6 Emoji System (descriptor/search rules), §6.3 Sort Modes, §7 Keyboard Shortcuts (`+`, Esc).
 
@@ -980,8 +1009,8 @@ No external BRD, FRS, or Jira project is currently linked in-repo. Traceability 
                        ▼                                 ▼
               currentEditId = null              currentEditId = id
               empty form + defaults             load link into form
-              show position radios              hide position radios
-              hide move buttons                 move OR date warning
+              show collapsed POSITION           hide POSITION
+              hide move buttons                 move OR sort-lock warning
                        │                                 │
                        └────────────┬────────────────────┘
                                     ▼
@@ -1003,6 +1032,8 @@ No external BRD, FRS, or Jira project is currently linked in-repo. Traceability 
 |---------|--------|--------------------|----------------|
 | `#modal` backdrop | `body` | `z-index: 100` | Esc (if topmost), Cancel, post-save |
 | Emoji Quick Pick | Centered `fixed` inside form | `z-index: 200` | Esc (capture; does not close parent), Cancel, outside click, pick emoji — full design **§6.6** |
+| `#url-suggest-modal` | Above Add/Edit | `ui-modal` stack | Close/Esc returns to Add/Edit; Submit copies the suggestion URL back |
+| `#category-info-modal`, `#position-info-modal`, `#tally-info-modal` | Above Add/Edit (`ui-modal--topmost`) | `z-index: 200` | Close or Esc dismisses only the note |
 | Category suggestions | Absolute under input wrapper | `z-index: 200` | Esc, outside click, modal hide observer, select item |
 
 ##### 6.1.1.4 Tech Stack & Versions
@@ -1029,8 +1060,8 @@ No external BRD, FRS, or Jira project is currently linked in-repo. Traceability 
 | D1 | Single modal for Add and Edit (`#modal`) | One form surface reduces HTML/CSS drift and validation duplication | **Current** |
 | D2 | Mode flag via `currentEditId` (`null` = add) | Simple, serializable session state without a router | **Current** |
 | D3 | Save is `type="button"` + `saveCurrentLink()`; native form submit not used for persistence | Avoids accidental Enter-submit; Enter reserved for category/autocomplete flows | **Current** *(explicit design)* |
-| D4 | Create: position radios; Edit: Move Top/Bottom | Separates “initial insert policy” from “reorder existing item”; avoids confusing dual controls | **Current** |
-| D5 | Move actions disabled / warning when `sortMode === 'date'` | Date order is derived from id timeline; manual order is not meaningful in that view | **Current** |
+| D4 | Create: collapsed POSITION (Top/Bottom); Edit: Move Top/Bottom | Separates “initial insert policy” from “reorder existing item”; options stay hidden until the chevron is opened | **Current** |
+| D5 | Move actions disabled / warning when `isManualSortLocked()` (Tally, ABC, Date Added) | Those orders are derived; manual order is meaningful only in My Order | **Current** |
 | D6 | Categories held in `modalCurrentCategories` until Save | Allows multi-edit without mutating `links[]` until commit | **Current** |
 | D7 | Comma disables category autocomplete | Multi-add mode would fight suggestion UI; user intent is batch entry | **Current** |
 | D8 | Emoji Esc handled in capture phase before modal Esc | Nested overlay must dismiss independently (accessibility / UX) | **Current** |
@@ -1039,7 +1070,7 @@ No external BRD, FRS, or Jira project is currently linked in-repo. Traceability 
 | D11 | On create, `clearCategoryFilter()` before render | Ensures new card is visible even if a sidebar filter would hide it | **Current** |
 | D12 | `toTitleCase` invoked on category add but currently **identity** (returns input unchanged) | Full title-case rules exist commented in `app.js`; casing left as typed until re-enabled | **Current / note** |
 | D13 | Accent stored as palette **key**, not hex | Theme-consistent smart blend on cards; palette central in `config.js` | **Current** |
-| D14 | No network calls from this modal | Aligns with local-first privacy model; no SSRF/open-redirect server path | **Current** |
+| D14 | Suggestions opens a user-initiated Google search; the form itself does not fetch the URL | Local-first save path stays offline; the suggestion popup is explicit | **Current** |
 
 ##### 6.1.1.6 Data Model / Schema
 
@@ -1056,6 +1087,7 @@ No external BRD, FRS, or Jira project is currently linked in-repo. Traceability 
 | `categories` | string[] | No | `[]` | Chips ← `modalCurrentCategories` |
 | `accentColor` | string \| null | No | `null` | `#accent-color-picker` ← `modalCurrentAccent` |
 | `isFavorite` | boolean | No | `false` | `#link-is-favorite` |
+| `tally` | number | No | `0` | `#link-tally` |
 
 **Transient modal state** (`state.js` / session):
 
@@ -1068,7 +1100,7 @@ No external BRD, FRS, or Jira project is currently linked in-repo. Traceability 
 | `categorySuggestionsBox` | HTMLElement \| null | Autocomplete dropdown node |
 | `currentHighlightIndex` | number | Autocomplete keyboard highlight (−1 = none) |
 
-**`normalizeLink(link)` contract:** fills missing `id`, `name`, `url`, `description`, `emoji`, `categories`, `accentColor`, `isFavorite`, `createdAt` with safe defaults; coerces `categories` to array and `isFavorite` to boolean.
+**`normalizeLink(link)` contract:** fills missing `id`, `name`, `url`, `description`, `emoji`, `categories`, `accentColor`, `isFavorite`, `tally`, `createdAt` with safe defaults; coerces `categories` to array, `isFavorite` to boolean, and `tally` through `coerceTally` (non-negative integer, invalid → 0). Opening a card calls `openLinkAndTally`, which increments `tally` by one.
 
 **Category add rules:** split on `,`; trim; drop empties; case-insensitive dedupe against existing modal list and within the batch; append to `modalCurrentCategories`; clear input.
 
@@ -1081,9 +1113,14 @@ No external BRD, FRS, or Jira project is currently linked in-repo. Traceability 
 | `openAddModal()` | `addeditlink.js` | Reset form; add-mode chrome; `openUiModal('modal')`; focus name (~80 ms) |
 | `editLink(id)` | `addeditlink.js` | Load link by id; edit chrome; date-aware move/warning; focus name (~60 ms) |
 | `saveCurrentLink()` | `addeditlink.js` | Validate → create or update → persist → render → close → keyboard focus |
-| `closeModal()` | `addeditlink.js` | `closeUiModal('modal')`; clear edit/transient state; hide move/position/warning; `closeEmojiPopover`; restore search/keyboard focus |
+| `closeModal()` | `addeditlink.js` | `closeUiModal('modal')`; also closes URL suggestions and the category, position, and tally notes; clear edit/transient state; hide move/position/warning; `closeEmojiPopover`; restore search/keyboard focus |
+| `openTallyInfoModal()` / `closeTallyInfoModal()` | `addeditlink.js` | Tally help note; info button is script-bound |
+| `openPositionInfoModal()` / `closePositionInfoModal()` | `addeditlink.js` | Position help note |
+| `openCategoryInfoModal()` / `closeCategoryInfoModal()` | `addeditlink.js` | Categories help note |
+| `togglePositionChoices()` | `addeditlink.js` | Show or hide Add to Top / Add to Bottom; scrolls them into the modal body |
 | `resetModalForm()` | `addeditlink.js` | Clear fields; default emoji; re-render chips/swatches |
-| `normalizeLink(link?)` | `addeditlink.js` | Return normalized link object |
+| `normalizeLink(link?)` | `storage.js` | Return normalized link object, including `tally` |
+| `openLinkAndTally(link)` | `storage.js` | Increment `tally` by one, save, and open the URL |
 | `setModalEmoji(emoji)` | `addeditlink.js` | Set `#link-emoji` (default 🔗) |
 | `addCategoryToModal()` | `addeditlink.js` | Parse input → update `modalCurrentCategories` → re-render chips |
 | `initEmojiPicker()` | `addeditlink.js` | Wire Quick Pick (called from app init) |
@@ -1200,9 +1237,9 @@ No external BRD, FRS, or Jira project is currently linked in-repo. Traceability 
 
 | View | How to reproduce | What to capture |
 |------|------------------|-----------------|
-| Add mode | Open via Add Link / Quick Add / `+` | Title, empty fields, position radios (Bottom default), favorite, emoji, accent None, Save/Cancel |
-| Edit mode (default sort) | Card → Edit | Prefill, move buttons visible, position radios hidden |
-| Edit mode (date sort) | Set sort Date Added → Edit | Move buttons hidden; warning: *Unable to sort when viewing by "Date Added"* |
+| Add mode | Open via Add Link / Quick Add / `+` | Title, empty fields, collapsed POSITION (Bottom default), favorite, tally 0, emoji, accent None, Save/Cancel |
+| Edit mode (My Order) | Card → Edit | Prefill, move buttons visible, POSITION hidden |
+| Edit mode (Tally, ABC, or Date Added) | Set that sort → Edit | Move buttons hidden; warning: *Unable to sort when viewing by "…"* |
 | Category chips | Add one or more categories | Sorted removable pills with × |
 | Category autocomplete | Type partial existing category (no comma) | Dropdown ≤10, indigo match highlight |
 | Emoji Quick Pick | Chevron next to emoji field | Centered popover, search, categorized grid, Cancel |
@@ -1525,12 +1562,16 @@ Controls density of the links grid on the Landing Screen. Toggle UI: `#view-full
 
 ### 6.3 Sort Modes
 
-| Mode | Behavior |
-|------|----------|
-| **Default** | Preserve order; favorites first; drag enabled (**§6.1.2**) |
-| **Date Added** | Sort by `id` descending; drag disabled; caution messaging on `#drag-reorder-text` / `#sort-note` |
+Show by lives in Other Options. The main page Perspective label shows the active sort and view (for example `Tally / Compact`).
 
-`sortMode` is **session-only** (not written to localStorage). Toggle: `#sort-default` / `#sort-date`.
+| Mode | `sortMode` | Behavior |
+|------|------------|----------|
+| **Tally** | `tally` | Favorites first, then highest `tally` to lowest. Drag and Move are locked. Default when nothing is stored. |
+| **My Order** | `default` | Favorites first, then saved order. Drag reorder and edit Move Top/Bottom are enabled. |
+| **ABC** | `abc` | Favorites section, then name sections. Drag and Move are locked. |
+| **Date Added** | `date` | Newest `id` first. Drag and Move are locked. |
+
+`sortMode` is persisted in `startpage_sort_mode` and included in JSON/Gist backups. Toggle: `#sort-tally`, `#sort-default`, `#sort-abc`, `#sort-date`. Locked sorts use `getManualSortLockMessage()` (*Unable to sort when viewing by "…"*).
 
 ### 6.4 Category Sidebar — Component Design Specification
 
@@ -1716,7 +1757,7 @@ Catalog data lives in `js/config.js`. Selection UI is the nested **Quick Pick Em
 | Item | Description |
 |------|-------------|
 | **Purpose** | Let the user assign a compact visual icon (emoji or short text) to a link, either by free-typing or by browsing/searching a curated catalog. |
-| **In scope** | Curated catalog (`COMMON_EMOJIS`, `EMOJI_NAMES`); Quick Pick open/close; categorized grid render; multi-word search filter; pick → write `#link-emoji`; hover name-only tooltips; middle-click full descriptors; parent-safe Escape; outside-click and Cancel dismiss; init wiring; free-type field constraints. |
+| **In scope** | Curated catalog (`COMMON_EMOJIS`, `EMOJI_NAMES`); Quick Pick open/close; search bar under the title on desktop and mobile; description tip under the search bar; categorized grid render; multi-word search filter; pick → write `#link-emoji`; hover name-only tooltips; desktop center-click and mobile long-press full descriptors; parent-safe Escape; outside-click and Cancel dismiss; init wiring; free-type field constraints. |
 | **Out of scope** | Full Unicode emoji browser; custom user-uploaded icons; SVG/icon-font picker; network emoji APIs; persisting catalog edits at runtime; ARIA dialog/roving-tabindex full compliance (known gap). |
 | **Actors** | End user editing a link in Add/Edit mode. |
 | **Primary artifacts** | Shell: `index.html` (`#link-emoji`, `#emoji-dropdown-btn`, `#emoji-picker-popover`, …). Logic: `js/addeditlink.js` (`initEmojiPicker`, `closeEmojiPopover`, `setModalEmoji`). Data: `js/config.js`. Init: `app.js` → `initEmojiPicker()` during `initializeApp`. |
@@ -1736,7 +1777,8 @@ No external BRD / FRS / Jira linkage in-repo. Internal IDs below; map **External
 | **REQ-EMO-005** | Multi-word search shall require **all** tokens to match (AND) | `searchWords.every(...)` on descriptor + glyph | *TBD* |
 | **REQ-EMO-006** | Selecting an emoji shall populate the field and close Quick Pick | Button `onclick` → `emojiInput.value` + `closeEmojiPopover()` | *TBD* |
 | **REQ-EMO-007** | Hover tooltips shall show cleaned display names (no parentheticals) | `title` = descriptor with `\s*\(.*?\)\s*` stripped | *TBD* |
-| **REQ-EMO-016** | Middle-click on a catalog cell shall show the full descriptor including parentheticals for 4 seconds without picking | `auxclick` / middle `click` (`button === 1`) → `.emoji-picker__detail` for **4000** ms; `mousedown` preventDefault to block autoscroll | *TBD* |
+| **REQ-EMO-016** | Desktop center-click (middle button) on a catalog cell shall show the full descriptor including parentheticals without picking | `auxclick` (`button === 1`) → `.emoji-picker__detail`; duration is `getEmojiDescriptionSeconds()` (default **4** seconds); `mousedown` preventDefault blocks autoscroll | *TBD* |
+| **REQ-EMO-017** | A tip under the search bar shall say how to open the full description | Desktop: “(center click to see full emoji description)”. Mobile (`.emoji-picker--mobile`): “(long press to see full emoji description)”. Long-press is **500** ms and does not pick. | *TBD* |
 | **REQ-EMO-008** | Search shall use full descriptors including parenthetical keywords | Match against full `EMOJI_NAMES[emoji]` | *TBD* |
 | **REQ-EMO-009** | Escape shall close Quick Pick without closing Add/Edit | Capture-phase `keydown` on Escape | *TBD* |
 | **REQ-EMO-010** | Outside click and Cancel shall close Quick Pick | Document click listener; `#emoji-picker-cancel` | *TBD* |
@@ -1786,7 +1828,7 @@ No external BRD / FRS / Jira linkage in-repo. Internal IDs below; map **External
                 │                                           │
                 ├─ type search ──► filter grid (AND tokens) │
                 ├─ click emoji ──► set input · close ───────┤
-                ├─ middle-click emoji ──► full descriptor   │
+                ├─ center-click / long-press ──► full descriptor │
                 ├─ Cancel / outside / Esc ──► close only    │
                 └─ parent closeModal ──► closeEmojiPopover  │
                                                             ▼
@@ -1822,7 +1864,7 @@ No external BRD / FRS / Jira linkage in-repo. Internal IDs below; map **External
 | E1 | Nested Quick Pick (not standalone app modal) | Icon selection is always in context of link edit; reduces modal stack complexity | **Current** |
 | E2 | Dual entry: free-type **and** catalog | Power users paste any emoji/short label; catalog aids discovery | **Current** |
 | E3 | Curated static catalog (not full Unicode) | Predictable UX, searchable descriptors, small bundle, no network | **Current** |
-| E4 | Descriptor format `Name (keywords…)` with dual use | Short hover tooltips; full descriptor on middle-click; rich search without cluttering UI | **Current** |
+| E4 | Descriptor format `Name (keywords…)` with dual use | Short hover tooltips; full descriptor on center-click or long-press; rich search without cluttering UI | **Current** |
 | E5 | Multi-word **AND** substring search (not fuzzy) | Predictable filtering; distinct from link-list Levenshtein search | **Current** |
 | E6 | Esc handled in **capture** phase | Prevents parent `#modal` from closing when picker is open | **Current** *(critical UX decision)* |
 | E7 | On open: reset search + full grid + focus search | Clean session each open; keyboard-ready filter | **Current** |
@@ -1834,7 +1876,7 @@ No external BRD / FRS / Jira linkage in-repo. Internal IDs below; map **External
 | E13 | `closeEmojiPopover` also defined in `app.js` | Historical consolidation; load order means **app.js definition wins** at runtime | **Current / tech debt** |
 | E14 | No live re-render of grid after close’s clear | Avoids needing inner `renderEmojiGrid` export; open path always repaints | **Current** |
 | E15 | Empty filter shows italic empty state + `empty` class | Clear zero-result feedback | **Current** |
-| E16 | Middle-click shows full `EMOJI_NAMES` in a custom tip | Native `title` cannot be forced on click and omits parentheticals by design (REQ-EMO-007) | **Current** |
+| E16 | Center-click (desktop) or long-press (mobile) shows full `EMOJI_NAMES` in a custom tip | Native `title` cannot be forced on click and omits parentheticals by design (REQ-EMO-007) | **Current** |
 
 #### 6.6.6 Data Model / Schema
 
@@ -1871,7 +1913,7 @@ No external BRD / FRS / Jira linkage in-repo. Internal IDs below; map **External
 |--------|------|
 | Format | `Name (Keyword1, Keyword2, …)` or plain comma-separated names |
 | Tooltip | Parenthetical segment **stripped** for hover `title` |
-| Middle-click | **Full** descriptor in `.emoji-picker__detail` (name + parentheticals); does not pick or close |
+| Center-click / long-press | **Full** descriptor in `.emoji-picker__detail` (name + parentheticals); does not pick or close. Desktop uses the middle mouse button. Mobile uses a 500 ms long-press. |
 | Search | **Full** string lowercased; parentheses keywords **included** |
 | Integrity | Every key in `EMOJI_NAMES` must appear in some `COMMON_EMOJIS` array and vice versa |
 | Style | Searchability first; natural language; ~30–150 chars preferred; important terms near front |
@@ -1889,7 +1931,8 @@ No external BRD / FRS / Jira linkage in-repo. Internal IDs below; map **External
 | `emojiPopoverOpen` | boolean | `true` while Quick Pick visible |
 | Search box value | DOM | Cleared on open and on close |
 | Grid contents | DOM | Built by inner `renderEmojiGrid`; cleared on close |
-| `.emoji-picker__detail` | ephemeral DOM | Full descriptor tip after middle-click; auto-hides after **4000** ms; also removed on close, scroll, re-render, or later click |
+| `.emoji-picker__detail` | ephemeral DOM | Full descriptor tip after center-click or long-press; auto-hides after `getEmojiDescriptionSeconds()` (default **4** seconds); also removed on close, scroll, re-render, or later click |
+| `.emoji-picker__tip` | header row under search | Desktop or mobile instruction; the unused wording is `display: none` |
 
 **Search algorithm (filter)**
 
@@ -1917,7 +1960,8 @@ No external BRD / FRS / Jira linkage in-repo. Internal IDs below; map **External
 | `#link-emoji` | Free-type target; receives pick result; `maxlength="2"`; large centered display |
 | `#emoji-dropdown-btn` | Toggle open/close; `title="Choose emoji"` |
 | `#emoji-picker-popover` | Overlay root; starts `hidden`; centered `fixed` |
-| `#emoji-search-input` | Live filter |
+| `#emoji-search-input` | Live filter; sits on its own row under the title |
+| `.emoji-picker__tip` | Instruction under the search bar |
 | `#emoji-grid` | `.emoji-picker__grid` scrollable host for headers + buttons |
 | `#emoji-picker-cancel` | Explicit dismiss |
 
@@ -1928,7 +1972,8 @@ No external BRD / FRS / Jira linkage in-repo. Internal IDs below; map **External
 | Chevron click | Toggle; on open reset search/grid/focus |
 | Search `input` | `renderEmojiGrid(value)` |
 | Emoji button click (left) | Write field + `closeEmojiPopover` |
-| Emoji middle-click (`button === 1`) | Show full descriptor tip for 4s; do not pick; prevent autoscroll |
+| Emoji center-click (`button === 1`) | Show full descriptor tip; do not pick; prevent autoscroll |
+| Emoji long-press (mobile, 500 ms) | Show the same full descriptor tip; do not pick |
 | Document click (outside popover & button) | `closeEmojiPopover` |
 | Cancel click | `closeEmojiPopover` |
 | Keydown Escape (capture) if popover visible | `preventDefault` + `stopImmediatePropagation` + close |
@@ -1949,7 +1994,7 @@ No external BRD / FRS / Jira linkage in-repo. Internal IDs below; map **External
 | **Data residency** | Catalog is static app content. Selected icon persists only as part of link JSON in `localStorage` / export / optional Gist. |
 | **Secrets** | No credentials in picker. |
 | **Network** | No fetch of emoji assets or third-party picker CDNs. |
-| **XSS** | Grid cells use `textContent` for glyphs; hover titles from stripped descriptors; middle-click tip uses `textContent` of the static `EMOJI_NAMES` string. Free-type still becomes `link.emoji` rendered on cards — keep card render escaping disciplined. |
+| **XSS** | Grid cells use `textContent` for glyphs; hover titles from stripped descriptors; the description tip uses `textContent` of the static `EMOJI_NAMES` string. Free-type still becomes `link.emoji` rendered on cards — keep card render escaping disciplined. |
 | **Content policy** | Curated list may include symbols some enterprises restrict in other channels; local personal page context. Catalog includes flags, religious symbols, etc., under user discretion. |
 | **Regulated use** | Not a system of record. Do not encode confidential data into icon fields. |
 | **Audit** | No picker-specific audit trail. |
@@ -1963,7 +2008,7 @@ No external BRD / FRS / Jira linkage in-repo. Internal IDs below; map **External
 | **Reliability** | Esc capture prevents accidental parent close. Parent close always tears down picker. Open always resets filter state. |
 | **Availability** | Fully offline; no external emoji service. Rendering depends on OS/browser emoji fonts. |
 | **Scalability** | Catalog growth increases DOM node count on full render; fine for hundreds; not designed for tens of thousands. |
-| **Usability** | Search-first open focus; category headers; hover names; middle-click full descriptors; empty state; free-type fallback. |
+| **Usability** | Search-first open focus; search under the title; tip under the search bar; category headers; hover names; center-click or long-press full descriptors; empty state; free-type fallback. |
 | **Accessibility** | Gaps: no `role="dialog"` / focus trap; grid is pointer-oriented buttons; free-type field is keyboard-accessible. Esc and Cancel available. |
 | **Maintainability** | Catalog and descriptors co-located in `config.js` with inline `/spec` rules. Duplicate `closeEmojiPopover` / `setModalEmoji` should be consolidated. |
 | **Observability** | Debug Panel (§6.14) surfaces `COMMON_EMOJIS` and `EMOJI_NAMES` counts for integrity checks. |
@@ -2021,7 +2066,7 @@ No external BRD / FRS / Jira linkage in-repo. Internal IDs below; map **External
 | Empty filter | Type nonsense token | “No matching emojis” |
 | After pick | Click a glyph | Popover closed; field shows selection |
 | Hover name | Hover a glyph | Native `title` is cleaned name (no parentheticals) |
-| Middle-click detail | Middle-click a glyph | Full descriptor including parentheses; picker stays open; field unchanged |
+| Description detail | Desktop: center-click a glyph. Mobile: long-press a glyph | Full descriptor including parentheses; picker stays open; field unchanged |
 | Esc vs parent | Open picker, press Esc | Picker closes; Add/Edit remains |
 
 **Recommended assets (not yet in-repo):** `docs/assets/emoji-quick-pick/`  
@@ -2332,9 +2377,9 @@ No external BRD / FRS / Jira linkage in-repo. Use internal IDs; fill **External 
 | **REQ-SET-002** | User shall close Settings via Close or Escape | `closeSettingsModal`; Esc modal stack in `app.js` | *TBD* |
 | **REQ-SET-003** | User shall set a display name that updates the page title | `#theme-author-name` `input` → `startpage_user_name` + `#page-title` | *TBD* |
 | **REQ-SET-004** | Empty name shall yield title `Start` | Ternary in name handler | *TBD* |
-| **REQ-SET-005** | User shall increase/decrease font scale by 5% | `changeFontScale(±5)` | *TBD* |
-| **REQ-SET-006** | Font scale shall clamp to **70–150** | `applyFontScale` | *TBD* |
-| **REQ-SET-007** | User shall reset font scale to 100% | `resetFontScale` | *TBD* |
+| **REQ-SET-005** | User shall step font scale up or down | `changeFontScale(±1)` moves one step in `FONT_SCALE_STEPS` | *TBD* |
+| **REQ-SET-006** | Font scale shall be one of **95, 100, 105, 110** | `nearestFontScale` inside `applyFontScale` | *TBD* |
+| **REQ-SET-007** | User shall select 100% from the font-size control | Settings font-size radio for `100` | *TBD* |
 | **REQ-SET-008** | Font scale shall persist and re-apply layout side effects | `startpage_font_scale`; menu + list-controls updates (§6.9) | *TBD* |
 | **REQ-SET-009** | User shall open Color Theme Editor from Settings | `openColorThemeModal` | *TBD* |
 | **REQ-SET-010** | Theme editor shall load stored or default colors into picker + hex | `colorFields` loop in `openColorThemeModal` | *TBD* |
@@ -2426,7 +2471,7 @@ Only one of these is intended open at a time (children close Settings before ope
 | S2 | Close child → **return to Settings** (not main page) | Preserves multi-step preference workflow | **Current** *(explicit UX)* |
 | S3 | Name persists on every `input` (no Save button) | Immediate personalization feedback | **Current** |
 | S4 | Font scale applies **immediately** + writes storage | Readability changes should be live; side effects recompute layout | **Current** |
-| S5 | Font clamp **70–150**, step **5%**, reset **100%** | Bounded, predictable accessibility range | **Current** |
+| S5 | Font steps **95 / 100 / 105 / 110** | Four readable sizes; stored values outside the set snap to the nearest step | **Current** |
 | S6 | Dual color control: native picker + hex text | Precision for power users; visual for others | **Current** |
 | S7 | Hex updates picker only when `/^#[0-9A-Fa-f]{6}$/` | Avoid invalid partial hex thrashing the picker | **Current** |
 | S8 | Per-field undo uses **dark** `COLOR_DEFAULTS` only | Stable reference; Light Mode is a full preset, not per-field light defaults | **Current** |
@@ -2454,7 +2499,7 @@ Only one of these is intended open at a time (children close Settings before ope
 
 | Key / field | Type | Default | Constraints |
 |-------------|------|---------|-------------|
-| `startpage_font_scale` | number (stored as string) | `100` | Clamp **70–150** |
+| `startpage_font_scale` | number (stored as string) | `100` | Steps **95, 100, 105, 110** |
 | `currentFontScale` | number (memory) | mirrors storage | Updated by `applyFontScale` |
 | CSS | `html` font-size `N%`; `--font-scale` = `N/100` | | Side effects §6.9 |
 
@@ -2657,11 +2702,12 @@ Until captured, reviewers use live UI against this section.
 
 ### 6.9 Font Scale Side Effects
 
-Font scale is edited from Settings (§6.8) but affects global layout:
+Font scale is edited from Settings (§6.8) but affects global layout. Allowed steps are **95, 100, 105, and 110**. `applyFontScale` snaps any other stored value to the nearest step.
 
 - `document.documentElement.style.fontSize = N%`
-- CSS `--font-scale` for scaled fixed-size text
+- CSS `--font-scale` (`N / 100`) for scaled fixed-size text
 - Recalculates header label collapse and list-controls stacking
+- `#privacy-note` padding, font size, and line height are divided by `--font-scale`, so that footer does not grow with the font-size setting
 
 **Header menu collapse:**
 
@@ -2999,7 +3045,7 @@ No external BRD / FRS / Jira linkage in-repo. Internal IDs below; map **External
   colors: { bg, text, card, search, activeCat, category, textbox,
             activeText, emojiBg, hoverBlend, button, saveButton, success, caution },
   userName: string,
-  fontScale: number,           // 70–150 typical
+  fontScale: number,           // 95 | 100 | 105 | 110
   lastSynced: string,          // ISO timestamp at export
   github: {
     username: string,
@@ -3492,8 +3538,10 @@ Each live value is a horizontal flex row (`.debug-panel__row`):
 
 | Label | Source | Value class | Notes |
 |-------|--------|-------------|--------|
+| **PR** | `<meta name="homepage-pr">` | `.debug-panel__val--pr` | Current pull-request number; `?` if the meta tag is missing |
 | **Window Width** | `window.innerWidth` | `.debug-panel__val--size` | + `px` unit |
 | **Window Height** | `window.innerHeight` | `.debug-panel__val--size` | + `px` unit |
+| **DPR** | `devicePixelRatio` | `.debug-panel__val--size` | |
 | **Link Cards** | `links.length` (safe if undefined) | `.debug-panel__val--count` | First data-stats row; `.debug-panel__row--group` spacing |
 | **Keyboard Card Index** | `keyboardFocusedIndex` | `.debug-panel__val--index` | −1 = no keyboard card selection |
 | **Categories** | `getAllCategories().length` if function exists | `.debug-panel__val--count` | Unique categories across links |
@@ -3544,6 +3592,18 @@ Refresh paths: open panel, manual refresh button, window **resize** (while visib
 - **Easy extension** — metrics are plain HTML rows inside `updateDebugInfo()`; add rows without HTML template changes.
 - **Not a modal** — does not participate in Escape-to-close modal stack; only Ctrl+Shift+D / close button dismiss it.
 - Coexists with keyboard card focus and layout flags it also hosts as globals for non-module classic-script sharing.
+
+### 6.15 Snow
+
+Optional falling snow on the landing page (`#snow-layer`). It is on by default.
+
+| Item | Behavior |
+|------|----------|
+| Toggle | Other Options → Sight → **Enable Snow Effect** (`#snow-effect-checkbox`) |
+| Persistence | `startpage_snow_effect` (`true` / `false`). A missing key stays on. Also stored as `snowEffect` in JSON/Gist backups. |
+| Color | Theme role **Snow** → `startpage_snow_color` → CSS `--snow-color` |
+| Motion | `ensureSnowParticles()` builds 48–96 flakes from the viewport size. Playback pauses when the tab is hidden, a dialog covers the page, or the pointer has been idle for 5 minutes. |
+| Hit testing | The layer does not receive pointer events. |
 
 ---
 
@@ -3907,7 +3967,7 @@ Runtime `applyColors` overwrites many vars (§5.2).
 - Modals: Escape to close known stack (**§7.4**); many use semi-transparent blur backdrop
 - Search/modal focus management on open
 - Compact tooltips clamp to viewport; hover-only (**§6.2**) — Full mode or Edit for keyboard-visible descriptions
-- Font scale range supports readability (70–150%)
+- Font scale steps support readability (95%, 100%, 105%, 110%)
 - Color system separates Active Text from body Text for contrast on accents
 - Known gaps: no full ARIA dialog/listbox for cards; welcome modal outside Esc stack; Backup menu is hover-oriented
 
@@ -4061,13 +4121,13 @@ No automated unit/e2e suite ships in-repo. This section is the **manual regressi
 
 | ID | Steps | Expected |
 |----|--------|----------|
-| T-LC-01 | Click card body | URL opens new tab |
+| T-LC-01 | Click card body | URL opens new tab; tally increases by one |
 | T-LC-02 | Edit / Save | Persists; card updates |
 | T-LC-03 | Delete with confirm | Removed; focus behavior ok |
-| T-LC-04 | Default sort: drag reorder | Order persists after reload |
-| T-LC-05 | Date Added sort | Newest first; drag disabled / warning |
+| T-LC-04 | My Order: drag reorder | Order persists after reload |
+| T-LC-05 | Date Added, Tally, or ABC sort | Derived order; drag disabled; edit shows the sort-lock warning |
 | T-LC-06 | Compact view | Multi-column; tooltip after ~1s on desc |
-| T-LC-07 | Favorite in edit | Sorts to top in Default |
+| T-LC-07 | Favorite in edit | Sorts to the top in My Order, Tally, and ABC |
 
 ### 15.5 Categories & search
 
@@ -4089,7 +4149,7 @@ No automated unit/e2e suite ships in-repo. This section is the **manual regressi
 | T-MD-03 | Esc | Closes top known modal; emoji Esc keeps parent |
 | T-MD-04 | Settings name + font | Title + scale persist |
 | T-MD-05 | Theme Save / Light / Dark | Colors apply; reload retains |
-| T-MD-06 | Emoji Quick Pick | Search AND; pick sets field; hover name-only; middle-click full descriptor |
+| T-MD-06 | Emoji Quick Pick | Search under the title; tip under the search bar; search AND; pick sets field; hover name-only; desktop center-click and mobile long-press show the full descriptor |
 | T-MD-07 | Ctrl+Shift+D | Debug panel metrics + drag clamp |
 
 ### 15.7 GitHub sync (optional, non-prod)
@@ -4141,6 +4201,7 @@ Minimum before tagging a release:
 | 3.1 | September 23, 2026 | Quick Pick middle-click shows full `EMOJI_NAMES` descriptor (REQ-EMO-016); hover remains name-only |
 | 3.2 | September 23, 2026 | Compact link-card description tooltip on mobile stays **5** seconds before auto-hide |
 | 3.3 | September 23, 2026 | Other Options modal holds Show by, View, Hide Categories, and Show Debug; main page shows Perspective; one link-card description tooltip at a time; Settings button is Edit Colors; Debug PR 37 |
+| 3.4 | September 28, 2026 | Brought the living spec in line with the app through PR 63: four font-size steps; persisted Tally / My Order / ABC / Date Added; link `tally`; Add/Edit field order, collapsed POSITION, and Categories / Position / Tally help notes; URL suggestions; desktop emoji search under the title plus the description tip; snow; debug panel PR number from `homepage-pr` |
 
 ---
 
@@ -4152,7 +4213,7 @@ Minimum before tagging a release:
 | **Link** | User-saved start-page entry (`name`, `url`, categories, emoji, …) stored in `links[]` / `startpage_links` |
 | **Landing Screen** | Default shell after load: header, sidebar, Quick Access, FABs |
 | **viewMode** | `full` or `compact` card density; persisted |
-| **sortMode** | `default` or `date`; session-only (not persisted) |
+| **sortMode** | `tally`, `default` (My Order), `abc`, or `date`; persisted in `startpage_sort_mode` |
 | **PAT** | GitHub Personal Access Token (classic, `gist` scope) |
 | **Gist** | Private GitHub Gist used as optional cloud backup |
 | **Quick Pick** | Nested emoji picker inside Add/Edit modal |
@@ -4206,6 +4267,9 @@ Search the document for an ID (e.g. REQ-GHS-001) to open its requirement row.
 | REQ-AEL-015 | §6.1.1 |
 | REQ-AEL-016 | §6.1.1 |
 | REQ-AEL-017 | §6.1.1 |
+| REQ-AEL-018 | §6.1.1 |
+| REQ-AEL-019 | §6.1.1 |
+| REQ-AEL-020 | §6.1.1 |
 | REQ-CS-001 | §6.4 |
 | REQ-CS-002 | §6.4 |
 | REQ-CS-003 | §6.4 |
@@ -4244,6 +4308,7 @@ Search the document for an ID (e.g. REQ-GHS-001) to open its requirement row.
 | REQ-EMO-014 | §6.6 |
 | REQ-EMO-015 | §6.6 |
 | REQ-EMO-016 | §6.6 |
+| REQ-EMO-017 | §6.6 |
 | REQ-FIO-001 | §6.12 |
 | REQ-FIO-002 | §6.12 |
 | REQ-FIO-003 | §6.12 |
