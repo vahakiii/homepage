@@ -75,6 +75,17 @@ function togglePositionChoices() {
     setPositionExpanded(!choices || choices.hidden);
 }
 
+function bindTallyInfo() {
+    var info = document.getElementById('tally-info-btn');
+    if (!info || info.getAttribute('data-tally-bound') === '1') return;
+    info.setAttribute('data-tally-bound', '1');
+    info.addEventListener('click', function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+        openTallyInfoModal();
+    });
+}
+
 function bindPositionControls() {
     var toggle = document.getElementById('position-toggle');
     if (toggle && toggle.getAttribute('data-position-bound') !== '1') {
@@ -930,5 +941,6 @@ function initCategoryAutocomplete() {
 }
 
 bindPositionControls();
+bindTallyInfo();
 
 

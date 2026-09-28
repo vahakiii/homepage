@@ -45,7 +45,7 @@
 		<!-- Preload fonts + CSS -->
 		<link rel="preload" href="css/fontawesome/webfonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
 		<link rel="preload" href="css/fontawesome/webfonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin>
-		<link rel="preload" href="css/styles.css" as="style">
+		<link rel="preload" href="css/styles.css?v=pr63-tally" as="style">
 
 		<!-- Critical CSS (FOUC / first paint) -->
 		<style>
@@ -79,11 +79,11 @@
 		</style>
 
 		<!-- Main CSS (blocking; avoid FOUC) -->
-		<link rel="stylesheet" href="css/styles.css">
+		<link rel="stylesheet" href="css/styles.css?v=pr63-tally">
 
 		<!-- FA subset async (~1.8KB vs full) -->
-		<link rel="preload" href="css/fontawesome-subset.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-		<noscript><link rel="stylesheet" href="css/fontawesome-subset.min.css"></noscript>
+		<link rel="preload" href="css/fontawesome-subset.min.css?v=pr63-tally" as="style" onload="this.onload=null;this.rel='stylesheet'">
+		<noscript><link rel="stylesheet" href="css/fontawesome-subset.min.css?v=pr63-tally"></noscript>
 	</head>
 
 	<body>
@@ -945,8 +945,7 @@
 								<button type="button" id="tally-info-btn"
 									class="add-edit-modal__info"
 									title="About tally"
-									aria-label="About tally"
-									onclick="openTallyInfoModal()">
+									aria-label="About tally">
 									<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
 										<circle cx="12" cy="12" r="10.15" fill="none" stroke="currentColor" stroke-width="1.15"/>
 										<g fill="currentColor" transform="translate(12 12) skewX(-8) translate(-12 -12)">
@@ -1440,16 +1439,16 @@
 		</div>
 
 		<!-- Defer JS (tag order = execute order) -->
-		<script defer src="js/config.js?v=pr39-emoji"></script>
+		<script defer src="js/config.js?v=pr63-tally"></script>
 		<script defer src="js/state.js?v=my-order"></script>
 		<script defer src="js/storage.js"></script>
 		<script defer src="js/github.js"></script>
 		<script defer src="js/render.js"></script>
 		<script defer src="js/quotes.js"></script>
-		<script defer src="js/addeditlink.js"></script>
+		<script defer src="js/addeditlink.js?v=pr63-tally"></script>
 		<script defer src="js/settingsmodal.js"></script>
 		<script defer src="js/gsmodal.js"></script>
-		<script defer src="js/app.js?v=my-order"></script>
+		<script defer src="js/app.js?v=pr63-tally"></script>
 		<script defer src="js/script.js"></script>
 	</body>
 </html>
