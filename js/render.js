@@ -27,7 +27,7 @@ function renderCategoriesSidebar() {
     all.innerHTML = `
         <div class="sidebar-category__main">
             <i class="fa-solid fa-list"></i>
-            <span>All Links</span>
+            <span class="sidebar-category__label">All Links</span>
         </div>
         <span class="sidebar-category__count">${links.length}</span>
     `;
