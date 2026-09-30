@@ -1,5 +1,3 @@
-let categorySidebarObserver = null;
-
 /** Refocus active/first category after mouse filter change. */
 function focusSidebarActiveItem() {
     setTimeout(() => {
@@ -42,19 +40,17 @@ function renderCategoriesSidebar() {
         empty.className = 'sidebar-category-empty';
         empty.textContent = categorySearchTerm ? 'No matches' : 'No categories yet';
         container.appendChild(empty);
-        return;
-    }
-
-    cats.forEach(cat => {
-        const count = links.filter(l => Array.isArray(l.categories) && l.categories.includes(cat)).length;
-        const div = document.createElement('div');
-        div.className = `sidebar-category sidebar-category--item${currentFilterCategory === cat ? ' active' : ''}`;
-        div.setAttribute('tabindex', '0');
-        div.onclick = () => {
-            filterByCategory(cat);
-            focusSidebarActiveItem();
-        };
-        div.innerHTML = `
+    } else {
+        cats.forEach(cat => {
+            const count = links.filter(l => Array.isArray(l.categories) && l.categories.includes(cat)).length;
+            const div = document.createElement('div');
+            div.className = `sidebar-category sidebar-category--item${currentFilterCategory === cat ? ' active' : ''}`;
+            div.setAttribute('tabindex', '0');
+            div.onclick = () => {
+                filterByCategory(cat);
+                focusSidebarActiveItem();
+            };
+            div.innerHTML = `
             <div class="sidebar-category__main">
                 <i class="fa-solid fa-tag"></i>
                 <span class="sidebar-category__label">${escapeHtml(cat)}</span>
@@ -67,58 +63,34 @@ function renderCategoriesSidebar() {
                 </div>
             </div>
         `;
-        div.querySelector('.sidebar-category__action--rename').addEventListener('click', (e) => {
-            e.stopImmediatePropagation();
-            renameCategory(cat);
+            div.querySelector('.sidebar-category__action--rename').addEventListener('click', (e) => {
+                e.stopImmediatePropagation();
+                renameCategory(cat);
+            });
+            div.querySelector('.sidebar-category__action--delete').addEventListener('click', (e) => {
+                e.stopImmediatePropagation();
+                deleteCategory(cat);
+            });
+            container.appendChild(div);
         });
-        div.querySelector('.sidebar-category__action--delete').addEventListener('click', (e) => {
-            e.stopImmediatePropagation();
-            deleteCategory(cat);
-        });
-        container.appendChild(div);
-    });
+    }
 
     setupClearFilterLinkVisibility();
 }
 
-/** Show "clear filter" link when first category scrolls out of sidebar view. */
+/** Keep the clear-filter control available under the category list. */
 function setupClearFilterLinkVisibility() {
     const sidebar = document.getElementById('categories-sidebar');
-    const firstItem = sidebar.querySelector('.sidebar-category');
     const linkContainer = document.getElementById('clear-filter-link-container');
     const clearLink = document.getElementById('clear-filter-link');
 
-    if (!sidebar || !firstItem || !linkContainer || !clearLink) return;
+    if (!sidebar || !linkContainer || !clearLink) return;
 
-    if (categorySidebarObserver) {
-        categorySidebarObserver.disconnect();
-    }
-
-    const hasScrollableContent = sidebar.scrollHeight > sidebar.clientHeight + 10;
-
-    if (!hasScrollableContent) {
-        linkContainer.classList.add('is-hidden');
-        return;
-    }
-
-    categorySidebarObserver = new IntersectionObserver((entries) => {
-        const entry = entries[0];
-        if (!entry.isIntersecting) {
-            linkContainer.classList.remove('is-hidden');
-        } else {
-            linkContainer.classList.add('is-hidden');
-        }
-    }, {
-        root: sidebar,
-        threshold: 0.1
-    });
-
-    categorySidebarObserver.observe(firstItem);
+    linkContainer.classList.remove('is-hidden');
 
     clearLink.onclick = () => {
         clearCategoryFilter();
         sidebar.scrollTo({ top: 0, behavior: 'smooth' });
-        linkContainer.classList.add('is-hidden');
     };
 }
 
