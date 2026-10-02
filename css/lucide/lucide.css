@@ -1,14 +1,15 @@
-/* Self-hosted Lucide icon font (ISC). Glyphs in use: circle-dollar-sign, chart-spline. */
+/* Self-hosted Lucide icon font (ISC). Glyphs in use: circle-dollar-sign, chart-spline, tag. */
 @font-face {
   font-family: "lucide";
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url("lucide.woff2") format("woff2");
+  src: url("lucide.woff2?v=pr71-tag") format("woff2");
 }
 
 .icon-circle-dollar-sign,
-.icon-chart-spline {
+.icon-chart-spline,
+.icon-tag {
   font-family: "lucide";
   font-style: normal;
   font-weight: 400;
@@ -21,3 +22,4 @@
 
 .icon-circle-dollar-sign::before { content: "\e47d"; }
 .icon-chart-spline::before { content: "\e60d"; }
+.icon-tag::before { content: "\e17f"; }
