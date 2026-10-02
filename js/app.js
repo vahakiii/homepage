@@ -276,19 +276,69 @@ function isInTextField(el) {
     return tag === 'INPUT' || tag === 'TEXTAREA';
 }
 
-function setupSearchModalForm() {
-    const searchModalForm = document.getElementById('search-modal-form');
-    if (!searchModalForm) return;
-    searchModalForm.addEventListener('submit', function(e) {
+/** Trimmed ticker, uppercased so "aapl" opens AAPL. */
+function normalizeFinanceTicker(value) {
+    return String(value || '').trim().toUpperCase();
+}
+
+function finvizUrl(ticker) {
+    var symbol = String(ticker).replace(/\./g, '-');
+    return 'https://finviz.com/stock?t=' + encodeURIComponent(symbol);
+}
+
+function yahooFinanceUrl(ticker) {
+    return 'https://finance.yahoo.com/quote/' + encodeURIComponent(ticker);
+}
+
+function googleStockUrl(ticker) {
+    return 'https://www.google.com/search?q=' + encodeURIComponent('Provide me with the current stock price for ' + ticker);
+}
+
+/** Enter or the row's button opens urlFor(value) in a new tab. Finance rows leave the modal open. */
+function bindSearchLaunchForm(formId, inputId, readValue, urlFor, keepOpen) {
+    const form = document.getElementById(formId);
+    if (!form || form.dataset.launchBound === '1') return;
+    form.dataset.launchBound = '1';
+    form.addEventListener('submit', function (e) {
         e.preventDefault();
-        const input = document.getElementById('search-modal-input');
-        const query = input ? input.value.trim() : '';
-        if (query) {
-            openExternalUrl('https://www.google.com/search?q=' + encodeURIComponent(query));
-            closeSearchModal();
-            input.value = '';
-        }
+        const input = document.getElementById(inputId);
+        const value = readValue(input ? input.value : '');
+        if (!value) return;
+        openExternalUrl(urlFor(value));
+        if (keepOpen) return;
+        closeSearchModal();
+        if (input) input.value = '';
     });
+}
+
+function setupSearchModalForm() {
+    bindSearchLaunchForm(
+        'search-modal-form',
+        'search-modal-input',
+        function (value) { return String(value || '').trim(); },
+        function (query) { return 'https://www.google.com/search?q=' + encodeURIComponent(query); }
+    );
+    bindSearchLaunchForm(
+        'finviz-form',
+        'finviz-input',
+        normalizeFinanceTicker,
+        finvizUrl,
+        true
+    );
+    bindSearchLaunchForm(
+        'yahoo-finance-form',
+        'yahoo-finance-input',
+        normalizeFinanceTicker,
+        yahooFinanceUrl,
+        true
+    );
+    bindSearchLaunchForm(
+        'google-stock-form',
+        'google-stock-input',
+        normalizeFinanceTicker,
+        googleStockUrl,
+        true
+    );
 }
 
 /** Lazy-load js/debug.js the first time Debug is opened. */

@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<!-- AI: The Debug screen shows this pull request number. When a new PR starts, update content below to that PR number. -->
-		<meta name="homepage-pr" content="69">
+		<meta name="homepage-pr" content="70">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<script>
 		(function () {
@@ -43,9 +43,10 @@
 		<link rel="apple-touch-icon" href="icons/icon-192.png">
 
 		<!-- Preload fonts + CSS -->
+		<link rel="preload" href="css/lucide/lucide.woff2" as="font" type="font/woff2" crossorigin>
 		<link rel="preload" href="css/fontawesome/webfonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
 		<link rel="preload" href="css/fontawesome/webfonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin>
-		<link rel="preload" href="css/styles.css?v=pr68-goto-gutter" as="style">
+		<link rel="preload" href="css/styles.css?v=pr70-lucide-credit" as="style">
 
 		<!-- Critical CSS (FOUC / first paint) -->
 		<style>
@@ -69,7 +70,8 @@
 		</style>
 
 		<!-- Main CSS (blocking; avoid FOUC) -->
-		<link rel="stylesheet" href="css/styles.css?v=pr68-goto-gutter">
+		<link rel="stylesheet" href="css/styles.css?v=pr70-lucide-credit">
+		<link rel="stylesheet" href="css/lucide/lucide.css?v=pr70-lucide">
 
 		<!-- FA subset async (~1.8KB vs full) -->
 		<link rel="preload" href="css/fontawesome-subset.min.css?v=pr63-tally" as="style" onload="this.onload=null;this.rel='stylesheet'">
@@ -359,7 +361,7 @@
 			onclick="closeSearchModal()"
 			role="dialog" aria-modal="true" aria-labelledby="search-modal-title">
 			<div onclick="event.stopImmediatePropagation()"
-				class="ui-modal__panel ui-modal__panel--lg ui-modal__panel--padded ui-modal__panel--draggable search-modal__panel modal">
+				class="ui-modal__panel ui-modal__panel--lg ui-modal__panel--padded search-modal__panel modal">
 
 				<div class="ui-modal__header ui-modal__header--plain">
 					<h3 id="search-modal-title" class="ui-modal__title ui-modal__title--row">
@@ -371,20 +373,97 @@
 					</button>
 				</div>
 
-				<form id="search-modal-form" class="search-modal__form">
-					<div>
-						<div id="search-modal-icon-wrapper" class="search-modal__icon">
-							<i class="fa-solid fa-search"></i>
+				<div class="search-modal__sections">
+					<form id="search-modal-form" class="search-modal__form">
+						<div class="search-modal__row">
+							<div class="search-modal__field">
+								<div id="search-modal-icon-wrapper" class="search-modal__icon">
+									<i class="fa-solid fa-search"></i>
+								</div>
+								<input
+									id="search-modal-input"
+									type="text"
+									placeholder="Search Google or type a URL..."
+									class="search-modal__input search-input"
+									autocomplete="off"
+									>
+							</div>
+							<button type="submit" class="search-modal__submit ui-modal__btn" aria-label="Google">Google</button>
 						</div>
-						<input
-							id="search-modal-input"
-							type="text"
-							placeholder="Search Google or type a URL..."
-							class="search-modal__input search-input"
-							autocomplete="off"
-							>
-					</div>
-				</form>
+					</form>
+
+					<section class="search-modal__section" aria-labelledby="yahoo-finance-title">
+						<h4 id="yahoo-finance-title" class="search-modal__section-title">
+							<span class="search-modal__section-mark" aria-hidden="true"><i class="icon-circle-dollar-sign"></i></span>
+							<span>Yahoo Finance</span>
+						</h4>
+						<form id="yahoo-finance-form" class="search-modal__form">
+							<div class="search-modal__row">
+								<div class="search-modal__field">
+									<div class="search-modal__icon" aria-hidden="true"><i class="icon-chart-spline"></i></div>
+									<input
+										id="yahoo-finance-input"
+										type="text"
+										placeholder="ticker symbol"
+										class="search-modal__input"
+										autocomplete="off"
+										autocapitalize="characters"
+										spellcheck="false"
+										>
+								</div>
+								<button type="submit" class="search-modal__submit ui-modal__btn" aria-label="Yahoo">Yahoo</button>
+							</div>
+						</form>
+					</section>
+
+					<section class="search-modal__section" aria-labelledby="finviz-title">
+						<h4 id="finviz-title" class="search-modal__section-title">
+							<span class="search-modal__section-mark" aria-hidden="true"><i class="icon-circle-dollar-sign"></i></span>
+							<span>Finviz</span>
+						</h4>
+						<form id="finviz-form" class="search-modal__form">
+							<div class="search-modal__row">
+								<div class="search-modal__field">
+									<div class="search-modal__icon" aria-hidden="true"><i class="icon-chart-spline"></i></div>
+									<input
+										id="finviz-input"
+										type="text"
+										placeholder="ticker symbol"
+										class="search-modal__input"
+										autocomplete="off"
+										autocapitalize="characters"
+										spellcheck="false"
+										>
+								</div>
+								<button type="submit" class="search-modal__submit ui-modal__btn" aria-label="Finviz">Finviz</button>
+							</div>
+						</form>
+					</section>
+
+					<section class="search-modal__section" aria-labelledby="google-stock-title">
+						<h4 id="google-stock-title" class="search-modal__section-title">
+							<span class="search-modal__section-mark" aria-hidden="true"><i class="icon-circle-dollar-sign"></i></span>
+							<span>Google</span>
+						</h4>
+						<form id="google-stock-form" class="search-modal__form">
+							<div class="search-modal__row">
+								<div class="search-modal__field">
+									<div class="search-modal__icon" aria-hidden="true"><i class="icon-chart-spline"></i></div>
+									<input
+										id="google-stock-input"
+										type="text"
+										placeholder="ticker symbol"
+										class="search-modal__input"
+										autocomplete="off"
+										autocapitalize="characters"
+										spellcheck="false"
+										>
+								</div>
+								<button type="submit" class="search-modal__submit ui-modal__btn" aria-label="Google">Google</button>
+							</div>
+						</form>
+					</section>
+				</div>
 
 			</div>
 		</div>
@@ -766,6 +845,20 @@
 							(Free version). Used under the
 							<a href="https://fontawesome.com/license/free" target="_blank" class="ui-modal__link attribution-modal__link">CC BY 4.0</a> license for icons,
 							<a href="https://scripts.sil.org/OFL" target="_blank" class="ui-modal__link attribution-modal__link">SIL OFL 1.1</a> for fonts, and MIT License for code.
+						</p>
+					</div>
+
+					<div class="attribution-modal__section">
+						<div class="attribution-modal__section-head">
+							<i class="attribution-modal__icon attribution-modal__icon--lucide icon-circle-dollar-sign"></i>
+							<span class="attribution-modal__name">Lucide</span>
+						</div>
+						<p class="attribution-modal__text">
+							Finance icons are provided by
+							<a href="https://lucide.dev" target="_blank" class="ui-modal__link attribution-modal__link">Lucide</a>,
+							a community icon set and a fork of Feather Icons. The Lucide font is self-hosted with this Start Page.
+							Used under the
+							<a href="https://github.com/lucide-icons/lucide/blob/main/LICENSE" target="_blank" class="ui-modal__link attribution-modal__link">ISC License</a>.
 						</p>
 					</div>
 
@@ -1440,8 +1533,8 @@
 		<script defer src="js/quotes.js"></script>
 		<script defer src="js/addeditlink.js?v=pr69-android-chrome"></script>
 		<script defer src="js/settingsmodal.js"></script>
-		<script defer src="js/gsmodal.js"></script>
-		<script defer src="js/app.js?v=pr69-android-chrome"></script>
+		<script defer src="js/gsmodal.js?v=pr70-finance-grid"></script>
+		<script defer src="js/app.js?v=pr70-finance-stay"></script>
 		<script defer src="js/script.js"></script>
 	</body>
 </html>
