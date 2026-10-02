@@ -22,6 +22,10 @@ function openSearchModal() {
     openUiModal('search-modal');
 
     input.value = '';
+    ['google-finance-input', 'yahoo-finance-input'].forEach(function (id) {
+        var field = document.getElementById(id);
+        if (field) field.value = '';
+    });
     setTimeout(() => {
         input.focus();
     }, 50);

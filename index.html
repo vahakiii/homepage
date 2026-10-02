@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<!-- AI: The Debug screen shows this pull request number. When a new PR starts, update content below to that PR number. -->
-		<meta name="homepage-pr" content="69">
+		<meta name="homepage-pr" content="70">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<script>
 		(function () {
@@ -45,7 +45,7 @@
 		<!-- Preload fonts + CSS -->
 		<link rel="preload" href="css/fontawesome/webfonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
 		<link rel="preload" href="css/fontawesome/webfonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin>
-		<link rel="preload" href="css/styles.css?v=pr68-goto-gutter" as="style">
+		<link rel="preload" href="css/styles.css?v=pr70-search-modal" as="style">
 
 		<!-- Critical CSS (FOUC / first paint) -->
 		<style>
@@ -69,7 +69,7 @@
 		</style>
 
 		<!-- Main CSS (blocking; avoid FOUC) -->
-		<link rel="stylesheet" href="css/styles.css?v=pr68-goto-gutter">
+		<link rel="stylesheet" href="css/styles.css?v=pr70-search-modal">
 
 		<!-- FA subset async (~1.8KB vs full) -->
 		<link rel="preload" href="css/fontawesome-subset.min.css?v=pr63-tally" as="style" onload="this.onload=null;this.rel='stylesheet'">
@@ -371,20 +371,61 @@
 					</button>
 				</div>
 
-				<form id="search-modal-form" class="search-modal__form">
-					<div>
-						<div id="search-modal-icon-wrapper" class="search-modal__icon">
-							<i class="fa-solid fa-search"></i>
+				<div class="search-modal__sections">
+					<form id="search-modal-form" class="search-modal__form">
+						<div class="search-modal__row">
+							<div class="search-modal__field">
+								<div id="search-modal-icon-wrapper" class="search-modal__icon">
+									<i class="fa-solid fa-search"></i>
+								</div>
+								<input
+									id="search-modal-input"
+									type="text"
+									placeholder="Search Google or type a URL..."
+									class="search-modal__input search-input"
+									autocomplete="off"
+									>
+							</div>
+							<button type="submit" class="search-modal__submit ui-modal__btn" aria-label="Google Search Submit">Submit</button>
 						</div>
-						<input
-							id="search-modal-input"
-							type="text"
-							placeholder="Search Google or type a URL..."
-							class="search-modal__input search-input"
-							autocomplete="off"
-							>
-					</div>
-				</form>
+					</form>
+
+					<section class="search-modal__section" aria-labelledby="google-finance-title">
+						<h4 id="google-finance-title" class="search-modal__section-title">Google Finance</h4>
+						<form id="google-finance-form" class="search-modal__form">
+							<div class="search-modal__row">
+								<input
+									id="google-finance-input"
+									type="text"
+									placeholder="ticker symbol"
+									class="search-modal__input search-modal__input--ticker"
+									autocomplete="off"
+									autocapitalize="characters"
+									spellcheck="false"
+									>
+								<button type="submit" class="search-modal__submit ui-modal__btn" aria-label="Google Finance Submit">Submit</button>
+							</div>
+						</form>
+					</section>
+
+					<section class="search-modal__section" aria-labelledby="yahoo-finance-title">
+						<h4 id="yahoo-finance-title" class="search-modal__section-title">Yahoo Finance</h4>
+						<form id="yahoo-finance-form" class="search-modal__form">
+							<div class="search-modal__row">
+								<input
+									id="yahoo-finance-input"
+									type="text"
+									placeholder="ticker symbol"
+									class="search-modal__input search-modal__input--ticker"
+									autocomplete="off"
+									autocapitalize="characters"
+									spellcheck="false"
+									>
+								<button type="submit" class="search-modal__submit ui-modal__btn" aria-label="Yahoo Finance Submit">Submit</button>
+							</div>
+						</form>
+					</section>
+				</div>
 
 			</div>
 		</div>
@@ -1440,8 +1481,8 @@
 		<script defer src="js/quotes.js"></script>
 		<script defer src="js/addeditlink.js?v=pr69-android-chrome"></script>
 		<script defer src="js/settingsmodal.js"></script>
-		<script defer src="js/gsmodal.js"></script>
-		<script defer src="js/app.js?v=pr69-android-chrome"></script>
+		<script defer src="js/gsmodal.js?v=pr70-search-modal"></script>
+		<script defer src="js/app.js?v=pr70-search-modal"></script>
 		<script defer src="js/script.js"></script>
 	</body>
 </html>
