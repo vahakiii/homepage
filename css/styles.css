@@ -209,6 +209,6 @@ body{position:relative;z-index:0}
 .search-modal__field{position:relative;min-width:0;width:100%}
 .search-modal__submit{display:inline-flex;align-items:center;justify-content:center;width:100%;padding-left:1rem;padding-right:1rem;border:1px solid var(--color-border-strong);font-weight:600}
 .search-modal.ui-modal--top{padding-top:10vh}
-.attribution-modal__icon--lucide{color:var(--text-color)}
+.attribution-modal__icon--lucide{color:#2dd4bf}
 .fa-icons{--fa:"\f86d"}
 
