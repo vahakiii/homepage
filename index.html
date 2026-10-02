@@ -45,7 +45,7 @@
 		<!-- Preload fonts + CSS -->
 		<link rel="preload" href="css/fontawesome/webfonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
 		<link rel="preload" href="css/fontawesome/webfonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin>
-		<link rel="preload" href="css/styles.css?v=pr70-search-modal" as="style">
+		<link rel="preload" href="css/styles.css?v=pr70-finance-emoji" as="style">
 
 		<!-- Critical CSS (FOUC / first paint) -->
 		<style>
@@ -69,7 +69,7 @@
 		</style>
 
 		<!-- Main CSS (blocking; avoid FOUC) -->
-		<link rel="stylesheet" href="css/styles.css?v=pr70-search-modal">
+		<link rel="stylesheet" href="css/styles.css?v=pr70-finance-emoji">
 
 		<!-- FA subset async (~1.8KB vs full) -->
 		<link rel="preload" href="css/fontawesome-subset.min.css?v=pr63-tally" as="style" onload="this.onload=null;this.rel='stylesheet'">
@@ -391,36 +391,48 @@
 					</form>
 
 					<section class="search-modal__section" aria-labelledby="google-finance-title">
-						<h4 id="google-finance-title" class="search-modal__section-title">Google Finance</h4>
+						<h4 id="google-finance-title" class="search-modal__section-title">
+							<span class="search-modal__section-mark" aria-hidden="true">💰</span>
+							<span>Google Finance</span>
+						</h4>
 						<form id="google-finance-form" class="search-modal__form">
 							<div class="search-modal__row">
-								<input
-									id="google-finance-input"
-									type="text"
-									placeholder="ticker symbol"
-									class="search-modal__input search-modal__input--ticker"
-									autocomplete="off"
-									autocapitalize="characters"
-									spellcheck="false"
-									>
+								<div class="search-modal__field">
+									<div class="search-modal__icon search-modal__icon--emoji" aria-hidden="true">📈</div>
+									<input
+										id="google-finance-input"
+										type="text"
+										placeholder="ticker symbol"
+										class="search-modal__input"
+										autocomplete="off"
+										autocapitalize="characters"
+										spellcheck="false"
+										>
+								</div>
 								<button type="submit" class="search-modal__submit ui-modal__btn" aria-label="Google Finance Submit">Submit</button>
 							</div>
 						</form>
 					</section>
 
 					<section class="search-modal__section" aria-labelledby="yahoo-finance-title">
-						<h4 id="yahoo-finance-title" class="search-modal__section-title">Yahoo Finance</h4>
+						<h4 id="yahoo-finance-title" class="search-modal__section-title">
+							<span class="search-modal__section-mark" aria-hidden="true">💰</span>
+							<span>Yahoo Finance</span>
+						</h4>
 						<form id="yahoo-finance-form" class="search-modal__form">
 							<div class="search-modal__row">
-								<input
-									id="yahoo-finance-input"
-									type="text"
-									placeholder="ticker symbol"
-									class="search-modal__input search-modal__input--ticker"
-									autocomplete="off"
-									autocapitalize="characters"
-									spellcheck="false"
-									>
+								<div class="search-modal__field">
+									<div class="search-modal__icon search-modal__icon--emoji" aria-hidden="true">📈</div>
+									<input
+										id="yahoo-finance-input"
+										type="text"
+										placeholder="ticker symbol"
+										class="search-modal__input"
+										autocomplete="off"
+										autocapitalize="characters"
+										spellcheck="false"
+										>
+								</div>
 								<button type="submit" class="search-modal__submit ui-modal__btn" aria-label="Yahoo Finance Submit">Submit</button>
 							</div>
 						</form>
