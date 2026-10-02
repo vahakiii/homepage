@@ -290,6 +290,10 @@ function yahooFinanceUrl(ticker) {
     return 'https://finance.yahoo.com/quote/' + encodeURIComponent(ticker);
 }
 
+function googleStockUrl(ticker) {
+    return 'https://www.google.com/search?q=' + encodeURIComponent('Provide me with the current stock price for ' + ticker);
+}
+
 /** Enter or the row's Submit button opens urlFor(value) in a new tab. */
 function bindSearchLaunchForm(formId, inputId, readValue, urlFor) {
     const form = document.getElementById(formId);
@@ -324,6 +328,12 @@ function setupSearchModalForm() {
         'yahoo-finance-input',
         normalizeFinanceTicker,
         yahooFinanceUrl
+    );
+    bindSearchLaunchForm(
+        'google-stock-form',
+        'google-stock-input',
+        normalizeFinanceTicker,
+        googleStockUrl
     );
 }
 

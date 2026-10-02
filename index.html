@@ -46,7 +46,7 @@
 		<link rel="preload" href="css/lucide/lucide.woff2" as="font" type="font/woff2" crossorigin>
 		<link rel="preload" href="css/fontawesome/webfonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
 		<link rel="preload" href="css/fontawesome/webfonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin>
-		<link rel="preload" href="css/styles.css?v=pr70-search-layout" as="style">
+		<link rel="preload" href="css/styles.css?v=pr70-finance-grid" as="style">
 
 		<!-- Critical CSS (FOUC / first paint) -->
 		<style>
@@ -70,7 +70,7 @@
 		</style>
 
 		<!-- Main CSS (blocking; avoid FOUC) -->
-		<link rel="stylesheet" href="css/styles.css?v=pr70-search-layout">
+		<link rel="stylesheet" href="css/styles.css?v=pr70-finance-grid">
 		<link rel="stylesheet" href="css/lucide/lucide.css?v=pr70-lucide">
 
 		<!-- FA subset async (~1.8KB vs full) -->
@@ -392,30 +392,6 @@
 						</div>
 					</form>
 
-					<section class="search-modal__section" aria-labelledby="finviz-title">
-						<h4 id="finviz-title" class="search-modal__section-title">
-							<span class="search-modal__section-mark" aria-hidden="true"><i class="icon-circle-dollar-sign"></i></span>
-							<span>Finviz</span>
-						</h4>
-						<form id="finviz-form" class="search-modal__form">
-							<div class="search-modal__row">
-								<div class="search-modal__field">
-									<div class="search-modal__icon" aria-hidden="true"><i class="icon-chart-spline"></i></div>
-									<input
-										id="finviz-input"
-										type="text"
-										placeholder="ticker symbol"
-										class="search-modal__input"
-										autocomplete="off"
-										autocapitalize="characters"
-										spellcheck="false"
-										>
-								</div>
-								<button type="submit" class="search-modal__submit ui-modal__btn" aria-label="Finviz Submit">Finviz</button>
-							</div>
-						</form>
-					</section>
-
 					<section class="search-modal__section" aria-labelledby="yahoo-finance-title">
 						<h4 id="yahoo-finance-title" class="search-modal__section-title">
 							<span class="search-modal__section-mark" aria-hidden="true"><i class="icon-circle-dollar-sign"></i></span>
@@ -436,6 +412,54 @@
 										>
 								</div>
 								<button type="submit" class="search-modal__submit ui-modal__btn" aria-label="Yahoo">Yahoo</button>
+							</div>
+						</form>
+					</section>
+
+					<section class="search-modal__section" aria-labelledby="finviz-title">
+						<h4 id="finviz-title" class="search-modal__section-title">
+							<span class="search-modal__section-mark" aria-hidden="true"><i class="icon-circle-dollar-sign"></i></span>
+							<span>Finviz</span>
+						</h4>
+						<form id="finviz-form" class="search-modal__form">
+							<div class="search-modal__row">
+								<div class="search-modal__field">
+									<div class="search-modal__icon" aria-hidden="true"><i class="icon-chart-spline"></i></div>
+									<input
+										id="finviz-input"
+										type="text"
+										placeholder="ticker symbol"
+										class="search-modal__input"
+										autocomplete="off"
+										autocapitalize="characters"
+										spellcheck="false"
+										>
+								</div>
+								<button type="submit" class="search-modal__submit ui-modal__btn" aria-label="Finviz">Finviz</button>
+							</div>
+						</form>
+					</section>
+
+					<section class="search-modal__section" aria-labelledby="google-stock-title">
+						<h4 id="google-stock-title" class="search-modal__section-title">
+							<span class="search-modal__section-mark" aria-hidden="true"><i class="icon-circle-dollar-sign"></i></span>
+							<span>Google</span>
+						</h4>
+						<form id="google-stock-form" class="search-modal__form">
+							<div class="search-modal__row">
+								<div class="search-modal__field">
+									<div class="search-modal__icon" aria-hidden="true"><i class="icon-chart-spline"></i></div>
+									<input
+										id="google-stock-input"
+										type="text"
+										placeholder="ticker symbol"
+										class="search-modal__input"
+										autocomplete="off"
+										autocapitalize="characters"
+										spellcheck="false"
+										>
+								</div>
+								<button type="submit" class="search-modal__submit ui-modal__btn" aria-label="Google">Google</button>
 							</div>
 						</form>
 					</section>
@@ -1495,8 +1519,8 @@
 		<script defer src="js/quotes.js"></script>
 		<script defer src="js/addeditlink.js?v=pr69-android-chrome"></script>
 		<script defer src="js/settingsmodal.js"></script>
-		<script defer src="js/gsmodal.js?v=pr70-search-layout"></script>
-		<script defer src="js/app.js?v=pr70-finviz"></script>
+		<script defer src="js/gsmodal.js?v=pr70-finance-grid"></script>
+		<script defer src="js/app.js?v=pr70-finance-grid"></script>
 		<script defer src="js/script.js"></script>
 	</body>
 </html>

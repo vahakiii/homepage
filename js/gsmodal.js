@@ -7,7 +7,7 @@ function openSearchModal() {
     openUiModal('search-modal');
 
     input.value = '';
-    ['finviz-input', 'yahoo-finance-input'].forEach(function (id) {
+    ['yahoo-finance-input', 'finviz-input', 'google-stock-input'].forEach(function (id) {
         var field = document.getElementById(id);
         if (field) field.value = '';
     });
