@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<!-- AI: The Debug screen shows this pull request number. When a new PR starts, update content below to that PR number. -->
-		<meta name="homepage-pr" content="70">
+		<meta name="homepage-pr" content="72">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<script>
 		(function () {
@@ -43,10 +43,10 @@
 		<link rel="apple-touch-icon" href="icons/icon-192.png">
 
 		<!-- Preload fonts + CSS -->
-		<link rel="preload" href="css/lucide/lucide.woff2" as="font" type="font/woff2" crossorigin>
+		<link rel="preload" href="css/lucide/lucide.woff2?v=pr72-type-outline" as="font" type="font/woff2" crossorigin>
 		<link rel="preload" href="css/fontawesome/webfonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
 		<link rel="preload" href="css/fontawesome/webfonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin>
-		<link rel="preload" href="css/styles.css?v=pr70-lucide-credit" as="style">
+		<link rel="preload" href="css/styles.css?v=pr72-lucide-teal" as="style">
 
 		<!-- Critical CSS (FOUC / first paint) -->
 		<style>
@@ -70,8 +70,8 @@
 		</style>
 
 		<!-- Main CSS (blocking; avoid FOUC) -->
-		<link rel="stylesheet" href="css/styles.css?v=pr70-lucide-credit">
-		<link rel="stylesheet" href="css/lucide/lucide.css?v=pr70-lucide">
+		<link rel="stylesheet" href="css/styles.css?v=pr72-lucide-teal">
+		<link rel="stylesheet" href="css/lucide/lucide.css?v=pr72-type-outline">
 
 		<!-- FA subset async (~1.8KB vs full) -->
 		<link rel="preload" href="css/fontawesome-subset.min.css?v=pr63-tally" as="style" onload="this.onload=null;this.rel='stylesheet'">
@@ -264,7 +264,7 @@
 			<div onclick="event.stopImmediatePropagation()"
 				class="ui-modal__panel ui-modal__panel--lg modal">
 				<div class="ui-modal__header">
-					<h3 id="settings-modal-title" class="ui-modal__title"><i class="ui-modal__title-icon fa-solid fa-gear"></i>Settings</h3>
+					<h3 id="settings-modal-title" class="ui-modal__title"><i class="ui-modal__title-icon icon-settings"></i>Settings</h3>
 					<button type="button" onclick="closeSettingsModal()" class="ui-modal__close" aria-label="Close">
 						<i class="fa-solid fa-times"></i>
 					</button>
@@ -313,7 +313,7 @@
 				<div class="settings-modal__action-wrap settings-modal__action-wrap--pair">
 					<button type="button" onclick="openColorThemeModal()"
 						class="settings-modal__action">
-						<i class="settings-modal__action-icon fa-solid fa-palette"></i>
+						<i class="settings-modal__action-icon icon-palette"></i>
 						Edit Colors
 					</button>
 					<button type="button" id="open-other-options-btn" onclick="openOtherOptionsModal()"
@@ -326,12 +326,12 @@
 				<div class="settings-modal__action-wrap settings-modal__action-wrap--pair">
 					<button type="button" onclick="openAboutModal()"
 						class="settings-modal__action">
-						<i class="settings-modal__action-icon fa-solid fa-rocket"></i>
+						<i class="settings-modal__action-icon icon-rocket"></i>
 						About
 					</button>
 					<button type="button" onclick="openAttributionModal()"
 						class="settings-modal__action">
-						<i class="settings-modal__action-icon fa-solid fa-info-circle"></i>
+						<i class="settings-modal__action-icon icon-info"></i>
 						Attributions
 					</button>
 				</div>
@@ -475,7 +475,7 @@
 			<div onclick="event.stopImmediatePropagation()"
 				class="ui-modal__panel ui-modal__panel--lg color-theme-modal__panel modal">
 				<div class="ui-modal__header ui-modal__header--plain">
-					<h3 id="color-theme-modal-title" class="ui-modal__title"><i class="ui-modal__title-icon fa-solid fa-palette"></i>Color Theme Editor</h3>
+					<h3 id="color-theme-modal-title" class="ui-modal__title"><i class="ui-modal__title-icon icon-palette"></i>Color Theme Editor</h3>
 					<button type="button" onclick="closeColorThemeModal()" class="ui-modal__close" aria-label="Close">
 						<i class="fa-solid fa-times"></i>
 					</button>
@@ -517,7 +517,7 @@
 
 				<div class="ui-modal__header">
 					<h3 id="about-modal-title" class="ui-modal__title ui-modal__title--row">
-						<i class="fa-solid fa-rocket"></i>
+						<i class="icon-rocket"></i>
 						<span>About</span>
 					</h3>
 					<button type="button" onclick="closeAboutModal()" class="ui-modal__close" aria-label="Close">
@@ -717,7 +717,7 @@
 
 				<div class="ui-modal__header">
 					<h3 id="reset-confirm-title" class="ui-modal__title ui-modal__title--row">
-						<i class="fa-solid fa-trash"></i>
+						<i class="icon-trash"></i>
 						<span>Clear everything</span>
 					</h3>
 					<button type="button" id="reset-confirm-close" class="ui-modal__close" aria-label="Cancel">
@@ -729,7 +729,7 @@
 					<div data-reset-step="warn">
 						<div class="reset-confirm-modal__graphic" aria-hidden="true">
 							<span class="reset-confirm-modal__ring"></span>
-							<i class="fa-solid fa-trash reset-confirm-modal__icon"></i>
+							<i class="icon-trash reset-confirm-modal__icon"></i>
 						</div>
 						<p class="reset-confirm-modal__warning">
 							This clears every link and every setting. The start page will be empty, and this cannot be undone.
@@ -775,7 +775,7 @@
 
 				<div class="ui-modal__header">
 					<h3 id="attribution-modal-title" class="ui-modal__title ui-modal__title--row">
-						<i class="fa-solid fa-info-circle"></i>
+						<i class="icon-info"></i>
 						<span>Attributions</span>
 					</h3>
 					<button type="button" onclick="closeAttributionModal()" class="ui-modal__close" aria-label="Close">
@@ -850,7 +850,7 @@
 
 					<div class="attribution-modal__section">
 						<div class="attribution-modal__section-head">
-							<i class="attribution-modal__icon attribution-modal__icon--lucide icon-circle-dollar-sign"></i>
+							<i class="attribution-modal__icon attribution-modal__icon--lucide fa-solid fa-icons"></i>
 							<span class="attribution-modal__name">Lucide</span>
 						</div>
 						<p class="attribution-modal__text">
@@ -1186,7 +1186,7 @@
 
 				<div class="ui-modal__header">
 					<h3 id="category-info-modal-title" class="ui-modal__title ui-modal__title--row">
-						<i class="fa-solid fa-tag"></i>
+						<i class="icon-tag"></i>
 						<span>Categories</span>
 					</h3>
 					<button type="button" onclick="closeCategoryInfoModal()" class="ui-modal__close" aria-label="Close">
@@ -1437,7 +1437,7 @@
 				class="ui-modal__panel ui-modal__panel--lg ui-modal__panel--scroll sync-instructions-modal__panel modal">
 
 				<div class="ui-modal__header sync-instructions-modal__header">
-					<h3 id="sync-instructions-modal-title" class="ui-modal__title"><i class="ui-modal__title-icon fa-solid fa-info-circle"></i>How to Set Up GitHub Gist Sync</h3>
+					<h3 id="sync-instructions-modal-title" class="ui-modal__title"><i class="ui-modal__title-icon icon-info"></i>How to Set Up GitHub Gist Sync</h3>
 					<button type="button" onclick="closeSyncInstructionsModal()" class="ui-modal__close" aria-label="Close">
 						<i class="fa-solid fa-times"></i>
 					</button>
