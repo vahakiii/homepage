@@ -322,9 +322,8 @@ function submitUrlSuggestions(event) {
     var linkUrl = document.getElementById('link-url');
     if (linkUrl) linkUrl.value = url;
     var query = URL_SUGGEST_PROMPT + url;
-    var popup = window.open(
+    var popup = openExternalUrl(
         'https://www.google.com/search?q=' + encodeURIComponent(query),
-        '_blank',
         'popup=yes,width=1100,height=800,resizable=yes,scrollbars=yes'
     );
     if (popup) {

@@ -284,7 +284,7 @@ function setupSearchModalForm() {
         const input = document.getElementById('search-modal-input');
         const query = input ? input.value.trim() : '';
         if (query) {
-            window.open('https://www.google.com/search?q=' + encodeURIComponent(query), '_blank');
+            openExternalUrl('https://www.google.com/search?q=' + encodeURIComponent(query));
             closeSearchModal();
             input.value = '';
         }

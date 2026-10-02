@@ -195,13 +195,126 @@ function normalizeLinksArray(arr) {
     return arr.map(function (link) { return normalizeLink(link); });
 }
 
+/**
+ * Installed home-screen app on Android (manifest display: standalone).
+ * A normal browser tab is not this mode, even on an Android phone.
+ */
+function isAndroidHomeScreenApp() {
+    var ua = '';
+    try {
+        ua = (navigator && navigator.userAgent) || '';
+    } catch (e) {
+        ua = '';
+    }
+    if (!/Android/i.test(ua)) return false;
+    var modes = ['standalone', 'fullscreen', 'minimal-ui'];
+    for (var i = 0; i < modes.length; i++) {
+        try {
+            if (window.matchMedia('(display-mode: ' + modes[i] + ')').matches) return true;
+        } catch (e2) { /* ignore */ }
+    }
+    return false;
+}
+
+/** Absolute http(s) URL, or '' when this should not be handed to Chrome. */
+function toHttpUrl(url) {
+    if (url == null) return '';
+    var trimmed = String(url).trim();
+    if (!trimmed || trimmed.charAt(0) === '#') return '';
+    if (/^(javascript|data|blob|intent|mailto|tel):/i.test(trimmed)) return '';
+    if (!/^https?:\/\//i.test(trimmed)) {
+        if (/^[a-z][a-z0-9+.-]*:/i.test(trimmed)) return '';
+        trimmed = 'https://' + trimmed;
+    }
+    try {
+        var parsed = new URL(trimmed);
+        if (parsed.protocol !== 'http:' && parsed.protocol !== 'https:') return '';
+        return parsed.href;
+    } catch (e) {
+        return '';
+    }
+}
+
+/**
+ * Android VIEW intent aimed at the Chrome app, not this home-screen window.
+ * No browser_fallback_url: a fallback is loaded inside the current app, which
+ * is the bug. The original hash stays in front of the final #Intent marker;
+ * Android's parser uses the last #Intent.
+ */
+function toAndroidChromeIntentUrl(httpUrl) {
+    var parsed = new URL(httpUrl);
+    var scheme = parsed.protocol.replace(':', '');
+    var rest = httpUrl.slice(parsed.protocol.length + 2);
+    return 'intent://' + rest
+        + '#Intent;scheme=' + scheme
+        + ';package=com.android.chrome'
+        + ';action=android.intent.action.VIEW'
+        + ';category=android.intent.category.BROWSABLE'
+        + ';end';
+}
+
+/**
+ * Ask Android to open the URL in the Chrome app during this tap.
+ * Top-level (no target): a new in-app window would stay inside the home-screen app.
+ * Must stay synchronous — Chrome only hands an intent to another app from a user gesture.
+ */
+function launchAndroidChromeIntent(httpUrl) {
+    var intentUrl = toAndroidChromeIntentUrl(httpUrl);
+    var anchor = document.createElement('a');
+    anchor.href = intentUrl;
+    if (document.body) {
+        document.body.appendChild(anchor);
+        anchor.click();
+        anchor.remove();
+    } else if (window.location) {
+        window.location.href = intentUrl;
+    }
+}
+
+/**
+ * Open a link. Android home-screen launches go to the Chrome app.
+ * Everywhere else, this is window.open(..., '_blank'), with optional features.
+ */
+function openExternalUrl(url, windowFeatures) {
+    var httpUrl = toHttpUrl(url);
+    if (httpUrl && isAndroidHomeScreenApp()) {
+        launchAndroidChromeIntent(httpUrl);
+        return null;
+    }
+    if (windowFeatures) return window.open(url, '_blank', windowFeatures);
+    return window.open(url, '_blank');
+}
+
+/** Capture-phase: modal and other <a href> taps from the installed Android app. */
+function onAndroidHomeScreenLinkClick(e) {
+    if (!isAndroidHomeScreenApp()) return;
+    if (!e || e.defaultPrevented) return;
+    if (e.button && e.button !== 0) return;
+    if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    var target = e.target;
+    if (!target || !target.closest) return;
+    var anchor = target.closest('a[href]');
+    if (!anchor || anchor.hasAttribute('download')) return;
+    var raw = anchor.getAttribute('href') || '';
+    if (!raw || raw.charAt(0) === '#') return;
+    var httpUrl = toHttpUrl(anchor.href || raw);
+    if (!httpUrl) return;
+    if (e.preventDefault) e.preventDefault();
+    if (e.stopPropagation) e.stopPropagation();
+    launchAndroidChromeIntent(httpUrl);
+}
+
+if (typeof document !== 'undefined' && document.addEventListener) {
+    document.addEventListener('click', onAndroidHomeScreenLinkClick, true);
+}
+
 /** Increment tally, open URL; re-render in Tally mode only if section order changes. */
 function openLinkAndTally(link) {
     if (!link || !link.url) return;
     const oldTally = coerceTally(link.tally);
     link.tally = oldTally + 1;
     saveLinks();
-    window.open(link.url, '_blank');
+    openExternalUrl(link.url);
     if (sortMode === 'tally'
         && typeof tallySectionOrderWouldChange === 'function'
         && tallySectionOrderWouldChange(link, oldTally, link.tally)
