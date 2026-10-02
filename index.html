@@ -43,7 +43,7 @@
 		<link rel="apple-touch-icon" href="icons/icon-192.png">
 
 		<!-- Preload fonts + CSS -->
-		<link rel="preload" href="css/lucide/lucide.woff2?v=pr72-rocket" as="font" type="font/woff2" crossorigin>
+		<link rel="preload" href="css/lucide/lucide.woff2?v=pr72-trash" as="font" type="font/woff2" crossorigin>
 		<link rel="preload" href="css/fontawesome/webfonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
 		<link rel="preload" href="css/fontawesome/webfonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin>
 		<link rel="preload" href="css/styles.css?v=pr70-lucide-credit" as="style">
@@ -71,7 +71,7 @@
 
 		<!-- Main CSS (blocking; avoid FOUC) -->
 		<link rel="stylesheet" href="css/styles.css?v=pr70-lucide-credit">
-		<link rel="stylesheet" href="css/lucide/lucide.css?v=pr72-rocket">
+		<link rel="stylesheet" href="css/lucide/lucide.css?v=pr72-trash">
 
 		<!-- FA subset async (~1.8KB vs full) -->
 		<link rel="preload" href="css/fontawesome-subset.min.css?v=pr63-tally" as="style" onload="this.onload=null;this.rel='stylesheet'">
@@ -313,7 +313,7 @@
 				<div class="settings-modal__action-wrap settings-modal__action-wrap--pair">
 					<button type="button" onclick="openColorThemeModal()"
 						class="settings-modal__action">
-						<i class="settings-modal__action-icon fa-solid fa-palette"></i>
+						<i class="settings-modal__action-icon icon-palette"></i>
 						Edit Colors
 					</button>
 					<button type="button" id="open-other-options-btn" onclick="openOtherOptionsModal()"
@@ -326,7 +326,7 @@
 				<div class="settings-modal__action-wrap settings-modal__action-wrap--pair">
 					<button type="button" onclick="openAboutModal()"
 						class="settings-modal__action">
-						<i class="settings-modal__action-icon fa-solid fa-rocket"></i>
+						<i class="settings-modal__action-icon icon-rocket"></i>
 						About
 					</button>
 					<button type="button" onclick="openAttributionModal()"
@@ -717,7 +717,7 @@
 
 				<div class="ui-modal__header">
 					<h3 id="reset-confirm-title" class="ui-modal__title ui-modal__title--row">
-						<i class="fa-solid fa-trash"></i>
+						<i class="icon-trash"></i>
 						<span>Clear everything</span>
 					</h3>
 					<button type="button" id="reset-confirm-close" class="ui-modal__close" aria-label="Cancel">
@@ -729,7 +729,7 @@
 					<div data-reset-step="warn">
 						<div class="reset-confirm-modal__graphic" aria-hidden="true">
 							<span class="reset-confirm-modal__ring"></span>
-							<i class="fa-solid fa-trash reset-confirm-modal__icon"></i>
+							<i class="icon-trash reset-confirm-modal__icon"></i>
 						</div>
 						<p class="reset-confirm-modal__warning">
 							This clears every link and every setting. The start page will be empty, and this cannot be undone.
