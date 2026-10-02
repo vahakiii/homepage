@@ -281,8 +281,9 @@ function normalizeFinanceTicker(value) {
     return String(value || '').trim().toUpperCase();
 }
 
-function googleFinanceUrl(ticker) {
-    return 'https://www.google.com/finance?q=' + encodeURIComponent(ticker);
+function finvizUrl(ticker) {
+    var symbol = String(ticker).replace(/\./g, '-');
+    return 'https://finviz.com/stock?t=' + encodeURIComponent(symbol);
 }
 
 function yahooFinanceUrl(ticker) {
@@ -313,10 +314,10 @@ function setupSearchModalForm() {
         function (query) { return 'https://www.google.com/search?q=' + encodeURIComponent(query); }
     );
     bindSearchLaunchForm(
-        'google-finance-form',
-        'google-finance-input',
+        'finviz-form',
+        'finviz-input',
         normalizeFinanceTicker,
-        googleFinanceUrl
+        finvizUrl
     );
     bindSearchLaunchForm(
         'yahoo-finance-form',
