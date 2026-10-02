@@ -1,10 +1,10 @@
-/* Self-hosted Lucide icon font (ISC). Glyphs in use: circle-dollar-sign, chart-spline, tag, info, palette, rocket, trash. */
+/* Self-hosted Lucide icon font (ISC). Glyphs in use: circle-dollar-sign, chart-spline, tag, info, palette, rocket, trash, book-type, settings. */
 @font-face {
   font-family: "lucide";
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url("lucide.woff2?v=pr72-trash") format("woff2");
+  src: url("lucide.woff2?v=pr72-book-settings") format("woff2");
 }
 
 .icon-circle-dollar-sign,
@@ -13,7 +13,9 @@
 .icon-info,
 .icon-palette,
 .icon-rocket,
-.icon-trash {
+.icon-trash,
+.icon-book-type,
+.icon-settings {
   font-family: "lucide";
   font-style: normal;
   font-weight: 400;
@@ -31,3 +33,5 @@
 .icon-palette::before { content: "\e1dd"; }
 .icon-rocket::before { content: "\e286"; }
 .icon-trash::before { content: "\e18d"; }
+.icon-book-type::before { content: "\e54c"; }
+.icon-settings::before { content: "\e154"; }

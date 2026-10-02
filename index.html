@@ -43,7 +43,7 @@
 		<link rel="apple-touch-icon" href="icons/icon-192.png">
 
 		<!-- Preload fonts + CSS -->
-		<link rel="preload" href="css/lucide/lucide.woff2?v=pr72-trash" as="font" type="font/woff2" crossorigin>
+		<link rel="preload" href="css/lucide/lucide.woff2?v=pr72-book-settings" as="font" type="font/woff2" crossorigin>
 		<link rel="preload" href="css/fontawesome/webfonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
 		<link rel="preload" href="css/fontawesome/webfonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin>
 		<link rel="preload" href="css/styles.css?v=pr70-lucide-credit" as="style">
@@ -71,7 +71,7 @@
 
 		<!-- Main CSS (blocking; avoid FOUC) -->
 		<link rel="stylesheet" href="css/styles.css?v=pr70-lucide-credit">
-		<link rel="stylesheet" href="css/lucide/lucide.css?v=pr72-trash">
+		<link rel="stylesheet" href="css/lucide/lucide.css?v=pr72-book-settings">
 
 		<!-- FA subset async (~1.8KB vs full) -->
 		<link rel="preload" href="css/fontawesome-subset.min.css?v=pr63-tally" as="style" onload="this.onload=null;this.rel='stylesheet'">
@@ -264,7 +264,7 @@
 			<div onclick="event.stopImmediatePropagation()"
 				class="ui-modal__panel ui-modal__panel--lg modal">
 				<div class="ui-modal__header">
-					<h3 id="settings-modal-title" class="ui-modal__title"><i class="ui-modal__title-icon fa-solid fa-gear"></i>Settings</h3>
+					<h3 id="settings-modal-title" class="ui-modal__title"><i class="ui-modal__title-icon icon-settings"></i>Settings</h3>
 					<button type="button" onclick="closeSettingsModal()" class="ui-modal__close" aria-label="Close">
 						<i class="fa-solid fa-times"></i>
 					</button>
@@ -850,7 +850,7 @@
 
 					<div class="attribution-modal__section">
 						<div class="attribution-modal__section-head">
-							<i class="attribution-modal__icon attribution-modal__icon--lucide icon-circle-dollar-sign"></i>
+							<i class="attribution-modal__icon attribution-modal__icon--lucide icon-book-type"></i>
 							<span class="attribution-modal__name">Lucide</span>
 						</div>
 						<p class="attribution-modal__text">
