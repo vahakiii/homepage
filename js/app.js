@@ -294,8 +294,8 @@ function googleStockUrl(ticker) {
     return 'https://www.google.com/search?q=' + encodeURIComponent('Provide me with the current stock price for ' + ticker);
 }
 
-/** Enter or the row's Submit button opens urlFor(value) in a new tab. */
-function bindSearchLaunchForm(formId, inputId, readValue, urlFor) {
+/** Enter or the row's button opens urlFor(value) in a new tab. Finance rows leave the modal open. */
+function bindSearchLaunchForm(formId, inputId, readValue, urlFor, keepOpen) {
     const form = document.getElementById(formId);
     if (!form || form.dataset.launchBound === '1') return;
     form.dataset.launchBound = '1';
@@ -305,6 +305,7 @@ function bindSearchLaunchForm(formId, inputId, readValue, urlFor) {
         const value = readValue(input ? input.value : '');
         if (!value) return;
         openExternalUrl(urlFor(value));
+        if (keepOpen) return;
         closeSearchModal();
         if (input) input.value = '';
     });
@@ -321,19 +322,22 @@ function setupSearchModalForm() {
         'finviz-form',
         'finviz-input',
         normalizeFinanceTicker,
-        finvizUrl
+        finvizUrl,
+        true
     );
     bindSearchLaunchForm(
         'yahoo-finance-form',
         'yahoo-finance-input',
         normalizeFinanceTicker,
-        yahooFinanceUrl
+        yahooFinanceUrl,
+        true
     );
     bindSearchLaunchForm(
         'google-stock-form',
         'google-stock-input',
         normalizeFinanceTicker,
-        googleStockUrl
+        googleStockUrl,
+        true
     );
 }
 
