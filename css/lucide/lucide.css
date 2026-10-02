@@ -1,0 +1,23 @@
+/* Self-hosted Lucide icon font (ISC). Glyphs in use: circle-dollar-sign, chart-spline. */
+@font-face {
+  font-family: "lucide";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("lucide.woff2") format("woff2");
+}
+
+.icon-circle-dollar-sign,
+.icon-chart-spline {
+  font-family: "lucide";
+  font-style: normal;
+  font-weight: 400;
+  font-variant: normal;
+  line-height: 1;
+  display: inline-block;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-circle-dollar-sign::before { content: "\e47d"; }
+.icon-chart-spline::before { content: "\e60d"; }

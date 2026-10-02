@@ -43,9 +43,10 @@
 		<link rel="apple-touch-icon" href="icons/icon-192.png">
 
 		<!-- Preload fonts + CSS -->
+		<link rel="preload" href="css/lucide/lucide.woff2" as="font" type="font/woff2" crossorigin>
 		<link rel="preload" href="css/fontawesome/webfonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
 		<link rel="preload" href="css/fontawesome/webfonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin>
-		<link rel="preload" href="css/styles.css?v=pr70-input-pad" as="style">
+		<link rel="preload" href="css/styles.css?v=pr70-lucide" as="style">
 
 		<!-- Critical CSS (FOUC / first paint) -->
 		<style>
@@ -69,7 +70,8 @@
 		</style>
 
 		<!-- Main CSS (blocking; avoid FOUC) -->
-		<link rel="stylesheet" href="css/styles.css?v=pr70-input-pad">
+		<link rel="stylesheet" href="css/styles.css?v=pr70-lucide">
+		<link rel="stylesheet" href="css/lucide/lucide.css?v=pr70-lucide">
 
 		<!-- FA subset async (~1.8KB vs full) -->
 		<link rel="preload" href="css/fontawesome-subset.min.css?v=pr63-tally" as="style" onload="this.onload=null;this.rel='stylesheet'">
@@ -392,13 +394,13 @@
 
 					<section class="search-modal__section" aria-labelledby="finviz-title">
 						<h4 id="finviz-title" class="search-modal__section-title">
-							<span class="search-modal__section-mark" aria-hidden="true"><svg class="search-modal__glyph" viewBox="0 -448 512 512" focusable="false"><g transform="scale(1,-1)"><path d="M328 336H184L147 410C145 414 144 418 144 422C144 436 156 448 170 448H342C356 448 368 436 368 422C368 418 367 414 365 410L328 336ZM170 288H342L391 247C458 192 496 110 496 23C496 -25 457 -64 409 -64H103C55 -64 16 -25 16 23C16 110 54 192 121 247L170 288ZM260 224C249 224 240 215 240 204V200C211 200 188 176 188 147C188 122 207 100 232 96L274 89C280 88 284 82 284 76C284 69 278 64 272 64H216C205 64 196 55 196 44C196 33 205 24 216 24H240V20C240 9 249 0 260 0C271 0 280 9 280 20V25C305 29 324 50 324 76C324 102 306 124 280 128L238 135C232 136 228 141 228 148C228 154 234 160 241 160H288C299 160 308 169 308 180C308 191 299 200 288 200H280V204C280 215 271 224 260 224Z"/></g></svg></span>
+							<span class="search-modal__section-mark" aria-hidden="true"><i class="icon-circle-dollar-sign"></i></span>
 							<span>Finviz</span>
 						</h4>
 						<form id="finviz-form" class="search-modal__form">
 							<div class="search-modal__row">
 								<div class="search-modal__field">
-									<div class="search-modal__icon" aria-hidden="true"><svg class="search-modal__glyph" viewBox="0 -448 512 512" focusable="false"><g transform="scale(1,-1)"><path d="M64 384C64 402 50 416 32 416C14 416 0 402 0 384V48C0 4 36 -32 80 -32H480C498 -32 512 -18 512 0C512 18 498 32 480 32H80C71 32 64 39 64 48V384ZM471 297C483 310 483 330 471 343C458 355 438 355 425 343L320 237L263 295C250 307 230 307 217 295L121 199C109 186 109 166 121 153C134 141 154 141 167 153L240 227L297 169C310 157 330 157 343 169L471 297Z"/></g></svg></div>
+									<div class="search-modal__icon" aria-hidden="true"><i class="icon-chart-spline"></i></div>
 									<input
 										id="finviz-input"
 										type="text"
@@ -416,13 +418,13 @@
 
 					<section class="search-modal__section" aria-labelledby="yahoo-finance-title">
 						<h4 id="yahoo-finance-title" class="search-modal__section-title">
-							<span class="search-modal__section-mark" aria-hidden="true"><svg class="search-modal__glyph" viewBox="0 -448 512 512" focusable="false"><g transform="scale(1,-1)"><path d="M328 336H184L147 410C145 414 144 418 144 422C144 436 156 448 170 448H342C356 448 368 436 368 422C368 418 367 414 365 410L328 336ZM170 288H342L391 247C458 192 496 110 496 23C496 -25 457 -64 409 -64H103C55 -64 16 -25 16 23C16 110 54 192 121 247L170 288ZM260 224C249 224 240 215 240 204V200C211 200 188 176 188 147C188 122 207 100 232 96L274 89C280 88 284 82 284 76C284 69 278 64 272 64H216C205 64 196 55 196 44C196 33 205 24 216 24H240V20C240 9 249 0 260 0C271 0 280 9 280 20V25C305 29 324 50 324 76C324 102 306 124 280 128L238 135C232 136 228 141 228 148C228 154 234 160 241 160H288C299 160 308 169 308 180C308 191 299 200 288 200H280V204C280 215 271 224 260 224Z"/></g></svg></span>
+							<span class="search-modal__section-mark" aria-hidden="true"><i class="icon-circle-dollar-sign"></i></span>
 							<span>Yahoo Finance</span>
 						</h4>
 						<form id="yahoo-finance-form" class="search-modal__form">
 							<div class="search-modal__row">
 								<div class="search-modal__field">
-									<div class="search-modal__icon" aria-hidden="true"><svg class="search-modal__glyph" viewBox="0 -448 512 512" focusable="false"><g transform="scale(1,-1)"><path d="M64 384C64 402 50 416 32 416C14 416 0 402 0 384V48C0 4 36 -32 80 -32H480C498 -32 512 -18 512 0C512 18 498 32 480 32H80C71 32 64 39 64 48V384ZM471 297C483 310 483 330 471 343C458 355 438 355 425 343L320 237L263 295C250 307 230 307 217 295L121 199C109 186 109 166 121 153C134 141 154 141 167 153L240 227L297 169C310 157 330 157 343 169L471 297Z"/></g></svg></div>
+									<div class="search-modal__icon" aria-hidden="true"><i class="icon-chart-spline"></i></div>
 									<input
 										id="yahoo-finance-input"
 										type="text"
