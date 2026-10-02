@@ -161,7 +161,8 @@ body{position:relative;z-index:0}
 .app-footer{flex-shrink:0;margin:0;padding:0;border-top:1px solid var(--color-hairline);background-color:var(--background-color)}
 .app-footer .privacy-note{margin:0;padding:calc(0.5rem / var(--font-scale, 1));font-size:calc(0.75rem / var(--font-scale, 1));line-height:calc(1rem / var(--font-scale, 1))}
 /* Go-to buttons sit in the right gutter, clear of card edit/trash. */
-.links-scroll{padding-bottom:0.75rem;padding-right:1.35rem}
+.app-main{padding-right:1.1rem}
+.links-scroll{padding-bottom:0.75rem}
 .floating-goto{bottom:3.25rem;right:max(0.5rem,calc((100vw - 1536px) / 2 + 0.5rem))}
 .attribution-modal__icon--google{color:#4285f4}
 
