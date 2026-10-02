@@ -46,7 +46,7 @@
 		<link rel="preload" href="css/lucide/lucide.woff2" as="font" type="font/woff2" crossorigin>
 		<link rel="preload" href="css/fontawesome/webfonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
 		<link rel="preload" href="css/fontawesome/webfonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin>
-		<link rel="preload" href="css/styles.css?v=pr70-lucide" as="style">
+		<link rel="preload" href="css/styles.css?v=pr70-search-layout" as="style">
 
 		<!-- Critical CSS (FOUC / first paint) -->
 		<style>
@@ -70,7 +70,7 @@
 		</style>
 
 		<!-- Main CSS (blocking; avoid FOUC) -->
-		<link rel="stylesheet" href="css/styles.css?v=pr70-lucide">
+		<link rel="stylesheet" href="css/styles.css?v=pr70-search-layout">
 		<link rel="stylesheet" href="css/lucide/lucide.css?v=pr70-lucide">
 
 		<!-- FA subset async (~1.8KB vs full) -->
@@ -361,7 +361,7 @@
 			onclick="closeSearchModal()"
 			role="dialog" aria-modal="true" aria-labelledby="search-modal-title">
 			<div onclick="event.stopImmediatePropagation()"
-				class="ui-modal__panel ui-modal__panel--lg ui-modal__panel--padded ui-modal__panel--draggable search-modal__panel modal">
+				class="ui-modal__panel ui-modal__panel--lg ui-modal__panel--padded search-modal__panel modal">
 
 				<div class="ui-modal__header ui-modal__header--plain">
 					<h3 id="search-modal-title" class="ui-modal__title ui-modal__title--row">
@@ -388,7 +388,7 @@
 									autocomplete="off"
 									>
 							</div>
-							<button type="submit" class="search-modal__submit ui-modal__btn" aria-label="Google Search Submit">Submit</button>
+							<button type="submit" class="search-modal__submit ui-modal__btn" aria-label="Google">Google</button>
 						</div>
 					</form>
 
@@ -435,7 +435,7 @@
 										spellcheck="false"
 										>
 								</div>
-								<button type="submit" class="search-modal__submit ui-modal__btn" aria-label="Yahoo Finance Submit">Submit</button>
+								<button type="submit" class="search-modal__submit ui-modal__btn" aria-label="Yahoo">Yahoo</button>
 							</div>
 						</form>
 					</section>
@@ -1495,7 +1495,7 @@
 		<script defer src="js/quotes.js"></script>
 		<script defer src="js/addeditlink.js?v=pr69-android-chrome"></script>
 		<script defer src="js/settingsmodal.js"></script>
-		<script defer src="js/gsmodal.js?v=pr70-finviz"></script>
+		<script defer src="js/gsmodal.js?v=pr70-search-layout"></script>
 		<script defer src="js/app.js?v=pr70-finviz"></script>
 		<script defer src="js/script.js"></script>
 	</body>
