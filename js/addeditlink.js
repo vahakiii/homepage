@@ -319,6 +319,11 @@ function submitUrlSuggestions(event) {
     if (event && event.preventDefault) event.preventDefault();
     var input = document.getElementById('url-suggest-input');
     var url = input ? input.value.trim() : '';
+    if (!url) {
+        alert('Please provide a URL.');
+        if (input) input.focus();
+        return;
+    }
     var linkUrl = document.getElementById('link-url');
     if (linkUrl) linkUrl.value = url;
     var query = URL_SUGGEST_PROMPT + url;
