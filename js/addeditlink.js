@@ -328,7 +328,7 @@ function submitUrlSuggestions(event) {
     if (linkUrl) linkUrl.value = url;
     var query = URL_SUGGEST_PROMPT + url;
     var popup = openExternalUrl(
-        'https://www.google.com/search?q=' + encodeURIComponent(query),
+        'https://www.google.com/search?udm=50&q=' + encodeURIComponent(query),
         'popup=yes,width=1100,height=800,resizable=yes,scrollbars=yes'
     );
     if (popup) {
