@@ -164,8 +164,8 @@ body{position:relative;z-index:0}
 .app-shell{padding-bottom:0}
 .app-footer{flex-shrink:0;margin:0;padding:0;border-top:1px solid var(--color-hairline);background-color:var(--background-color)}
 .app-footer .privacy-note{margin:0;padding:calc(0.5rem / var(--font-scale, 1));font-size:calc(0.75rem / var(--font-scale, 1));line-height:calc(1rem / var(--font-scale, 1))}
-.app-footer:has(.snow-paused-note:not([hidden])) .privacy-note{padding-bottom:0}
-.app-footer .snow-paused-note{margin:0;padding:0 calc(0.5rem / var(--font-scale, 1)) calc(0.5rem / var(--font-scale, 1));text-align:center;font-size:calc(0.75rem / var(--font-scale, 1));line-height:calc(1rem / var(--font-scale, 1));font-weight:700;color:var(--caution-color,#c0911b)}
+.app-footer:has(.snow-paused-note:not([hidden])) .privacy-note{padding-top:0}
+.app-footer .snow-paused-note{margin:0;padding:calc(0.5rem / var(--font-scale, 1)) calc(0.5rem / var(--font-scale, 1)) 0;text-align:center;font-size:calc(0.75rem / var(--font-scale, 1));line-height:calc(1rem / var(--font-scale, 1));font-weight:700;color:var(--caution-color,#c0911b)}
 .app-footer .snow-paused-note[hidden]{display:none}
 /* Go-to buttons sit in the right gutter, clear of card edit/trash. */
 .app-main{padding-right:1.1rem}
