@@ -206,7 +206,10 @@ function ensureColorThemeFields() {
     grid.dataset.fieldsBuilt = 'true';
 }
 
+var themePreviewActive = false;
+
 function openColorThemeModal() {
+    themePreviewActive = true;
     closeSettingsModal(false);
     ensureColorThemeFields();
     const modal = document.getElementById('color-theme-modal');
@@ -266,6 +269,7 @@ function openColorThemeModal() {
 }
 
 function closeColorThemeModal() {
+    themePreviewActive = false;
     applyColors(readStoredColors());
     closeUiModal('color-theme-modal');
     openSettingsModal();
@@ -323,6 +327,7 @@ function resetSingleColor(fieldKey) {
 
 /** Show the editor's current colors on the page. Storage changes only when the user saves. */
 function previewCurrentColors() {
+    if (!themePreviewActive) return;
     applyColors(getCurrentColorValues());
 }
 
