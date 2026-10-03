@@ -319,11 +319,16 @@ function submitUrlSuggestions(event) {
     if (event && event.preventDefault) event.preventDefault();
     var input = document.getElementById('url-suggest-input');
     var url = input ? input.value.trim() : '';
+    if (!url) {
+        alert('Please provide a URL.');
+        if (input) input.focus();
+        return;
+    }
     var linkUrl = document.getElementById('link-url');
     if (linkUrl) linkUrl.value = url;
     var query = URL_SUGGEST_PROMPT + url;
     var popup = openExternalUrl(
-        'https://www.google.com/search?q=' + encodeURIComponent(query),
+        'https://www.google.com/search?udm=50&q=' + encodeURIComponent(query),
         'popup=yes,width=1100,height=800,resizable=yes,scrollbars=yes'
     );
     if (popup) {
