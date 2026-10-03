@@ -206,7 +206,10 @@ function ensureColorThemeFields() {
     grid.dataset.fieldsBuilt = 'true';
 }
 
+var themePreviewActive = false;
+
 function openColorThemeModal() {
+    themePreviewActive = true;
     closeSettingsModal(false);
     ensureColorThemeFields();
     const modal = document.getElementById('color-theme-modal');
@@ -227,10 +230,16 @@ function openColorThemeModal() {
         const text = document.getElementById(textId);
         if (!picker || !text) return;
 
-        picker.oninput = () => { text.value = picker.value; };
+        picker.oninput = () => {
+            text.value = picker.value;
+            previewCurrentColors();
+        };
         text.oninput = () => {
             if (/^#[0-9A-Fa-f]{6}$/.test(text.value)) {
                 picker.value = text.value;
+                previewCurrentColors();
+            } else {
+                syncThemeUnsavedWarning();
             }
         };
     }
@@ -256,12 +265,15 @@ function openColorThemeModal() {
     }
 
     updateColorThemeMobileLayout();
+    syncThemeUnsavedWarning();
     openUiModal('color-theme-modal');
     const themeGrid = modal.querySelector('.color-theme-modal__grid');
     if (themeGrid) themeGrid.scrollTop = 0;
 }
 
 function closeColorThemeModal() {
+    themePreviewActive = false;
+    applyColors(readStoredColors());
     closeUiModal('color-theme-modal');
     openSettingsModal();
 }
@@ -314,9 +326,36 @@ function resetSingleColor(fieldKey) {
 
     const colors = getCurrentColorValues();
     applyColors(colors);
+    syncThemeUnsavedWarning();
 }
 
-/** Apply palette to editor, live preview, and storage. */
+/** Show the editor's current colors on the page. Storage changes only when the user saves. */
+function previewCurrentColors() {
+    if (!themePreviewActive) return;
+    applyColors(getCurrentColorValues());
+    syncThemeUnsavedWarning();
+}
+
+function themeColorValue(value) {
+    return String(value || '').trim().toLowerCase();
+}
+
+function themeColorsMatchSaved() {
+    const current = getCurrentColorValues();
+    const saved = readStoredColors();
+    return COLOR_FIELDS.every(function (field) {
+        return themeColorValue(current[field.key]) === themeColorValue(saved[field.key]);
+    });
+}
+
+function syncThemeUnsavedWarning() {
+    const label = document.getElementById('color-theme-unsaved');
+    if (!label) return;
+    if (themeColorsMatchSaved()) label.setAttribute('hidden', '');
+    else label.removeAttribute('hidden');
+}
+
+/** Fill the editor and live-preview a palette. Does not write storage. */
 function applyColorPalette(palette) {
     if (!palette) return;
 
@@ -332,7 +371,7 @@ function applyColorPalette(palette) {
     });
 
     applyColors(palette);
-    saveColorSettings(palette);
+    syncThemeUnsavedWarning();
 }
 
 /** @param {'light'|'dark'} mode */
