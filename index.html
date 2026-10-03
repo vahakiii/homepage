@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<!-- AI: The Debug screen shows this pull request number. When a new PR starts, update content below to that PR number. -->
-		<meta name="homepage-pr" content="75">
+		<meta name="homepage-pr" content="76">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<script>
 		(function () {
@@ -46,7 +46,7 @@
 		<link rel="preload" href="css/lucide/lucide.woff2?v=pr75-settings-icons" as="font" type="font/woff2" crossorigin>
 		<link rel="preload" href="css/fontawesome/webfonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
 		<link rel="preload" href="css/fontawesome/webfonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin>
-		<link rel="preload" href="css/styles.css?v=pr75-fontsize-icon-25" as="style">
+		<link rel="preload" href="css/styles.css?v=pr76-name-icon-left" as="style">
 
 		<!-- Critical CSS (FOUC / first paint) -->
 		<style>
@@ -70,7 +70,7 @@
 		</style>
 
 		<!-- Main CSS (blocking; avoid FOUC) -->
-		<link rel="stylesheet" href="css/styles.css?v=pr75-fontsize-icon-25">
+		<link rel="stylesheet" href="css/styles.css?v=pr76-name-icon-left">
 		<link rel="stylesheet" href="css/lucide/lucide.css?v=pr75-settings-icons">
 
 		<!-- FA subset async (~1.8KB vs full) -->
@@ -271,7 +271,7 @@
 				</div>
 				<div class="settings-modal__body custom-scroll">
 				<div class="settings-modal__field">
-					<label class="settings-modal__label">Your Name<i class="settings-modal__label-icon icon-user-pen" aria-hidden="true"></i></label>
+					<label class="settings-modal__label"><i class="settings-modal__label-icon icon-user-pen" aria-hidden="true"></i>Your Name</label>
 					<input type="text" id="theme-author-name"
 						class="settings-modal__input"
 						placeholder="Enter your name">
@@ -279,12 +279,12 @@
 
 				<div class="settings-modal__field is-hidden">
 					<div id="settings-mobile-info" class="settings-modal__mobile-info" hidden>
-						<span class="settings-modal__mobile-chip">Mobile Mode<i class="settings-modal__mobile-chip-icon icon-tablet-smartphone" aria-hidden="true"></i></span>
+						<span class="settings-modal__mobile-chip">Mobile Mode</span>
 					</div>
 				</div>
 
 				<div class="settings-modal__field">
-					<label class="settings-modal__label">Font Size<i class="settings-modal__label-icon icon-a-large-small" aria-hidden="true"></i></label>
+					<label class="settings-modal__label">Font Size</label>
 					<div class="settings-modal__font-row">
 						<button type="button" id="font-scale-minus" onclick="changeFontScale(-1)"
 							class="settings-modal__font-btn" aria-label="Smaller font">-</button>
