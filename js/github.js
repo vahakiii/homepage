@@ -36,12 +36,12 @@ function toggleTokenVisibility() {
 
     if (input.type === 'password') {
         input.type = 'text';
-        icon.classList.remove('fa-eye');
-        icon.classList.add('fa-eye-slash');
+        icon.classList.remove('icon-eye');
+        icon.classList.add('icon-eye-off');
     } else {
         input.type = 'password';
-        icon.classList.remove('fa-eye-slash');
-        icon.classList.add('fa-eye');
+        icon.classList.remove('icon-eye-off');
+        icon.classList.add('icon-eye');
     }
 }
 
@@ -60,7 +60,7 @@ function copyTokenToClipboard() {
             if (copyButtons.length > 0) {
                 const btn = copyButtons[0];
                 const originalHTML = btn.innerHTML;
-                btn.innerHTML = `<i class="fa-solid fa-check github-credentials-modal__copy-ok"></i>`;
+                btn.innerHTML = `<i class="icon-check github-credentials-modal__copy-ok"></i>`;
                 
                 setTimeout(() => {
                     if (btn) btn.innerHTML = originalHTML;
@@ -130,8 +130,8 @@ function resetTokenVisibilityUI() {
     const eyeIcon = document.getElementById('token-eye-icon');
     if (tokenInput) tokenInput.type = 'password';
     if (eyeIcon) {
-        eyeIcon.classList.remove('fa-eye-slash');
-        eyeIcon.classList.add('fa-eye');
+        eyeIcon.classList.remove('icon-eye-off');
+        eyeIcon.classList.add('icon-eye');
     }
 }
 
