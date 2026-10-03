@@ -39,7 +39,8 @@ function buildColorThemeField(field) {
     reset.type = 'button';
     reset.className = 'reset-single-color color-theme-modal__reset';
     reset.dataset.field = field.key;
-    reset.title = 'Reset to default';
+    reset.title = 'Reset to last saved';
+    reset.setAttribute('aria-label', 'Reset to last saved');
     const icon = document.createElement('i');
     icon.className = 'fa-solid fa-undo';
     reset.appendChild(icon);
@@ -293,18 +294,23 @@ function getCurrentColorValues() {
 
 
 function resetSingleColor(fieldKey) {
-    const def = COLOR_DEFAULTS[fieldKey];
     const field = colorFieldByKey(fieldKey);
-    if (!def || !field) {
+    if (!field) {
         console.warn('Unknown color field:', fieldKey);
+        return;
+    }
+
+    const saved = readStoredColors()[fieldKey];
+    if (!saved) {
+        console.warn('No saved color for field:', fieldKey);
         return;
     }
 
     const pickerEl = document.getElementById(colorFieldPickerId(field));
     const textEl = document.getElementById(colorFieldTextId(field));
 
-    if (pickerEl) pickerEl.value = def;
-    if (textEl) textEl.value = def;
+    if (pickerEl) pickerEl.value = saved;
+    if (textEl) textEl.value = saved;
 
     const colors = getCurrentColorValues();
     applyColors(colors);

@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<!-- AI: The Debug screen shows this pull request number. When a new PR starts, update content below to that PR number. -->
-		<meta name="homepage-pr" content="74">
+		<meta name="homepage-pr" content="75">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<script>
 		(function () {
@@ -43,10 +43,10 @@
 		<link rel="apple-touch-icon" href="icons/icon-192.png">
 
 		<!-- Preload fonts + CSS -->
-		<link rel="preload" href="css/lucide/lucide.woff2?v=pr72-type-outline" as="font" type="font/woff2" crossorigin>
+		<link rel="preload" href="css/lucide/lucide.woff2?v=pr75-settings-icons" as="font" type="font/woff2" crossorigin>
 		<link rel="preload" href="css/fontawesome/webfonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
 		<link rel="preload" href="css/fontawesome/webfonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin>
-		<link rel="preload" href="css/styles.css?v=pr74-save-submit" as="style">
+		<link rel="preload" href="css/styles.css?v=pr75-fontsize-icon-25" as="style">
 
 		<!-- Critical CSS (FOUC / first paint) -->
 		<style>
@@ -70,8 +70,8 @@
 		</style>
 
 		<!-- Main CSS (blocking; avoid FOUC) -->
-		<link rel="stylesheet" href="css/styles.css?v=pr74-save-submit">
-		<link rel="stylesheet" href="css/lucide/lucide.css?v=pr72-type-outline">
+		<link rel="stylesheet" href="css/styles.css?v=pr75-fontsize-icon-25">
+		<link rel="stylesheet" href="css/lucide/lucide.css?v=pr75-settings-icons">
 
 		<!-- FA subset async (~1.8KB vs full) -->
 		<link rel="preload" href="css/fontawesome-subset.min.css?v=pr63-tally" as="style" onload="this.onload=null;this.rel='stylesheet'">
@@ -271,7 +271,7 @@
 				</div>
 				<div class="settings-modal__body custom-scroll">
 				<div class="settings-modal__field">
-					<label class="settings-modal__label">Your Name</label>
+					<label class="settings-modal__label">Your Name<i class="settings-modal__label-icon icon-user-pen" aria-hidden="true"></i></label>
 					<input type="text" id="theme-author-name"
 						class="settings-modal__input"
 						placeholder="Enter your name">
@@ -279,12 +279,12 @@
 
 				<div class="settings-modal__field is-hidden">
 					<div id="settings-mobile-info" class="settings-modal__mobile-info" hidden>
-						<span class="settings-modal__mobile-chip">Mobile Mode</span>
+						<span class="settings-modal__mobile-chip">Mobile Mode<i class="settings-modal__mobile-chip-icon icon-tablet-smartphone" aria-hidden="true"></i></span>
 					</div>
 				</div>
 
 				<div class="settings-modal__field">
-					<label class="settings-modal__label">Font Size</label>
+					<label class="settings-modal__label">Font Size<i class="settings-modal__label-icon icon-a-large-small" aria-hidden="true"></i></label>
 					<div class="settings-modal__font-row">
 						<button type="button" id="font-scale-minus" onclick="changeFontScale(-1)"
 							class="settings-modal__font-btn" aria-label="Smaller font">-</button>
@@ -394,7 +394,7 @@
 
 					<section class="search-modal__section" aria-labelledby="yahoo-finance-title">
 						<h4 id="yahoo-finance-title" class="search-modal__section-title">
-							<span class="search-modal__section-mark" aria-hidden="true"><i class="icon-circle-dollar-sign"></i></span>
+							<span class="search-modal__section-mark" aria-hidden="true"><i class="icon-chart-spline"></i></span>
 							<span>Yahoo Finance</span>
 						</h4>
 						<form id="yahoo-finance-form" class="search-modal__form">
@@ -418,7 +418,7 @@
 
 					<section class="search-modal__section" aria-labelledby="finviz-title">
 						<h4 id="finviz-title" class="search-modal__section-title">
-							<span class="search-modal__section-mark" aria-hidden="true"><i class="icon-circle-dollar-sign"></i></span>
+							<span class="search-modal__section-mark" aria-hidden="true"><i class="icon-chart-spline"></i></span>
 							<span>Finviz</span>
 						</h4>
 						<form id="finviz-form" class="search-modal__form">
@@ -442,7 +442,7 @@
 
 					<section class="search-modal__section" aria-labelledby="google-stock-title">
 						<h4 id="google-stock-title" class="search-modal__section-title">
-							<span class="search-modal__section-mark" aria-hidden="true"><i class="icon-circle-dollar-sign"></i></span>
+							<span class="search-modal__section-mark" aria-hidden="true"><i class="icon-chart-spline"></i></span>
 							<span>Google Financial Search</span>
 						</h4>
 						<form id="google-stock-form" class="search-modal__form">
@@ -1360,14 +1360,14 @@
 								class="github-credentials-modal__icon-btn github-credentials-modal__icon-btn--eye"
 								aria-label="Toggle token visibility"
 								title="Show / Hide token">
-								<i class="fa-solid fa-eye" id="token-eye-icon"></i>
+								<i class="icon-eye" id="token-eye-icon"></i>
 							</button>
 
 							<button type="button" onclick="copyTokenToClipboard()"
 								class="github-credentials-modal__icon-btn github-credentials-modal__icon-btn--copy"
 								aria-label="Copy token to clipboard"
 								title="Copy token to clipboard">
-								<i class="fa-solid fa-copy"></i>
+								<i class="icon-copy"></i>
 							</button>
 						</div>
 
@@ -1532,7 +1532,7 @@
 		<script defer src="js/render.js?v=pr66-clear"></script>
 		<script defer src="js/quotes.js"></script>
 		<script defer src="js/addeditlink.js?v=pr69-android-chrome"></script>
-		<script defer src="js/settingsmodal.js"></script>
+		<script defer src="js/settingsmodal.js?v=pr75-color-reset"></script>
 		<script defer src="js/gsmodal.js?v=pr70-finance-grid"></script>
 		<script defer src="js/app.js?v=pr70-finance-stay"></script>
 		<script defer src="js/script.js"></script>
