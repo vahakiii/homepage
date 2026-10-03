@@ -46,7 +46,7 @@
 		<link rel="preload" href="css/lucide/lucide.woff2?v=pr75-settings-icons" as="font" type="font/woff2" crossorigin>
 		<link rel="preload" href="css/fontawesome/webfonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
 		<link rel="preload" href="css/fontawesome/webfonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin>
-		<link rel="preload" href="css/styles.css?v=pr76-name-icon-left" as="style">
+		<link rel="preload" href="css/styles.css?v=pr76-unsaved-warning" as="style">
 
 		<!-- Critical CSS (FOUC / first paint) -->
 		<style>
@@ -70,7 +70,7 @@
 		</style>
 
 		<!-- Main CSS (blocking; avoid FOUC) -->
-		<link rel="stylesheet" href="css/styles.css?v=pr76-name-icon-left">
+		<link rel="stylesheet" href="css/styles.css?v=pr76-unsaved-warning">
 		<link rel="stylesheet" href="css/lucide/lucide.css?v=pr75-settings-icons">
 
 		<!-- FA subset async (~1.8KB vs full) -->
@@ -504,6 +504,7 @@
 							class="color-theme-modal__save">
 							Save Colors
 						</button>
+						<p id="color-theme-unsaved" class="color-theme-modal__unsaved" hidden>Warning: colors do not match saved colors</p>
 				</div>
 			</div>
 		</div>
@@ -1532,7 +1533,7 @@
 		<script defer src="js/render.js?v=pr66-clear"></script>
 		<script defer src="js/quotes.js"></script>
 		<script defer src="js/addeditlink.js?v=pr69-android-chrome"></script>
-		<script defer src="js/settingsmodal.js?v=pr76-color-preview-revert"></script>
+		<script defer src="js/settingsmodal.js?v=pr76-unsaved-warning"></script>
 		<script defer src="js/gsmodal.js?v=pr70-finance-grid"></script>
 		<script defer src="js/app.js?v=pr70-finance-stay"></script>
 		<script defer src="js/script.js"></script>
