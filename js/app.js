@@ -291,7 +291,8 @@ function yahooFinanceUrl(ticker) {
 }
 
 function googleStockUrl(ticker) {
-    return 'https://www.google.com/search?q=' + encodeURIComponent('Provide me with the current stock price for ' + ticker);
+    var query = 'For stock ticker symbol ' + ticker + ': 6 sections (1) Provide me with the current Market Summary. (2) Provide me with latest news. (3) provide me with the Bull outlook. (4) Provide me with the Bear outlook. (5) When the next earnings report is (6) what are the earnings expectations.';
+    return 'https://www.google.com/search?q=' + encodeURIComponent(query);
 }
 
 /** Enter or the row's button opens urlFor(value) in a new tab. Finance rows leave the modal open. */
