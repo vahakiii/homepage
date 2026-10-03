@@ -852,11 +852,19 @@ function clearSnowIdlePause() {
     snowIdlePaused = false;
 }
 
+function syncSnowPausedNote() {
+    var note = document.getElementById('snow-paused-note');
+    if (!note) return;
+    if (snowEffect && snowIdlePaused) note.removeAttribute('hidden');
+    else note.setAttribute('hidden', '');
+}
+
 function syncSnowPlayback() {
     var layer = document.getElementById('snow-layer');
     if (!layer) return;
     var pause = !snowEffect || snowIdlePaused || snowTabIsHidden() || layer.classList.contains('is-covered');
     layer.classList.toggle('is-paused', !!pause);
+    syncSnowPausedNote();
 }
 
 function markSnowActivity() {
