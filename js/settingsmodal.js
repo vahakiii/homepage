@@ -227,10 +227,14 @@ function openColorThemeModal() {
         const text = document.getElementById(textId);
         if (!picker || !text) return;
 
-        picker.oninput = () => { text.value = picker.value; };
+        picker.oninput = () => {
+            text.value = picker.value;
+            previewCurrentColors();
+        };
         text.oninput = () => {
             if (/^#[0-9A-Fa-f]{6}$/.test(text.value)) {
                 picker.value = text.value;
+                previewCurrentColors();
             }
         };
     }
@@ -262,6 +266,7 @@ function openColorThemeModal() {
 }
 
 function closeColorThemeModal() {
+    applyColors(readStoredColors());
     closeUiModal('color-theme-modal');
     openSettingsModal();
 }
@@ -316,7 +321,12 @@ function resetSingleColor(fieldKey) {
     applyColors(colors);
 }
 
-/** Apply palette to editor, live preview, and storage. */
+/** Show the editor's current colors on the page. Storage changes only when the user saves. */
+function previewCurrentColors() {
+    applyColors(getCurrentColorValues());
+}
+
+/** Fill the editor and live-preview a palette. Does not write storage. */
 function applyColorPalette(palette) {
     if (!palette) return;
 
@@ -332,7 +342,6 @@ function applyColorPalette(palette) {
     });
 
     applyColors(palette);
-    saveColorSettings(palette);
 }
 
 /** @param {'light'|'dark'} mode */
