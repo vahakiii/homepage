@@ -291,7 +291,7 @@ function yahooFinanceUrl(ticker) {
 }
 
 function googleStockUrl(ticker) {
-    var query = 'For stock ticker symbol ' + ticker + ': 6 sections (1) Provide me with the current Market Summary. (2) Provide me with latest news. (3) provide me with the Bull outlook. (4) Provide me with the Bear outlook. (5) When the next earnings report is (6) what are the earnings expectations.';
+    var query = 'For stock ticker symbol ' + ticker + ': 10 sections; (1) Provide me with the current Market Summary. (2) Provide me with latest news. (3) When the next earnings report is. (4) what are the earnings expectations. (5) provide me with the Bull outlook. (6) Provide me with the Bear outlook. (7) Falsifiers only: the pre-earnings numbers that kill the bull case and the numbers that kill the bear case, measured against company guidance versus the Street whisper. No restatement of sections 5 or 6. (8) Put in a table the JPMorgan, Goldman, DB and Morgan Stanley Price targets. (9) Provide insight on Institutional Ownership & Sector Positioning, and, the 13F Filing Allocations and the ETF Sector Rebalancing Vectors. (10) Insider Activity & Management Sentiments including the Form 4 Open-Market Transactions and Executive Compensation Triggers.';
     return 'https://www.google.com/search?udm=50&q=' + encodeURIComponent(query);
 }
 
@@ -852,11 +852,19 @@ function clearSnowIdlePause() {
     snowIdlePaused = false;
 }
 
+function syncSnowPausedNote() {
+    var note = document.getElementById('snow-paused-note');
+    if (!note) return;
+    if (snowEffect && snowIdlePaused) note.removeAttribute('hidden');
+    else note.setAttribute('hidden', '');
+}
+
 function syncSnowPlayback() {
     var layer = document.getElementById('snow-layer');
     if (!layer) return;
     var pause = !snowEffect || snowIdlePaused || snowTabIsHidden() || layer.classList.contains('is-covered');
     layer.classList.toggle('is-paused', !!pause);
+    syncSnowPausedNote();
 }
 
 function markSnowActivity() {
