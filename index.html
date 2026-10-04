@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<!-- AI: The Debug screen shows this pull request number. When a new PR starts, update content below to that PR number. -->
-		<meta name="homepage-pr" content="79">
+		<meta name="homepage-pr" content="80">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<script>
 		(function () {
@@ -46,7 +46,7 @@
 		<link rel="preload" href="css/lucide/lucide.woff2?v=pr75-settings-icons" as="font" type="font/woff2" crossorigin>
 		<link rel="preload" href="css/fontawesome/webfonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
 		<link rel="preload" href="css/fontawesome/webfonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin>
-		<link rel="preload" href="css/styles.css?v=pr79-attributions" as="style">
+		<link rel="preload" href="css/styles.css?v=pr80-copy" as="style">
 
 		<!-- Critical CSS (FOUC / first paint) -->
 		<style>
@@ -70,7 +70,7 @@
 		</style>
 
 		<!-- Main CSS (blocking; avoid FOUC) -->
-		<link rel="stylesheet" href="css/styles.css?v=pr79-attributions">
+		<link rel="stylesheet" href="css/styles.css?v=pr80-copy">
 		<link rel="stylesheet" href="css/lucide/lucide.css?v=pr75-settings-icons">
 
 		<!-- FA subset async (~1.8KB vs full) -->
@@ -557,7 +557,8 @@
 						<p class="about-modal__text">
 							Filter by category in the sidebar, search the list with
 							<span class="about-modal__key key-hint">*</span>,
-							or press <span class="about-modal__key key-hint">/</span> to search Google without leaving the page.
+							or press <span class="about-modal__key key-hint">/</span> to open Search.
+							From there you can run a Google search or look up a ticker on Yahoo Finance or Finviz; each one opens in a new tab.
 							Arrow keys move through cards; Enter opens the highlighted link.
 						</p>
 					</div>
@@ -593,7 +594,9 @@
 						<p class="about-modal__text">
 							Everything lives in this browser by default. Nothing is sent to a server unless you choose
 							optional GitHub Gist sync, a private backup you can restore on another device.
-							Save a backup of your links and settings as a JSON file you can load later. Credits for the tools behind the page live next door in Attributions.
+							Save a backup of your links and settings as a JSON file you can load later.
+							This Start Page is an independent project. It is not affiliated with Google, Yahoo, Finviz, GitHub, or the other sites it can open.
+							Names, licenses, and where those links go are listed in Attributions.
 						</p>
 					</div>
 
@@ -804,13 +807,14 @@
 							<span class="attribution-modal__name">SpaceXAI</span>
 						</div>
 						<p class="attribution-modal__text">
-							With gratitude to
+							Thanks to
 							<span class="attribution-modal__emphasis">SpaceXAI</span>
-							for building exceptional products such as
+							for
 							<a href="https://x.ai" target="_blank" class="ui-modal__link attribution-modal__link">Grok</a>
 							and
 							<a href="https://cursor.com" target="_blank" class="ui-modal__link attribution-modal__link">Cursor</a>,
-							which played a meaningful role in the design, development, and refinement of this website.
+							used while designing and building this Start Page.
+							This Start Page is not affiliated with SpaceXAI.
 						</p>
 					</div>
 
@@ -820,7 +824,9 @@
 							<span class="attribution-modal__name">Google</span>
 						</div>
 						<p class="attribution-modal__text">
-							Several features on this Start Page are powered by <a href="https://www.google.com" target="_blank" class="ui-modal__link attribution-modal__link">Google</a>. Thank you to Google for setting a high standard in search and AI — so fast, precise, and reliably useful that it has become the way the world finds what it needs.
+							Search, ticker research, and URL suggestions open
+							<a href="https://www.google.com" target="_blank" class="ui-modal__link attribution-modal__link">Google</a>
+							in a new tab. This Start Page is not affiliated with Google.
 						</p>
 					</div>
 
@@ -830,9 +836,9 @@
 							<span class="attribution-modal__name">Yahoo Finance</span>
 						</div>
 						<p class="attribution-modal__text">
-							Ticker lookups in Search open quotes on
-							<a href="https://finance.yahoo.com" target="_blank" class="ui-modal__link attribution-modal__link">Yahoo Finance</a>.
-							Thank you to Yahoo for this market data service.
+							Ticker lookups in Search open quote pages on
+							<a href="https://finance.yahoo.com" target="_blank" class="ui-modal__link attribution-modal__link">Yahoo Finance</a>
+							in a new tab. This Start Page is not affiliated with Yahoo.
 						</p>
 					</div>
 
@@ -842,9 +848,9 @@
 							<span class="attribution-modal__name">Finviz</span>
 						</div>
 						<p class="attribution-modal__text">
-							Ticker lookups in Search open charts on
-							<a href="https://finviz.com" target="_blank" class="ui-modal__link attribution-modal__link">Finviz</a>.
-							Thank you to Finviz for the stock charts and quote pages.
+							Ticker lookups in Search open quote pages on
+							<a href="https://finviz.com" target="_blank" class="ui-modal__link attribution-modal__link">Finviz</a>
+							in a new tab. This Start Page is not affiliated with Finviz.
 						</p>
 					</div>
 
@@ -854,9 +860,9 @@
 							<span class="attribution-modal__name">GitHub Gists</span>
 						</div>
 						<p class="attribution-modal__text">
-							Cross-device synchronization is powered by
-							<a href="https://docs.github.com/en/rest/gists" target="_blank" class="ui-modal__link attribution-modal__link">GitHub Gists</a>.
-							Thank you to GitHub for providing this simple and reliable service for storing and syncing your Start Page data.
+							Optional cross-device sync can store a backup in a
+							<a href="https://docs.github.com/en/rest/gists" target="_blank" class="ui-modal__link attribution-modal__link">GitHub Gist</a>
+							you control. This Start Page is not affiliated with GitHub.
 						</p>
 					</div>
 
@@ -1126,7 +1132,7 @@
 				</div>
 				<form id="url-suggest-form" class="url-suggest-modal__form" onsubmit="submitUrlSuggestions(event)">
 					<div class="url-suggest-modal__body">
-						<p class="url-suggest-modal__text">Need help and suggestions on the URL? Type in the URL in the text box below and hit submit! Powered by Google, this will help generate suggestions for your new Link Card!</p>
+						<p class="url-suggest-modal__text">Type a URL and Submit to open a Google search in a new tab with a prompt for name, description, tags, and emojis. This Start Page is not affiliated with Google.</p>
 						<div class="url-suggest-modal__url-row">
 							<i class="url-suggest-modal__google fa-brands fa-google" aria-hidden="true"></i>
 							<input type="text" id="url-suggest-input"
@@ -1560,7 +1566,7 @@
 		<script defer src="js/addeditlink.js?v=pr78-google-ai"></script>
 		<script defer src="js/settingsmodal.js?v=pr76-unsaved-warning"></script>
 		<script defer src="js/gsmodal.js?v=pr70-finance-grid"></script>
-		<script defer src="js/app.js?v=pr79-snow-paused"></script>
+		<script defer src="js/app.js?v=pr80-copy"></script>
 		<script defer src="js/script.js"></script>
 	</body>
 </html>
