@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<!-- AI: The Debug screen shows this pull request number. When a new PR starts, update content below to that PR number. -->
-		<meta name="homepage-pr" content="80">
+		<meta name="homepage-pr" content="81">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<script>
 		(function () {
@@ -46,7 +46,7 @@
 		<link rel="preload" href="css/lucide/lucide.woff2?v=pr75-settings-icons" as="font" type="font/woff2" crossorigin>
 		<link rel="preload" href="css/fontawesome/webfonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
 		<link rel="preload" href="css/fontawesome/webfonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin>
-		<link rel="preload" href="css/styles.css?v=pr80-copy" as="style">
+		<link rel="preload" href="css/styles.css?v=pr81-copy" as="style">
 
 		<!-- Critical CSS (FOUC / first paint) -->
 		<style>
@@ -70,7 +70,7 @@
 		</style>
 
 		<!-- Main CSS (blocking; avoid FOUC) -->
-		<link rel="stylesheet" href="css/styles.css?v=pr80-copy">
+		<link rel="stylesheet" href="css/styles.css?v=pr81-copy">
 		<link rel="stylesheet" href="css/lucide/lucide.css?v=pr75-settings-icons">
 
 		<!-- FA subset async (~1.8KB vs full) -->
@@ -594,9 +594,8 @@
 						<p class="about-modal__text">
 							Everything lives in this browser by default. Nothing is sent to a server unless you choose
 							optional GitHub Gist sync, a private backup you can restore on another device.
-							Save a backup of your links and settings as a JSON file you can load later.
-							This Start Page is an independent project. It is not affiliated with Google, Yahoo, Finviz, GitHub, or the other sites it can open.
-							Names, licenses, and where those links go are listed in Attributions.
+							You can also save a JSON backup and load it later.
+							Credits for the sites and tools behind the page are in Attributions.
 						</p>
 					</div>
 
@@ -813,8 +812,7 @@
 							<a href="https://x.ai" target="_blank" class="ui-modal__link attribution-modal__link">Grok</a>
 							and
 							<a href="https://cursor.com" target="_blank" class="ui-modal__link attribution-modal__link">Cursor</a>,
-							used while designing and building this Start Page.
-							This Start Page is not affiliated with SpaceXAI.
+							which helped design and build this Start Page.
 						</p>
 					</div>
 
@@ -826,7 +824,7 @@
 						<p class="attribution-modal__text">
 							Search, ticker research, and URL suggestions open
 							<a href="https://www.google.com" target="_blank" class="ui-modal__link attribution-modal__link">Google</a>
-							in a new tab. This Start Page is not affiliated with Google.
+							in a new tab. Thank you to Google for search that is fast enough to live on a start page.
 						</p>
 					</div>
 
@@ -837,8 +835,8 @@
 						</div>
 						<p class="attribution-modal__text">
 							Ticker lookups in Search open quote pages on
-							<a href="https://finance.yahoo.com" target="_blank" class="ui-modal__link attribution-modal__link">Yahoo Finance</a>
-							in a new tab. This Start Page is not affiliated with Yahoo.
+							<a href="https://finance.yahoo.com" target="_blank" class="ui-modal__link attribution-modal__link">Yahoo Finance</a>.
+							Thank you to Yahoo for those market pages.
 						</p>
 					</div>
 
@@ -849,8 +847,8 @@
 						</div>
 						<p class="attribution-modal__text">
 							Ticker lookups in Search open quote pages on
-							<a href="https://finviz.com" target="_blank" class="ui-modal__link attribution-modal__link">Finviz</a>
-							in a new tab. This Start Page is not affiliated with Finviz.
+							<a href="https://finviz.com" target="_blank" class="ui-modal__link attribution-modal__link">Finviz</a>.
+							Thank you to Finviz for the charts.
 						</p>
 					</div>
 
@@ -860,9 +858,9 @@
 							<span class="attribution-modal__name">GitHub Gists</span>
 						</div>
 						<p class="attribution-modal__text">
-							Optional cross-device sync can store a backup in a
+							Optional sync can store a backup in a
 							<a href="https://docs.github.com/en/rest/gists" target="_blank" class="ui-modal__link attribution-modal__link">GitHub Gist</a>
-							you control. This Start Page is not affiliated with GitHub.
+							you control. Thank you to GitHub for a simple place to keep that copy.
 						</p>
 					</div>
 
@@ -893,6 +891,8 @@
 							<a href="https://github.com/lucide-icons/lucide/blob/main/LICENSE" target="_blank" class="ui-modal__link attribution-modal__link">ISC License</a>.
 						</p>
 					</div>
+
+					<p class="attribution-modal__note">This Start Page is an independent project. It is not affiliated with Google, Yahoo, Finviz, GitHub, SpaceXAI, or the other names listed here.</p>
 
 				</div>
 
@@ -1132,7 +1132,7 @@
 				</div>
 				<form id="url-suggest-form" class="url-suggest-modal__form" onsubmit="submitUrlSuggestions(event)">
 					<div class="url-suggest-modal__body">
-						<p class="url-suggest-modal__text">Type a URL and Submit to open a Google search in a new tab with a prompt for name, description, tags, and emojis. This Start Page is not affiliated with Google.</p>
+						<p class="url-suggest-modal__text">Need a hand with this link? Type a URL and hit Submit. A Google search opens in a new tab with a prompt for a name, a short description, tags, and a few emojis.</p>
 						<div class="url-suggest-modal__url-row">
 							<i class="url-suggest-modal__google fa-brands fa-google" aria-hidden="true"></i>
 							<input type="text" id="url-suggest-input"
