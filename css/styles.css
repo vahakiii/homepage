@@ -216,6 +216,9 @@ body{position:relative;z-index:0}
 :root{--app-font-lucide:"lucide"}
 .search-modal__section-mark{display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto;color:inherit;font-size:1em;line-height:1}
 .search-modal__field{position:relative;min-width:0;width:100%}
+.search-modal__input{padding-right:2.5rem}
+.search-modal__clear{position:absolute;right:0.75rem;top:50%;transform:translateY(-50%);width:1.25rem;height:1.25rem;display:flex;align-items:center;justify-content:center;padding:0;border:0;background:transparent;font-size:calc(0.75rem * var(--font-scale, 1));cursor:pointer;color:color-mix(in srgb,var(--text-color) 70%,transparent) !important;z-index:1}
+.search-modal__clear:hover,.search-modal__clear:hover i{color:var(--active-text-color,#ffffff) !important}
 .search-modal__submit{display:inline-flex;align-items:center;justify-content:center;width:100%;padding-left:1rem;padding-right:1rem;border:0;font-weight:600;background-color:var(--save-button-bg,#4f46e5);color:var(--text-color)}
 .search-modal__submit:hover,.search-modal__submit:active{background-color:var(--save-hover-bg);color:var(--active-text-color,#ffffff)}
 .search-modal.ui-modal--top{padding-top:5vh}
