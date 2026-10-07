@@ -20,3 +20,10 @@ function closeSearchModal() {
     closeUiModal('search-modal');
     restoreLinkSearchFocus();
 }
+
+function clearSearchModalField(inputId) {
+    var input = document.getElementById(inputId);
+    if (!input) return;
+    input.value = '';
+    input.focus();
+}

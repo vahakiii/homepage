@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<!-- AI: The Debug screen shows this pull request number. When a new PR starts, update content below to that PR number. -->
-		<meta name="homepage-pr" content="81">
+		<meta name="homepage-pr" content="82">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<script>
 		(function () {
@@ -46,7 +46,7 @@
 		<link rel="preload" href="css/lucide/lucide.woff2?v=pr75-settings-icons" as="font" type="font/woff2" crossorigin>
 		<link rel="preload" href="css/fontawesome/webfonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
 		<link rel="preload" href="css/fontawesome/webfonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin>
-		<link rel="preload" href="css/styles.css?v=pr81-copy" as="style">
+		<link rel="preload" href="css/styles.css?v=pr82-clear" as="style">
 
 		<!-- Critical CSS (FOUC / first paint) -->
 		<style>
@@ -70,7 +70,7 @@
 		</style>
 
 		<!-- Main CSS (blocking; avoid FOUC) -->
-		<link rel="stylesheet" href="css/styles.css?v=pr81-copy">
+		<link rel="stylesheet" href="css/styles.css?v=pr82-clear">
 		<link rel="stylesheet" href="css/lucide/lucide.css?v=pr75-settings-icons">
 
 		<!-- FA subset async (~1.8KB vs full) -->
@@ -388,6 +388,12 @@
 									class="search-modal__input search-input"
 									autocomplete="off"
 									>
+								<button type="button"
+									class="search-modal__clear"
+									onclick="clearSearchModalField('search-modal-input')"
+									aria-label="Clear">
+									<i class="fa-solid fa-times"></i>
+								</button>
 							</div>
 							<button type="submit" class="search-modal__submit ui-modal__btn" aria-label="Google">Google</button>
 						</div>
@@ -411,6 +417,12 @@
 										autocapitalize="characters"
 										spellcheck="false"
 										>
+									<button type="button"
+										class="search-modal__clear"
+										onclick="clearSearchModalField('yahoo-finance-input')"
+										aria-label="Clear">
+										<i class="fa-solid fa-times"></i>
+									</button>
 								</div>
 								<button type="submit" class="search-modal__submit ui-modal__btn" aria-label="Yahoo">Yahoo</button>
 							</div>
@@ -435,6 +447,12 @@
 										autocapitalize="characters"
 										spellcheck="false"
 										>
+									<button type="button"
+										class="search-modal__clear"
+										onclick="clearSearchModalField('finviz-input')"
+										aria-label="Clear">
+										<i class="fa-solid fa-times"></i>
+									</button>
 								</div>
 								<button type="submit" class="search-modal__submit ui-modal__btn" aria-label="Finviz">Finviz</button>
 							</div>
@@ -459,6 +477,12 @@
 										autocapitalize="characters"
 										spellcheck="false"
 										>
+									<button type="button"
+										class="search-modal__clear"
+										onclick="clearSearchModalField('google-stock-input')"
+										aria-label="Clear">
+										<i class="fa-solid fa-times"></i>
+									</button>
 								</div>
 								<button type="submit" class="search-modal__submit ui-modal__btn" aria-label="Google">Google</button>
 							</div>
@@ -1565,7 +1589,7 @@
 		<script defer src="js/quotes.js"></script>
 		<script defer src="js/addeditlink.js?v=pr78-google-ai"></script>
 		<script defer src="js/settingsmodal.js?v=pr76-unsaved-warning"></script>
-		<script defer src="js/gsmodal.js?v=pr70-finance-grid"></script>
+		<script defer src="js/gsmodal.js?v=pr82-clear"></script>
 		<script defer src="js/app.js?v=pr80-copy"></script>
 		<script defer src="js/script.js"></script>
 	</body>
